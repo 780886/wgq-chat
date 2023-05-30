@@ -17,7 +17,8 @@
 
 package com.wgq.chat.common.cryptogram;
 
-import com.wgq.chat.common.constant.magic.Digit;
+
+import com.wgq.chat.contact.protocol.constant.magic.Digit;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;

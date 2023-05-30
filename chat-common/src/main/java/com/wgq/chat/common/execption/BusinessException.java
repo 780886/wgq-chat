@@ -1,6 +1,5 @@
 package com.wgq.chat.common.execption;
 
-import com.wgq.chat.common.constant.Constant;
 import com.wgq.chat.common.constant.magic.Symbol;
 import com.wgq.chat.common.enums.StatusCode;
 

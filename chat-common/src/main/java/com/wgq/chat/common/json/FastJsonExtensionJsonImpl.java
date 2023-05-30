@@ -2,8 +2,7 @@ package com.wgq.chat.common.json;
 
 
 import com.alibaba.fastjson.JSON;
-import com.wgq.chat.common.constant.Constant;
-import com.wgq.chat.common.protocol.POJO;
+import com.wgq.chat.contact.protocol.POJO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -18,7 +18,8 @@
 package com.wgq.chat.common.json;
 
 
-import com.wgq.chat.common.protocol.POJO;
+
+import com.wgq.chat.contact.protocol.POJO;
 
 import java.util.Collection;
 import java.util.List;

@@ -8,7 +8,7 @@
         <version>2.2.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.wgq.chat</groupId>
+    <groupId>com.wgq.chat.contact</groupId>
     <artifactId>social-contact</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>social-contact</name>
