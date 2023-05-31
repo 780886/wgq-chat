@@ -1,7 +1,8 @@
-package com.wgq.chat.common.execption;
+package com.wgq.chat.contact.protocol;
 
-import com.wgq.chat.common.constant.magic.Symbol;
-import com.wgq.chat.common.enums.StatusCode;
+
+import com.wgq.chat.contact.protocol.constant.Constant;
+import com.wgq.chat.contact.protocol.constant.magic.Symbol;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +13,7 @@ public class BusinessException extends Exception {
     /**
      * 错误码
      */
-    private Integer code;
+    private String code;
     /**
      * 用于提示信息国际化的key
      * <p>
@@ -68,7 +69,7 @@ public class BusinessException extends Exception {
         this(statusCode, null, Symbol.EMPTY);
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 

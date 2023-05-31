@@ -2,7 +2,6 @@ package com.wgq.chat.common.advice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wgq.chat.common.enums.BusinessCodeEnum;
-import com.wgq.chat.common.execption.BusinessException;
 import com.wgq.chat.common.utils.Result;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

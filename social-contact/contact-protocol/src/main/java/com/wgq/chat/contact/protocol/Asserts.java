@@ -1,6 +1,4 @@
-package com.wgq.chat.common.execption;
-
-import com.wgq.chat.common.enums.StatusCode;
+package com.wgq.chat.contact.protocol;
 
 import java.util.List;
 
