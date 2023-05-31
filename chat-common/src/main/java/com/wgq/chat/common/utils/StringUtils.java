@@ -1,6 +1,7 @@
 package com.wgq.chat.common.utils;
 
-import com.wgq.chat.common.constant.magic.Symbol;
+
+import com.wgq.chat.contact.protocol.constant.magic.Symbol;
 
 public class StringUtils {
 

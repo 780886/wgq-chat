@@ -2,7 +2,8 @@ package com.wgq.chat.common.execption;
 
 
 import com.wgq.chat.common.enums.BusinessCodeEnum;
-import com.wgq.chat.common.utils.Result;
+import com.wgq.chat.contact.protocol.BusinessException;
+import com.wgq.chat.contact.protocol.Result;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
