@@ -19,7 +19,8 @@ package com.wgq.chat.common.json;
 
 
 
-import com.wgq.chat.contact.protocol.POJO;
+
+import com.sparrow.protocol.POJO;
 
 import java.util.Collection;
 import java.util.List;

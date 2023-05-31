@@ -1,7 +1,8 @@
 package com.wgq.chat.contact.po;
 
 
-import com.wgq.chat.contact.protocol.POJO;
+import com.sparrow.protocol.POJO;
+
 
 
 
