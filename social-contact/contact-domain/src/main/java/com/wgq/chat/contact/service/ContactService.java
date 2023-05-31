@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 public class ContactService {
 
 
-//    @Autowired
+    @Autowired
     private SecretService secretService;
 
 //    @Autowired
