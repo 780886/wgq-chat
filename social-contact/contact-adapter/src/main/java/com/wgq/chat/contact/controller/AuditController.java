@@ -2,11 +2,27 @@ package com.wgq.chat.contact.controller;
 
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
+import com.wgq.chat.contact.service.AuditService;
+import com.wgq.chat.contact.service.SecretService;
 import com.wgq.chat.contact.vo.FriendAuditVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
+
+@RestController
+@RequestMapping("/audit")
 public class AuditController {
+
+    @Resource
+    private AuditService auditService;
+
+
+
+
 
     /**
      * 好友申请列表
@@ -25,6 +41,7 @@ public class AuditController {
      * @return
      */
     public Boolean applyFriend(FriendApplyParam friendApplyParam) {
+        this.auditService.applyFriend(friendApplyParam);
         return true;
     }
 
