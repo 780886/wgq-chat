@@ -2,10 +2,11 @@ package com.wgq.chat.contact.service;
 
 
 import com.sparrow.passport.protocol.dto.UserProfileDTO;
+import com.wgq.chat.contact.protocol.BusinessException;
 
 public interface SecretService {
 
-    String encryptUserIdentify(UserProfileDTO userDto);
+    String encryptUserIdentify(UserProfileDTO userDto) throws BusinessException;
 
-    UserProfileDTO parseUserSecretIdentify(String secretIdentify);
+    Long parseUserSecretIdentify(String secretIdentify) throws BusinessException;
 }

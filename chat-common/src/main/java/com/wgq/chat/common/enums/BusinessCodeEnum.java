@@ -40,6 +40,7 @@ public enum BusinessCodeEnum implements StatusCode {
     USER_NAME_FORMAT_ERROR("1402", "用户名格式不正确，请重新输入!"),
     USER_NAME_EXIST_ERROR("1403", "用户名已存在，请重新输入!"),
     USER_DISABLE("1404", "用户被禁用!"),
+    USER_SECRET_IS_EMPTY("1405", "用户密钥不能为空!"),
     //密码
     PASSWORD_NOT_EMPTY("1501", "密码不能为空,请重新输入!"),
     PASSWORD_FORMAT_ERROR("1502", "密码格式不正确,请重新输入!"),
