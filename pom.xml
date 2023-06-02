@@ -11,4 +11,8 @@
     <properties>
         <java.version>8</java.version>
     </properties>
+    <modules>
+        <module>im</module>
+        <module>social-contact</module>
+    </modules>
 </project>
