@@ -1,6 +1,7 @@
 package com.wgq.chat.common.utils;
 
 
+import com.sparrow.protocol.constant.magic.CharSymbol;
 import com.wgq.chat.contact.protocol.constant.magic.Symbol;
 
 public class StringUtils {
@@ -10,6 +11,20 @@ public class StringUtils {
      */
     public static boolean isNullOrEmpty(Object str) {
         return str == null || "".equals(str.toString().trim());
+    }
+
+
+
+    /**
+     * 驼峰格式变小写_分隔串
+     */
+    public static String humpToLower(String source) {
+        return humpToLower(source, CharSymbol.UNDERLINE);
+    }
+
+    public static String humpToLower(String source, char split) {
+        source = source.replaceAll("(?<=[a-z])(?=[A-Z])", String.valueOf(split));
+        return source.toLowerCase();
     }
 
     /**
