@@ -5,6 +5,7 @@ import com.wgq.chat.contact.assembler.ContactAssembler;
 import com.wgq.chat.contact.bo.ContactBO;
 import com.wgq.chat.contact.protocol.BusinessException;
 import com.wgq.chat.contact.protocol.FindUserSecretParam;
+import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.service.ContactService;
 import com.wgq.chat.contact.vo.FriendAuditVO;
 import com.wgq.chat.contact.vo.UserFriendApplyVO;
@@ -42,7 +43,7 @@ public class ContactController {
      *
      * @return
      */
-    public Boolean addFriend() {
+    public Boolean addFriend(FriendApplyParam friendApplyParam) {
         return null;
     }
 }

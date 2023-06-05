@@ -1,5 +1,6 @@
 package com.wgq.chat.contact.controller;
 
+import com.wgq.chat.contact.protocol.BusinessException;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.service.AuditService;
@@ -40,7 +41,7 @@ public class AuditController {
      * @param friendApplyParam
      * @return
      */
-    public Boolean applyFriend(FriendApplyParam friendApplyParam) {
+    public Boolean applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
         this.auditService.applyFriend(friendApplyParam);
         return true;
     }

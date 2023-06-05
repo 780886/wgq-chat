@@ -30,8 +30,9 @@ public class SecretServiceImpl implements SecretService {
     @Override
     public String encryptUserIdentify(UserProfileDTO userDto) throws BusinessException {
         Asserts.isTrue(userDto == null, BusinessCodeEnum.PARAM_NOT_EMPTY);
-        Asserts.isTrue(userDto.getId() == null,BusinessCodeEnum.PARAM_NOT_EMPTY);
-        return ThreeDES.getInstance().encryptHex(this.secretKey,userDto.getId().toString());
+        return null;
+//        Asserts.isTrue(userDto.getId() == null,BusinessCodeEnum.PARAM_NOT_EMPTY);
+//        return ThreeDES.getInstance().encryptHex(this.secretKey,userDto.getId().toString());
     }
 
     @Override
