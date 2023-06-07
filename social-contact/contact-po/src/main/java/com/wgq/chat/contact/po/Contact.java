@@ -1,10 +1,7 @@
 package com.wgq.chat.contact.po;
 
 
-import com.sparrow.protocol.POJO;
-
-
-
+import com.sheep.protocol.POJO;
 
 public class Contact implements POJO {
 

@@ -1,11 +1,12 @@
 package com.wgq.chat.contact.protocol.audit;
 
-import com.wgq.chat.contact.protocol.Param;
+
+import com.sheep.protocol.POJO;
 
 /**
  * 好友申请
  */
-public class FriendApplyParam implements Param {
+public class FriendApplyParam implements POJO {
     /**
      * 用户的密秘标识
      */

@@ -1,23 +1,23 @@
 package com.wgq.chat.contact.service.impl;
 
-import com.sparrow.passport.protocol.dto.UserProfileDTO;
-import com.wgq.chat.contact.protocol.BusinessException;
+import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.service.AuditService;
 import com.wgq.chat.contact.service.SecretService;
-import org.springframework.stereotype.Service;
+
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-@Service
+@Named
 public class AuditServiceImpl implements AuditService {
 
-    @Resource
+    @Inject
     private SecretService secretService;
 
     @Override
     public void applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
-
         Long userId = secretService.parseUserSecretIdentify(friendApplyParam.getFriendSecretIdentify());
 
     }

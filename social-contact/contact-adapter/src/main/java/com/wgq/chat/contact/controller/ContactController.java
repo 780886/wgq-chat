@@ -1,9 +1,9 @@
 package com.wgq.chat.contact.controller;
 
 
+import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.assembler.ContactAssembler;
 import com.wgq.chat.contact.bo.ContactBO;
-import com.wgq.chat.contact.protocol.BusinessException;
 import com.wgq.chat.contact.protocol.FindUserSecretParam;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.service.ContactService;

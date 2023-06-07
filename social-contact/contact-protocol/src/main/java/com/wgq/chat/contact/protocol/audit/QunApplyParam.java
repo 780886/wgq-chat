@@ -1,11 +1,12 @@
 package com.wgq.chat.contact.protocol.audit;
 
-import com.wgq.chat.contact.protocol.Param;
+import com.sheep.protocol.POJO;
+
 
 /**
  * 群申请
  */
-public class QunApplyParam implements Param {
+public class QunApplyParam implements POJO {
     /**
      * 群ID
      */

@@ -1,6 +1,8 @@
 package com.wgq.chat.common.utils;
 
-import com.wgq.chat.contact.protocol.constant.magic.Symbol;
+import com.sheep.protocol.constant.magic.Symbol;
+import com.sheep.utils.ConfigUtils;
+import com.sheep.utils.StringUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

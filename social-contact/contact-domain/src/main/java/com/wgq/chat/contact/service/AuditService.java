@@ -1,6 +1,6 @@
 package com.wgq.chat.contact.service;
 
-import com.wgq.chat.contact.protocol.BusinessException;
+import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 
 public interface AuditService {

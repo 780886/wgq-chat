@@ -1,23 +1,23 @@
 package com.wgq.chat.contact.service;
 
 
-import com.sparrow.passport.api.UserProfileAppService;
-import com.sparrow.passport.protocol.dto.UserProfileDTO;
-import com.wgq.chat.common.enums.BusinessCodeEnum;
-import com.wgq.chat.common.utils.StringUtils;
+import com.sheep.exception.Asserts;
+import com.sheep.passport.api.UserProfileAppService;
+import com.sheep.passport.protocol.dto.UserProfileDTO;
+import com.sheep.protocol.BusinessException;
+import com.sheep.utils.StringUtils;
 import com.wgq.chat.contact.bo.ContactBO;
-import com.wgq.chat.contact.protocol.Asserts;
-import com.wgq.chat.contact.protocol.BusinessException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.wgq.chat.contact.protocol.constant.BusinessCodeEnum;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.inject.Named;
 
-@Service
+
+@Named
 public class ContactService {
 
 
-    @Autowired
+    @Inject
     private SecretService secretService;
 
 //    @Autowired

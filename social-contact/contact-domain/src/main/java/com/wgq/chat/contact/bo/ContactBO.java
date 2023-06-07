@@ -1,6 +1,7 @@
 package com.wgq.chat.contact.bo;
 
-import com.sparrow.passport.protocol.dto.UserProfileDTO;
+import com.sheep.passport.protocol.dto.UserProfileDTO;
+
 
 public class ContactBO {
 
