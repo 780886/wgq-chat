@@ -1,9 +1,9 @@
 package com.wgq.chat.infrastructure.persistence;
 
 
-import com.sparrow.support.PlaceHolderParser;
-import com.sparrow.support.PropertyAccessor;
-import com.sparrow.utility.CollectionsUtility;
+import com.sheep.support.PlaceHolderParser;
+import com.sheep.support.PropertyAccessor;
+import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.infrastructure.commons.PropertyAccessBuilder;
 import com.wgq.chat.infrastructure.commons.RedisKey;
 import com.wgq.chat.repository.QunRepository;
@@ -25,7 +25,7 @@ public class RedisQunRepository implements QunRepository {
         PropertyAccessor propertyAccessor = PropertyAccessBuilder.buildByQunId(qunId);
         String userOfQunKey = PlaceHolderParser.parse(RedisKey.USER_ID_OF_QUN, propertyAccessor);
         List<String> originUserIds = this.redisTemplate.opsForList().range(userOfQunKey, 0, Integer.MAX_VALUE);
-        if (CollectionsUtility.isNullOrEmpty(originUserIds)) {
+        if (CollectionsUtils.isNullOrEmpty(originUserIds)) {
             return Collections.emptyList();
         }
         List<Integer> userIds = new ArrayList<>(originUserIds.size());

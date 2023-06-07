@@ -1,11 +1,11 @@
 package com.wgq.chat.infrastructure.persistence;
 
-import com.sparrow.core.spi.JsonFactory;
-import com.sparrow.json.Json;
-import com.sparrow.support.PlaceHolderParser;
-import com.sparrow.support.PropertyAccessor;
-import com.sparrow.utility.CollectionsUtility;
-import com.sparrow.utility.StringUtility;
+import com.sheep.core.spi.JsonFactory;
+import com.sheep.json.Json;
+import com.sheep.support.PlaceHolderParser;
+import com.sheep.support.PropertyAccessor;
+import com.sheep.utils.CollectionsUtils;
+import com.sheep.utils.StringUtils;
 import com.wgq.chat.infrastructure.commons.PropertyAccessBuilder;
 import com.wgq.chat.infrastructure.commons.RedisKey;
 import com.wgq.chat.protocol.dto.QunDTO;
@@ -44,7 +44,7 @@ public class RedisContactsRepository implements ContactRepository {
         PropertyAccessor propertyAccessor = PropertyAccessBuilder.buildContacts(userId, CHAT_TYPE_1_2_N);
         String userQunKey = PlaceHolderParser.parse(RedisKey.USER_CONTACTS, propertyAccessor);
         List<String> qunIds = this.redisTemplate.opsForList().range(userQunKey, 0, Integer.MAX_VALUE);
-        if (CollectionsUtility.isNullOrEmpty(qunIds)) {
+        if (CollectionsUtils.isNullOrEmpty(qunIds)) {
             return false;
         }
         if (qunIds.contains(qunId)) {
@@ -69,7 +69,7 @@ public class RedisContactsRepository implements ContactRepository {
         List<String> quns = this.redisTemplate.opsForValue().multiGet(qunKeys);
         List<QunDTO> qunDtos = new ArrayList<>(quns.size());
         for (String qun : quns) {
-            if (StringUtility.isNullOrEmpty(qun)) {
+            if (StringUtils.isNullOrEmpty(qun)) {
                 logger.error("qun");
                 continue;
             }
@@ -87,7 +87,7 @@ public class RedisContactsRepository implements ContactRepository {
         String user121ContactKey = PlaceHolderParser.parse(RedisKey.USER_CONTACTS, propertyAccessor);
         //好友列表
         Set<ZSetOperations.TypedTuple<String>> users = this.redisTemplate.opsForZSet().rangeWithScores(user121ContactKey, 0, -1);
-        if (CollectionsUtility.isNullOrEmpty(users)) {
+        if (CollectionsUtils.isNullOrEmpty(users)) {
             return Collections.emptyList();
         }
         Map<Integer, Long> friendIdAddTimeMap = new HashMap<>(users.size());
@@ -121,12 +121,12 @@ public class RedisContactsRepository implements ContactRepository {
         }
         //好友列表
         List<String> users = this.redisTemplate.opsForValue().multiGet(userKeys);
-        if (CollectionsUtility.isNullOrEmpty(users)) {
+        if (CollectionsUtils.isNullOrEmpty(users)) {
             return Collections.emptyList();
         }
         List<UserDTO> userDtos = new ArrayList<>(users.size());
         for (String user : users) {
-            if (!StringUtility.isNullOrEmpty(user)) {
+            if (!StringUtils.isNullOrEmpty(user)) {
                 userDtos.add(this.json.parse(user, UserDTO.class));
             }
         }

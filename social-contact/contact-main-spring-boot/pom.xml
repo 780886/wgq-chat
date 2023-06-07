@@ -79,7 +79,7 @@
         </profile>
     </profiles>
     <build>
-        <finalName>contact-main-spring-boot</finalName>
+<!--        <finalName>contact-main-spring-boot</finalName>-->
         <filters>
             <filter>src/main/config/${env}.properties</filter>
         </filters>

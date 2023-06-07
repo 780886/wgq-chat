@@ -3,6 +3,7 @@ package com.wgq.chat.common.advice;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.Result;
+import com.wgq.chat.contact.protocol.constant.BusinessCodeEnum;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;

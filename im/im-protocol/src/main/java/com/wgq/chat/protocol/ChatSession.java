@@ -1,6 +1,7 @@
 package com.wgq.chat.protocol;
 
-import com.sparrow.protocol.constant.magic.Symbol;
+
+import com.sheep.protocol.constant.magic.Symbol;
 
 import java.util.Arrays;
 

@@ -1,14 +1,14 @@
 package com.wgq.chat.infrastructure.persistence;
 
-import com.sparrow.core.spi.JsonFactory;
-import com.sparrow.json.Json;
-import com.sparrow.protocol.BusinessException;
-import com.sparrow.protocol.constant.Extension;
-import com.sparrow.protocol.constant.SparrowError;
-import com.sparrow.support.PlaceHolderParser;
-import com.sparrow.support.PropertyAccessor;
-import com.sparrow.utility.ConfigUtility;
-import com.sparrow.utility.FileUtility;
+import com.sheep.core.spi.JsonFactory;
+import com.sheep.json.Json;
+import com.sheep.protocol.BusinessException;
+import com.sheep.protocol.constant.Extension;
+import com.sheep.protocol.constant.SheepError;
+import com.sheep.support.PlaceHolderParser;
+import com.sheep.support.PropertyAccessor;
+import com.sheep.utils.ConfigUtils;
+import com.sheep.utils.FileUtils;
 import com.wgq.chat.domain.netty.Protocol;
 import com.wgq.chat.infrastructure.commons.ConfigKey;
 import com.wgq.chat.infrastructure.commons.PropertyAccessBuilder;
@@ -25,19 +25,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static com.wgq.chat.protocol.constant.Chat.*;
 
-@Component
+@Named
 public class RedisMessageRepository implements MessageRepository {
     private static Logger logger = LoggerFactory.getLogger(RedisMessageRepository.class);
 
-    @Autowired
+    @Inject
     private RedisTemplate redisTemplate;
-    @Autowired
+    @Inject
     private MessageConverter messageConverter;
 
     private Json json = JsonFactory.getProvider();
@@ -48,7 +50,7 @@ public class RedisMessageRepository implements MessageRepository {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        String rootPhysicalPath = ConfigUtility.getValue(ConfigKey.IMAGE_PHYSICAL_ROOT_PATH);
+        String rootPhysicalPath = ConfigUtils.getValue(ConfigKey.IMAGE_PHYSICAL_ROOT_PATH);
         String physicalUrl = rootPhysicalPath +
                 File.separator +
                 year + File.separator +
@@ -67,10 +69,10 @@ public class RedisMessageRepository implements MessageRepository {
         String msg = (String) redisTemplate.opsForHash().get(redisKey, msgKey);
         MessageDTO message = this.json.parse(msg, MessageDTO.class);
         if (message == null) {
-            throw new BusinessException(SparrowError.GLOBAL_REQUEST_ID_NOT_EXIST);
+            throw new BusinessException(SheepError.GLOBAL_REQUEST_ID_NOT_EXIST);
         }
         if (message.getSender() != messageCancel.getSender()) {
-            throw new BusinessException(SparrowError.GLOBAL_PARAMETER_IS_ILLEGAL);
+            throw new BusinessException(SheepError.GLOBAL_PARAMETER_IS_ILLEGAL);
         }
         redisTemplate.opsForHash().delete(redisKey, msgKey);
         redisTemplate.opsForList().remove("l" + redisKey, 1, msgKey);
@@ -82,9 +84,9 @@ public class RedisMessageRepository implements MessageRepository {
             return null;
         }
         String physicalUrl = this.generateImageId(protocol.getSender());
-        FileUtility.getInstance().generateImage(protocol.getContent(), physicalUrl);
-        String rootPhysicalPath = ConfigUtility.getValue(ConfigKey.IMAGE_PHYSICAL_ROOT_PATH);
-        String rootWebPath = ConfigUtility.getValue(ConfigKey.IMAGE_WEB_ROOT_PATH);
+        FileUtils.getInstance().generateImage(protocol.getContent(), physicalUrl);
+        String rootPhysicalPath = ConfigUtils.getValue(ConfigKey.IMAGE_PHYSICAL_ROOT_PATH);
+        String rootWebPath = ConfigUtils.getValue(ConfigKey.IMAGE_WEB_ROOT_PATH);
 
         String webUrl = physicalUrl.replace(rootPhysicalPath, rootWebPath);
         //转换成 msg id

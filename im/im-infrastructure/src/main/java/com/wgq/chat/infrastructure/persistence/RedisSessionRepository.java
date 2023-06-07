@@ -1,10 +1,10 @@
 package com.wgq.chat.infrastructure.persistence;
 
 
-import com.sparrow.core.spi.JsonFactory;
-import com.sparrow.json.Json;
-import com.sparrow.support.PlaceHolderParser;
-import com.sparrow.support.PropertyAccessor;
+import com.sheep.core.spi.JsonFactory;
+import com.sheep.json.Json;
+import com.sheep.support.PlaceHolderParser;
+import com.sheep.support.PropertyAccessor;
 import com.wgq.chat.infrastructure.commons.PropertyAccessBuilder;
 import com.wgq.chat.infrastructure.commons.RedisKey;
 import com.wgq.chat.protocol.ChatSession;

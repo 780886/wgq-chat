@@ -1,8 +1,8 @@
 package com.wgq.chat.domain.netty;
 
-import com.sparrow.protocol.LoginUser;
-import com.sparrow.spring.starter.SpringContext;
-import com.sparrow.support.Authenticator;
+import com.sheep.protocol.LoginUser;
+import com.sheep.support.Authenticator;
+import com.wgq.chat.config.SpringContext;
 import com.wgq.chat.protocol.constant.Chat;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;

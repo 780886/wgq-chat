@@ -3,6 +3,7 @@ package com.wgq.chat.common.execption;
 
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.Result;
+import com.wgq.chat.contact.protocol.constant.BusinessCodeEnum;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

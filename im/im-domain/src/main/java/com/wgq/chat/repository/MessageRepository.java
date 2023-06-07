@@ -1,6 +1,6 @@
 package com.wgq.chat.repository;
 
-import com.sparrow.protocol.BusinessException;
+import com.sheep.protocol.BusinessException;
 import com.wgq.chat.domain.netty.Protocol;
 import com.wgq.chat.protocol.dto.MessageDTO;
 import com.wgq.chat.protocol.param.MessageCancelParam;

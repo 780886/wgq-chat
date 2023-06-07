@@ -1,6 +1,6 @@
 package com.wgq.chat.protocol.dto;
 
-import com.sparrow.protocol.POJO;
+import com.sheep.protocol.POJO;
 
 public class UserDTO implements POJO,Comparable<UserDTO>{
     /**
