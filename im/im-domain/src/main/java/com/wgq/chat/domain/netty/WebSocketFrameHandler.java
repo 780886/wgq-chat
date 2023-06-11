@@ -15,7 +15,8 @@
  */
 package com.wgq.chat.domain.netty;
 
-import com.sparrow.core.spi.ApplicationContext;
+
+import com.sheep.core.spi.ApplicationContext;
 import com.wgq.chat.domain.service.ChatService;
 import com.wgq.chat.protocol.constant.Chat;
 import io.netty.buffer.ByteBuf;

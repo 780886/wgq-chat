@@ -15,7 +15,7 @@
  */
 package com.wgq.chat.domain.netty;
 
-import com.sparrow.utility.FileUtility;
+import com.sheep.utils.FileUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.util.CharsetUtil;
@@ -32,7 +32,7 @@ public final class WebSocketServerIndexPage {
 
     public static ByteBuf getContent(String webSocketLocation) throws FileNotFoundException {
         InputStream stream = WebSocketServerIndexPage.class.getResourceAsStream("/index.html");
-        String indexContent = FileUtility.getInstance().readFileContent(stream, "utf-8");
+        String indexContent = FileUtils.getInstance().readFileContent(stream, "utf-8");
         return Unpooled.copiedBuffer(indexContent, CharsetUtil.US_ASCII);
     }
 

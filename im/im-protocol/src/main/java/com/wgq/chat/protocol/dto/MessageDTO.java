@@ -1,7 +1,8 @@
 package com.wgq.chat.protocol.dto;
 
 
-import com.sparrow.protocol.POJO;
+
+import com.sheep.protocol.POJO;
 import com.wgq.chat.protocol.MessageKey;
 
 public class MessageDTO implements POJO {

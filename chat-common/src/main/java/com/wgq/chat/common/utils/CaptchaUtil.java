@@ -1,7 +1,7 @@
 package com.wgq.chat.common.utils;
 
-import com.wgq.chat.common.EncryptionService;
-import com.wgq.chat.common.json.FastJsonExtensionJsonImpl;
+
+import com.sheep.passport.domain.service.EncryptionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

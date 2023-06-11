@@ -1,6 +1,6 @@
 package com.wgq.chat.domain.netty;
 
-import com.sparrow.cryptogram.Base64;
+import com.sheep.cryptogram.Base64;
 import com.wgq.chat.protocol.ChatSession;
 import io.netty.buffer.ByteBuf;
 

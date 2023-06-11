@@ -1,8 +1,8 @@
 package com.wgq.chat.contact.infrastructure.service;
 
 
-import com.sparrow.passport.protocol.dto.UserProfileDTO;
-import com.wgq.chat.contact.protocol.BusinessException;
+import com.sheep.passport.protocol.dto.UserProfileDTO;
+import com.sheep.protocol.BusinessException;
 
 public interface SecretService {
 

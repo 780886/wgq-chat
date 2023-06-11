@@ -1,10 +1,10 @@
 package com.wgq.chat.controller;
 
-import com.sparrow.protocol.BusinessException;
-import com.sparrow.protocol.ClientInformation;
-import com.sparrow.protocol.LoginUser;
-import com.sparrow.protocol.ThreadContext;
-import com.sparrow.support.Authenticator;
+import com.sheep.protocol.BusinessException;
+import com.sheep.protocol.ClientInformation;
+import com.sheep.protocol.LoginUser;
+import com.sheep.protocol.ThreadContext;
+import com.sheep.support.Authenticator;
 import com.wgq.chat.domain.netty.UserContainer;
 import com.wgq.chat.domain.service.ChatService;
 import com.wgq.chat.protocol.dto.ContactsDTO;
@@ -33,7 +33,7 @@ public class ChatV2Controller {
 
     @RequestMapping("/get-user-id")
     public Integer getUserId(String token) throws BusinessException {
-        ClientInformation client=ThreadContext.getClientInfo();
+        ClientInformation client= ThreadContext.getClientInfo();
         return this.authenticator.authenticate(token, client.getDeviceId()).getUserId().intValue();
     }
 

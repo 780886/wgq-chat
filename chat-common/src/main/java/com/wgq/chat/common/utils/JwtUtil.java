@@ -1,7 +1,6 @@
 package com.wgq.chat.common.utils;
 
 import com.wgq.chat.common.constant.ExpirationTimeConstants;
-import com.wgq.chat.common.json.FastJsonExtensionJsonImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

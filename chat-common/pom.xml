@@ -18,14 +18,19 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.sheep</groupId>
+            <artifactId>passport-domain</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>com.wgq.chat</groupId>
             <artifactId>contact-protocol</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.sparrowzoo</groupId>
-            <artifactId>sparrow-protocol</artifactId>
-            <version>1.0.0-RELEASE</version>
+            <groupId>com.sheep</groupId>
+            <artifactId>sheep</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

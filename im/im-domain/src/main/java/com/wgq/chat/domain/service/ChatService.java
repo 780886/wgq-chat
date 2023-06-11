@@ -1,6 +1,6 @@
 package com.wgq.chat.domain.service;
 
-import com.sparrow.protocol.BusinessException;
+import com.sheep.protocol.BusinessException;
 import com.wgq.chat.domain.netty.CancelProtocol;
 import com.wgq.chat.domain.netty.Protocol;
 import com.wgq.chat.domain.netty.UserContainer;
@@ -18,18 +18,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Named
 public class ChatService {
 
-    @Resource
+    @Inject
     private MessageRepository messageRepository;
-    @Resource
+    @Inject
     private SessionRepository sessionRepository;
-    @Resource
+    @Inject
     private ContactRepository contactsRepository;
 
     public ContactsDTO getContacts(Integer userId) {

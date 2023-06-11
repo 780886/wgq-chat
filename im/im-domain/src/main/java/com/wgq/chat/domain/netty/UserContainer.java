@@ -1,7 +1,7 @@
 package com.wgq.chat.domain.netty;
 
 
-import com.sparrow.spring.starter.SpringContext;
+import com.wgq.chat.config.SpringContext;
 import com.wgq.chat.protocol.ChatSession;
 import com.wgq.chat.repository.QunRepository;
 import io.netty.channel.Channel;

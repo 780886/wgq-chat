@@ -1,6 +1,7 @@
 package com.wgq.chat.protocol.dto;
 
-import com.sparrow.protocol.DTO;
+import com.sheep.protocol.DTO;
+
 
 import java.util.List;
 

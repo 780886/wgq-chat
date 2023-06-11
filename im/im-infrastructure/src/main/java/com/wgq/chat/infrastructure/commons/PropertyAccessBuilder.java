@@ -1,6 +1,7 @@
 package com.wgq.chat.infrastructure.commons;
 
-import com.sparrow.support.PropertyAccessor;
+import com.sheep.support.PropertyAccessor;
+
 
 public class PropertyAccessBuilder {
     public static class ChatPropertyAccessor implements PropertyAccessor {
