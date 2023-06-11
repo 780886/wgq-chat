@@ -48,11 +48,6 @@ public class Audit implements POJO {
      */
     private Integer status;
 
-    /**
-     * 创建时间
-     */
-    private Long gmtCreate;
-
 
     public Long getId() {
         return id;
@@ -134,11 +129,4 @@ public class Audit implements POJO {
         this.status = status;
     }
 
-    public Long getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Long gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
 }

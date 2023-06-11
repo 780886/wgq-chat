@@ -1,7 +1,6 @@
-package com.wgq.chat.contact.service.impl;
+package com.wgq.chat.contact.infrastructure.service;
 
 import com.sparrow.passport.protocol.dto.UserProfileDTO;
-import com.wgq.chat.common.cryptogram.Hmac;
 import com.wgq.chat.common.cryptogram.ThreeDES;
 import com.wgq.chat.common.enums.BusinessCodeEnum;
 import com.wgq.chat.common.json.Json;
@@ -9,7 +8,6 @@ import com.wgq.chat.common.json.JsonFactory;
 import com.wgq.chat.common.utils.StringUtils;
 import com.wgq.chat.contact.protocol.Asserts;
 import com.wgq.chat.contact.protocol.BusinessException;
-import com.wgq.chat.contact.service.SecretService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 

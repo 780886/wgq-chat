@@ -1,4 +1,4 @@
-package com.wgq.chat.contact.service;
+package com.wgq.chat.contact.infrastructure.service;
 
 
 import com.sparrow.passport.protocol.dto.UserProfileDTO;

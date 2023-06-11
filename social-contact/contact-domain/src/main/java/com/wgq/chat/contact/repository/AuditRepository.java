@@ -1,16 +1,21 @@
-package com.wgq.chat.contact.repository;//package com.sparrow.chat.contact.repository;
-//
-//import com.sparrow.chat.po.Audit;
-//import com.sparrow.chat.protocol.audit.FriendApplyParam;
-//import com.sparrow.chat.protocol.audit.FriendAuditParam;
-//import com.sparrow.chat.protocol.audit.QunApplyParam;
-//
-//public interface AuditRepository {
-//    Long applyFriend(Long currentUserId, FriendApplyParam friendApplyParam);
-//
+package com.wgq.chat.contact.repository;
+
+
+import com.wgq.chat.contact.bo.AuditBo;
+import com.wgq.chat.contact.bo.FriendApplyBo;
+import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
+
+import java.util.List;
+
+public interface AuditRepository {
+
+    Boolean applyFriend(FriendApplyBo friendApplyBo);
+
+    List<AuditBo> getFriendAuditList(Long currentUserId);
+
 //    Long applyQun(Long currentUserId, QunApplyParam qunApplyParam);
 //
 //    Integer auditFriend(Audit audit, FriendAuditParam friendAuditParam);
 //
 //    Audit getAudit(Long auditId);
-//}
+}

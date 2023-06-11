@@ -1,11 +1,10 @@
 package com.wgq.chat.contact.controller;
 
+import com.wgq.chat.contact.protocol.BusinessException;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
-import com.wgq.chat.contact.service.AuditService;
-import com.wgq.chat.contact.service.SecretService;
+import com.wgq.chat.contact.infrastructure.service.AuditService;
 import com.wgq.chat.contact.vo.FriendAuditVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,15 +23,7 @@ public class AuditController {
 
 
 
-    /**
-     * 好友申请列表
-     *
-     * @return
-     */
-    public List<FriendAuditVO> friendApplyList() {
-        //todo list
-        return null;
-    }
+
 
     /**
      * 确认申请好友
@@ -40,7 +31,7 @@ public class AuditController {
      * @param friendApplyParam
      * @return
      */
-    public Boolean applyFriend(FriendApplyParam friendApplyParam) {
+    public Boolean applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
         this.auditService.applyFriend(friendApplyParam);
         return true;
     }
