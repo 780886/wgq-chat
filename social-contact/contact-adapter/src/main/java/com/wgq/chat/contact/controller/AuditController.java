@@ -1,15 +1,16 @@
 package com.wgq.chat.contact.controller;
 
+import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.service.AuditService;
-import com.wgq.chat.contact.service.SecretService;
 import com.wgq.chat.contact.vo.FriendAuditVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import java.util.List;
 
 
@@ -17,7 +18,7 @@ import java.util.List;
 @RequestMapping("/audit")
 public class AuditController {
 
-    @Resource
+    @Inject
     private AuditService auditService;
 
 

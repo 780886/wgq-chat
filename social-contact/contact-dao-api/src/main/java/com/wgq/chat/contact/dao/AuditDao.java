@@ -1,5 +1,9 @@
 package com.wgq.chat.contact.dao;
 
+import com.wgq.chat.contact.po.Audit;
+
+import java.util.List;
+
 /**
  * @ClassName AuditDao
  * @Description TODO
@@ -8,4 +12,5 @@ package com.wgq.chat.contact.dao;
  * @Version 1.0
  **/
 public interface AuditDao {
+    List<Audit> getAudits(Long userId);
 }

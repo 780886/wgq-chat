@@ -2,7 +2,7 @@ package com.wgq.chat.contact.vo;
 
 public class FriendAuditVO {
     /**
-     * 审核标识
+     * 审核记录ID
      */
     private Long auditId;
 

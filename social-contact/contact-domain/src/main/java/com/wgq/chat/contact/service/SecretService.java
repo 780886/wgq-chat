@@ -1,4 +1,4 @@
-package com.wgq.chat.contact.infrastructure.service;
+package com.wgq.chat.contact.service;
 
 
 import com.sheep.passport.protocol.dto.UserProfileDTO;

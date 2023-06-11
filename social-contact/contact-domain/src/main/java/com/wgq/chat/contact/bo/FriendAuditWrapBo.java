@@ -1,8 +1,11 @@
 package com.wgq.chat.contact.bo;
 
-import com.sparrow.passport.protocol.dto.UserProfileDTO;
+import com.sheep.passport.protocol.dto.UserProfileDTO;
 
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName FrendApplyBo
@@ -13,28 +16,41 @@ import java.util.List;
  **/
 public class FriendAuditWrapBo {
 
-   private List<AuditBo> auditBos;
-   private List<UserProfileDTO> userProfiles;
 
-
-    public FriendAuditWrapBo(List<AuditBo> auditBos, List<UserProfileDTO> userProfiles) {
-        this.auditBos = auditBos;
-        this.userProfiles = userProfiles;
+    public FriendAuditWrapBo(List<AuditBO> auditBOS, List<UserProfileDTO> userProfiles){
+        this.auditBOS = auditBOS;
+        this.friendMap = new HashMap<>(userProfiles.size());
+        for (UserProfileDTO userProfile : userProfiles) {
+            this.friendMap.put(userProfile.getUserId(),userProfile);
+        }
     }
 
-    public List<AuditBo> getAuditBos() {
-        return auditBos;
+
+    /**
+     * 好友的申请记录
+     */
+    private List<AuditBO> auditBOS;
+
+    /**
+     * 好友的基本信息
+     * key:好友的id
+     * value:好友的基本信息
+     */
+    private Map<Long,UserProfileDTO> friendMap;
+
+    public List<AuditBO> getAuditBos() {
+        return auditBOS;
     }
 
-    public void setAuditBos(List<AuditBo> auditBos) {
-        this.auditBos = auditBos;
+    public void setAuditBos(List<AuditBO> auditBOS) {
+        this.auditBOS = auditBOS;
     }
 
-    public List<UserProfileDTO> getUserProfiles() {
-        return userProfiles;
+    public Map<Long, UserProfileDTO> getFriendMap() {
+        return friendMap;
     }
 
-    public void setUserProfiles(List<UserProfileDTO> userProfiles) {
-        this.userProfiles = userProfiles;
+    public void setFriendMap(Map<Long, UserProfileDTO> friendMap) {
+        this.friendMap = friendMap;
     }
 }
