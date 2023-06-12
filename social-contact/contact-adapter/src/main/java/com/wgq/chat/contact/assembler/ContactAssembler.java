@@ -3,12 +3,14 @@ package com.wgq.chat.contact.assembler;
 
 import com.sheep.passport.protocol.dto.UserProfileDTO;
 import com.sheep.protocol.enums.StatusRecord;
+import com.sheep.utils.EnumUtils;
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.ContactBO;
 import com.wgq.chat.contact.bo.FriendAuditWrapBo;
 import com.wgq.chat.contact.vo.FriendAuditVO;
 import com.wgq.chat.contact.vo.FriendAuditWrapVo;
 import com.wgq.chat.contact.vo.UserFriendApplyVO;
+import org.springframework.cglib.core.EmitUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -40,9 +42,12 @@ public class ContactAssembler {
             friendAuditVO.setNickName(applyUser.getNickName());
             userFriendApplyList.add(friendAuditVO);
         }
-        HashMap<Integer, String> auditStatusDict = new HashMap<>();
-        auditStatusDict.put(StatusRecord.ENABLE.ordinal(),"通过");
-        auditStatusDict.put(StatusRecord.DISABLE.ordinal(),"拒绝");
+        /**
+         * 1.枚举变的时候，这部分的逻辑不需要改
+         * 2.枚举国际化自动支持
+         * 3.支持任务枚举的map字典
+         */
+        Map<String, String> auditStatusDict = EnumUtils.getOrdinalValueMap(StatusRecord.class);
         return new FriendAuditWrapVo(auditStatusDict,userFriendApplyList);
     }
 }

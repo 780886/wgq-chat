@@ -2,6 +2,7 @@ package com.wgq.chat.contact.vo;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName FriendAuditWrapVo
@@ -15,7 +16,7 @@ public class FriendAuditWrapVo {
 
 
 
-    public FriendAuditWrapVo(HashMap<Integer, String> auditStatusDict, List<FriendAuditVO> friendAudits) {
+    public FriendAuditWrapVo(Map<String, String> auditStatusDict, List<FriendAuditVO> friendAudits) {
         this.auditStatusDict = auditStatusDict;
         this.friendAudits = friendAudits;
     }
@@ -24,15 +25,15 @@ public class FriendAuditWrapVo {
     /**
      * 审核状态字典
      */
-    private HashMap<Integer, String> auditStatusDict = new HashMap<>();
+    private Map<String, String> auditStatusDict = new HashMap<>();
 
     private List<FriendAuditVO> friendAudits;
 
-    public HashMap<Integer, String> getAuditStatusDict() {
+    public Map<String, String> getAuditStatusDict() {
         return auditStatusDict;
     }
 
-    public void setAuditStatusDict(HashMap<Integer, String> auditStatusDict) {
+    public void setAuditStatusDict(HashMap<String, String> auditStatusDict) {
         this.auditStatusDict = auditStatusDict;
     }
 
