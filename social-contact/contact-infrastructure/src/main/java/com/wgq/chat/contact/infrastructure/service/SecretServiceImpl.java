@@ -1,4 +1,4 @@
-package com.wgq.chat.contact.service.impl;
+package com.wgq.chat.contact.infrastructure.service;
 
 import com.sheep.core.spi.JsonFactory;
 import com.sheep.cryptogram.ThreeDES;

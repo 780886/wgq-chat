@@ -25,15 +25,6 @@ public class AuditController {
 
 
 
-    /**
-     * 好友申请列表
-     *
-     * @return
-     */
-    public List<FriendAuditVO> friendApplyList() {
-        //todo list
-        return null;
-    }
 
     /**
      * 确认申请好友

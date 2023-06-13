@@ -16,7 +16,6 @@ public class AuditServiceImpl implements AuditService {
 
     @Override
     public void applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
-
         Long userId = secretService.parseUserSecretIdentify(friendApplyParam.getFriendSecretIdentify());
 
     }
