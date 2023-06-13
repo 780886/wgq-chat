@@ -30,8 +30,7 @@ public class ContactService {
     @Inject
     private SecretService secretService;
 
-    @Inject
-    private AuditRepository auditRepository;
+
 
 //    @Inject
     private UserProfileAppService userProfileAppService;
@@ -43,33 +42,8 @@ public class ContactService {
         return new ContactBO(userDto, secretIdentify);
     }
 
-    public Boolean applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
-        //获取当前登录信息
-        LoginUser loginUser = null;
-        //通过密码标识获取好友的id
-        Long friendId = this.secretService.parseUserSecretIdentify(friendApplyParam.getFriendSecretIdentify());
-        //构建好友申请的内部逻辑对象
-        FriendApplyBo friendApplyBo = new FriendApplyBo();
-        //提交申请
-        return this.auditRepository.applyFriend(friendApplyBo);
-    }
 
-    public FriendAuditWrapBo friendApplyList() {
-        // TODO 获取当前登录用户
-        LoginUser loginUser = ThreadContext.getLoginToken();
-        Long currentUserId = loginUser.getUserId();
-        //获取审核记录
-        List<AuditBO> auditBOS = this.auditRepository.getFriendAuditList(currentUserId);
-        Set<Long> fetchUserIds = this.fetchUserId(auditBOS);
-        List<UserProfileDTO> userProfiles = this.userProfileAppService.getUserList(fetchUserIds);
-        return new FriendAuditWrapBo(auditBOS,userProfiles);
-    }
 
-    private Set<Long> fetchUserId(List<AuditBO> auditBOS) {
-        HashSet<Long> set = new HashSet<>();
-        for (AuditBO auditBO : auditBOS) {
-            set.add(auditBO.getAuditId());
-        }
-        return set;
-    }
+
+
 }

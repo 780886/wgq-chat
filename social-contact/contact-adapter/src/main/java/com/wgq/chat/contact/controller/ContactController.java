@@ -32,13 +32,6 @@ public class ContactController {
     private ContactAssembler contactAssembler;
 
 
-    @ApiOperation("获取好友申请列表")
-    @GetMapping("friend-apply-list")
-    public FriendAuditWrapVo friendApplyList(){
-        FriendAuditWrapBo friendAuditBo = this.contactService.friendApplyList();
-        return this.contactAssembler.toUserFriendApplyVoList(friendAuditBo);
-    }
-
 
     /**
      * 通过用户标识查找用户密文标识 和 用户基本信息
@@ -53,12 +46,4 @@ public class ContactController {
         return this.contactAssembler.toUserFriendApplyVO(contactBO);
     }
 
-    /**
-     * 添加好友
-     *
-     * @return
-     */
-    public Boolean addFriend(FriendApplyParam friendApplyParam) {
-        return null;
-    }
 }

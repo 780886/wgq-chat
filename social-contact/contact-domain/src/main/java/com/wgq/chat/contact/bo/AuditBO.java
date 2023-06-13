@@ -10,6 +10,11 @@ package com.wgq.chat.contact.bo;
 public class AuditBO {
 
 
+
+
+    private Integer businessType;
+
+
     /**
      * 申请用户id
      */
@@ -20,10 +25,20 @@ public class AuditBO {
      */
     private Long auditId;
 
+
+
     /**
      * 审核状态
      */
     private Integer auditStatus;
+
+    public Integer getBusinessType() {
+        return businessType;
+    }
+
+    public void setBusinessType(Integer businessType) {
+        this.businessType = businessType;
+    }
 
     public Long getApplyUserId() {
         return applyUserId;

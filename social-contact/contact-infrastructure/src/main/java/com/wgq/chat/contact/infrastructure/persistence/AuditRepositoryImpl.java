@@ -37,4 +37,9 @@ public class AuditRepositoryImpl  implements AuditRepository {
         List<Audit> audits = this.auditDao.getAudits(userId);
         return this.auditConverter.auditList2AuditBOList(audits);
     }
+
+    @Override
+    public AuditBO getAudit(Long auditId) {
+        return null;
+    }
 }
