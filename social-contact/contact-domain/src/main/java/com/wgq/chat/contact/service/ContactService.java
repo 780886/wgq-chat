@@ -6,6 +6,7 @@ import com.sheep.passport.api.UserProfileAppService;
 import com.sheep.passport.protocol.dto.UserProfileDTO;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
+import com.sheep.protocol.ThreadContext;
 import com.sheep.utils.StringUtils;
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.ContactBO;
@@ -55,7 +56,7 @@ public class ContactService {
 
     public FriendAuditWrapBo friendApplyList() {
         // TODO 获取当前登录用户
-        LoginUser loginUser = null;
+        LoginUser loginUser = ThreadContext.getLoginToken();
         Long currentUserId = loginUser.getUserId();
         //获取审核记录
         List<AuditBO> auditBOS = this.auditRepository.getFriendAuditList(currentUserId);
