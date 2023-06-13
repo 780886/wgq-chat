@@ -19,7 +19,7 @@ public class FriendAuditVO {
     /**
      * 审核状态
      */
-    private String auditStatus;
+    private Integer auditStatus;
 
     public Long getAuditId() {
         return auditId;
@@ -45,11 +45,11 @@ public class FriendAuditVO {
         this.nickName = nickName;
     }
 
-    public String getAuditStatus() {
+    public Integer getAuditStatus() {
         return auditStatus;
     }
 
-    public void setAuditStatus(String auditStatus) {
+    public void setAuditStatus(Integer auditStatus) {
         this.auditStatus = auditStatus;
     }
 }

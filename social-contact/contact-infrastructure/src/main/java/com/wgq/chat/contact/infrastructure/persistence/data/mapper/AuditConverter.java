@@ -5,6 +5,7 @@ import com.wgq.chat.contact.bo.FriendApplyBo;
 import com.wgq.chat.contact.po.Audit;
 
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +27,14 @@ public class AuditConverter {
     }
 
     public List<AuditBO> auditList2AuditBOList(List<Audit> audits) {
-        //TODO 待转换
-        return null;
+        ArrayList<AuditBO> auditBOS = new ArrayList<>();
+        for (Audit audit : audits) {
+            AuditBO bo = new AuditBO();
+            bo.setApplyUserId(audit.getUserId());
+            bo.setAuditId(audit.getAuditUserId());
+            bo.setAuditStatus(audit.getStatus());
+            auditBOS.add(bo);
+        }
+        return auditBOS;
     }
 }

@@ -10,6 +10,9 @@ package com.wgq.chat.contact.bo;
 public class AuditBO {
 
 
+    /**
+     * 申请用户id
+     */
     private Long applyUserId;
 
     /**
@@ -20,7 +23,7 @@ public class AuditBO {
     /**
      * 审核状态
      */
-    private String auditStatus;
+    private Integer auditStatus;
 
     public Long getApplyUserId() {
         return applyUserId;
@@ -38,11 +41,11 @@ public class AuditBO {
         this.auditId = auditId;
     }
 
-    public String getAuditStatus() {
+    public Integer getAuditStatus() {
         return auditStatus;
     }
 
-    public void setAuditStatus(String auditStatus) {
+    public void setAuditStatus(Integer auditStatus) {
         this.auditStatus = auditStatus;
     }
 }

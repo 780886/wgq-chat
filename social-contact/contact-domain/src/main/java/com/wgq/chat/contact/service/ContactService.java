@@ -59,8 +59,8 @@ public class ContactService {
         Long currentUserId = loginUser.getUserId();
         //获取审核记录
         List<AuditBO> auditBOS = this.auditRepository.getFriendAuditList(currentUserId);
-        Set<Long> applyFriendSet = this.fetchUserId(auditBOS);
-        List<UserProfileDTO> userProfiles = this.userProfileAppService.getUserList(applyFriendSet);
+        Set<Long> fetchUserIds = this.fetchUserId(auditBOS);
+        List<UserProfileDTO> userProfiles = this.userProfileAppService.getUserList(fetchUserIds);
         return new FriendAuditWrapBo(auditBOS,userProfiles);
     }
 

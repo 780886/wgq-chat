@@ -38,9 +38,11 @@ public class ContactAssembler {
             friendAuditVO.setAuditId(audit.getAuditId());
             friendAuditVO.setAuditStatus(audit.getAuditStatus());
             UserProfileDTO applyUser = userDictionaries.get(audit.getApplyUserId());
-            friendAuditVO.setAvatar(applyUser.getAvatar());
-            friendAuditVO.setNickName(applyUser.getNickName());
-            userFriendApplyList.add(friendAuditVO);
+            if (applyUser != null) {
+                friendAuditVO.setAvatar(applyUser.getAvatar());
+                friendAuditVO.setNickName(applyUser.getNickName());
+                userFriendApplyList.add(friendAuditVO);
+            }
         }
         /**
          * 1.枚举变的时候，这部分的逻辑不需要改
