@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import java.util.List;
 
 @RestController
@@ -25,10 +26,10 @@ import java.util.List;
 public class ContactController {
 
 
-    @Resource
+    @Inject
     private ContactService contactService;
 
-    @Resource
+    @Inject
     private ContactAssembler contactAssembler;
 
 

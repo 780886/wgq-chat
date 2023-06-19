@@ -13,12 +13,13 @@ import com.wgq.chat.contact.vo.UserFriendApplyVO;
 import org.springframework.cglib.core.EmitUtils;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Named
 public class ContactAssembler {
 
     public UserFriendApplyVO toUserFriendApplyVO(ContactBO contactBO) {
