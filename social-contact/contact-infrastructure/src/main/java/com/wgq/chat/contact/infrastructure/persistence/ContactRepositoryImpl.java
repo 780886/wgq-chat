@@ -1,7 +1,8 @@
-package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
+package com.wgq.chat.contact.infrastructure.persistence;
 
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.dao.ContactDao;
+import com.wgq.chat.contact.infrastructure.persistence.data.mapper.ContactConverter;
 import com.wgq.chat.contact.po.Contact;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.repository.ContactRepository;
