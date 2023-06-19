@@ -4,19 +4,18 @@ package com.wgq.chat.contact.protocol.audit;
 import com.sheep.protocol.POJO;
 import com.sheep.protocol.Param;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 好友申请
  */
 @ApiModel("好友申请参数")
 public class FriendApplyParam implements Param {
-    /**
-     * 用户的密秘标识
-     */
+
+    @ApiModelProperty("用户的密秘标识")
     private String friendSecretIdentify;
-    /**
-     * 申请的理由
-     */
+
+    @ApiModelProperty("申请的理由")
     private String reason;
 
     public String getFriendSecretIdentify() {
