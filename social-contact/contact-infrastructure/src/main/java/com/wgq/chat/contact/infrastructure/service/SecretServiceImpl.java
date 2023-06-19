@@ -7,6 +7,7 @@ import com.sheep.json.Json;
 import com.sheep.passport.protocol.dto.UserProfileDTO;
 import com.sheep.protocol.BusinessException;
 import com.sheep.utils.StringUtils;
+import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.service.SecretService;
 import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,20 +31,20 @@ public class SecretServiceImpl implements SecretService {
 
     @Override
     public String encryptUserIdentify(UserProfileDTO userDto) throws BusinessException {
-        Asserts.isTrue(userDto == null, BusinessCodeEnum.PARAM_NOT_EMPTY);
-        return null;
-//        Asserts.isTrue(userDto.getId() == null,BusinessCodeEnum.PARAM_NOT_EMPTY);
-//        return ThreeDES.getInstance().encryptHex(this.secretKey,userDto.getId().toString());
+        Asserts.isTrue(userDto == null, ContactError.USER_IDENTIFY_INFO_EMPTY);
+        Asserts.isTrue(StringUtils.isNullOrEmpty(userDto.getUserId()),ContactError.USER_IDENTIFY_INFO_ID_IS_EMPTY);
+        return ThreeDES.getInstance().encryptHex(this.secretKey,userDto.getUserId().toString());
     }
 
     @Override
     public Long parseUserSecretIdentify(String secretIdentify) throws BusinessException {
-        Asserts.isTrue(StringUtils.isNullOrEmpty(secretIdentify),BusinessCodeEnum.USER_SECRET_IS_EMPTY);
+        Asserts.isTrue(StringUtils.isNullOrEmpty(secretIdentify),ContactError.USER_SECRET_IDENTIFY_IS_EMPTY);
         String userId = ThreeDES.getInstance().decryptHex(this.getSecretKey(), secretIdentify);
         return Long.parseLong(userId);
     }
 
     public String getSecretKey() {
+        //如果当前是生产环境，我在生产环境的服务器上通过环境变量来获取，保证安全性
         if (this.profile.equalsIgnoreCase(SPRING_PROD_PROFILE)){
             return System.getenv(USER_IDENTIFY_SECRET_KEY);
         }
