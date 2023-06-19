@@ -3,9 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.contact.dao.AuditDao">
+    <update id="update">
+
+    </update>
 
 
     <select id="getAudits" resultType="com.wgq.chat.contact.po.Audit">
         select * from audit where id = #{userId}
+    </select>
+    <select id="getEntity" resultType="com.wgq.chat.contact.po.Audit">
+        select * from audit where id = #{auditId}
     </select>
 </mapper>

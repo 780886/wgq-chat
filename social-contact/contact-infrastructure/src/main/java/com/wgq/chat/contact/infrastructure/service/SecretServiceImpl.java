@@ -8,7 +8,7 @@ import com.sheep.passport.protocol.dto.UserProfileDTO;
 import com.sheep.protocol.BusinessException;
 import com.sheep.utils.StringUtils;
 import com.wgq.chat.contact.service.SecretService;
-import com.wgq.chat.contact.protocol.constant.BusinessCodeEnum;
+import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
 import org.springframework.beans.factory.annotation.Value;
 
 

@@ -1,5 +1,8 @@
 package com.wgq.chat.contact.bo;
 
+import com.sheep.protocol.enums.StatusRecord;
+import com.wgq.chat.contact.protocol.enums.AuditBusiness;
+
 /**
  * @ClassName AuditBo
  * @Description TODO
@@ -11,33 +14,105 @@ public class AuditBO {
 
 
 
-
-    private Integer businessType;
-
+    private AuditBusiness auditBusiness;
 
     /**
      * 申请用户id
      */
     private Long applyUserId;
-
     /**
      * 审核标识
      */
     private Long auditId;
+    /**
+     * 业务ID  与业务类型对应
+     * 如果是群，则为群ID
+     * 如果是好友，则为好友ID
+     */
+    private Long businessId;
+    /**
+     * 审核人ID
+     */
+    private Long auditUserId;
 
+    /**
+     * 审核时间
+     */
+    private Long auditTime;
+    /**
+     * 申请时间
+     */
+    private Long applyTime;
 
+    /**
+     * 审核的理由
+     */
+    private String auditReason;
+
+    /**
+     * 申请的理由
+     */
+    private String applyReason;
+
+    public Long getApplyTime() {
+        return applyTime;
+    }
+
+    public void setApplyTime(Long applyTime) {
+        this.applyTime = applyTime;
+    }
+
+    public Long getAuditUserId() {
+        return auditUserId;
+    }
+
+    public Long getAuditTime() {
+        return auditTime;
+    }
+
+    public String getApplyReason() {
+        return applyReason;
+    }
+
+    public void setApplyReason(String applyReason) {
+        this.applyReason = applyReason;
+    }
+
+    public void setAuditTime(Long auditTime) {
+        this.auditTime = auditTime;
+    }
+
+    public void setAuditUserId(Long auditUserId) {
+        this.auditUserId = auditUserId;
+    }
+
+    public Long getBusinessId() {
+        return businessId;
+    }
+
+    public void setBusinessId(Long businessId) {
+        this.businessId = businessId;
+    }
 
     /**
      * 审核状态
      */
-    private Integer auditStatus;
+    private StatusRecord auditStatus;
 
-    public Integer getBusinessType() {
-        return businessType;
+    public String getAuditReason() {
+        return auditReason;
     }
 
-    public void setBusinessType(Integer businessType) {
-        this.businessType = businessType;
+    public void setAuditReason(String auditReason) {
+        this.auditReason = auditReason;
+    }
+
+    public AuditBusiness getAuditBusiness() {
+        return auditBusiness;
+    }
+
+    public void setAuditBusiness(AuditBusiness auditBusiness) {
+        this.auditBusiness = auditBusiness;
     }
 
     public Long getApplyUserId() {
@@ -56,11 +131,11 @@ public class AuditBO {
         this.auditId = auditId;
     }
 
-    public Integer getAuditStatus() {
+    public StatusRecord getAuditStatus() {
         return auditStatus;
     }
 
-    public void setAuditStatus(Integer auditStatus) {
+    public void setAuditStatus(StatusRecord auditStatus) {
         this.auditStatus = auditStatus;
     }
 }

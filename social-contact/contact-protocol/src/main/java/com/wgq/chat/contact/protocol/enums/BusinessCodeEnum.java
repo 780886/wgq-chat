@@ -1,7 +1,8 @@
-package com.wgq.chat.contact.protocol.constant;
+package com.wgq.chat.contact.protocol.enums;
 
 import com.sheep.protocol.ErrorSupport;
 import com.sheep.protocol.ModuleSupport;
+import com.wgq.chat.contact.protocol.constant.ContactModule;
 
 /**
  *
@@ -47,6 +48,7 @@ public enum BusinessCodeEnum implements ErrorSupport {
     PASSWORD_FORMAT_ERROR(false, ContactModule.CONTACT,"1502", "密码格式不正确,请重新输入!"),
     PASSWORD_NOT_EQUAL(false, ContactModule.CONTACT,"1503", "两次输入的密码不一致，请重新输入!"),
     USERNAME_PASSWORD_ERROR(false, ContactModule.CONTACT,"1504", "用户名或密码错误，请重新输入!");
+
 
     private boolean system;
     private ModuleSupport module;

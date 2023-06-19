@@ -2,6 +2,7 @@ package com.wgq.chat.contact.po;
 
 
 import com.sheep.protocol.POJO;
+import com.sheep.protocol.enums.StatusRecord;
 
 
 public class Audit implements POJO {
@@ -13,7 +14,7 @@ public class Audit implements POJO {
     /**
      * 申请人ID
      */
-    private Long userId;
+    private Long applyUserId;
     /**
      * 业务类型  申请的群或者好友ID
      */
@@ -47,7 +48,7 @@ public class Audit implements POJO {
     /**
      * 审核的状态 0 未审核 1 审核通过 2 审核不通过
      */
-    private Integer status;
+    private StatusRecord status;
 
 
     public Long getId() {
@@ -58,13 +59,15 @@ public class Audit implements POJO {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getApplyUserId() {
+        return applyUserId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setApplyUserId(Long applyUserId) {
+        this.applyUserId = applyUserId;
     }
+
+
 
     public Integer getBusinessType() {
         return businessType;
@@ -122,11 +125,11 @@ public class Audit implements POJO {
         this.auditReason = auditReason;
     }
 
-    public Integer getStatus() {
+    public StatusRecord getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(StatusRecord status) {
         this.status = status;
     }
 

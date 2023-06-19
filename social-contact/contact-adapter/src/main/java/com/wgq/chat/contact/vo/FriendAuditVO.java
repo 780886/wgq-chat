@@ -1,5 +1,7 @@
 package com.wgq.chat.contact.vo;
 
+import com.sheep.protocol.enums.StatusRecord;
+
 public class FriendAuditVO {
     /**
      * 审核记录ID
@@ -19,7 +21,7 @@ public class FriendAuditVO {
     /**
      * 审核状态
      */
-    private Integer auditStatus;
+    private StatusRecord auditStatus;
 
     public Long getAuditId() {
         return auditId;
@@ -45,11 +47,11 @@ public class FriendAuditVO {
         this.nickName = nickName;
     }
 
-    public Integer getAuditStatus() {
+    public StatusRecord getAuditStatus() {
         return auditStatus;
     }
 
-    public void setAuditStatus(Integer auditStatus) {
+    public void setAuditStatus(StatusRecord auditStatus) {
         this.auditStatus = auditStatus;
     }
 }

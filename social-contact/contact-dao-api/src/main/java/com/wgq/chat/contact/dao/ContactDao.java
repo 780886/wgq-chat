@@ -1,5 +1,7 @@
 package com.wgq.chat.contact.dao;
 
+import com.wgq.chat.contact.po.Contact;
+
 /**
  * @ClassName ContactDao
  * @Description TODO
@@ -8,4 +10,6 @@ package com.wgq.chat.contact.dao;
  * @Version 1.0
  **/
 public interface ContactDao {
+
+    Long insert(Contact contact);
 }

@@ -10,7 +10,6 @@ public class Contact implements POJO {
     private Long friendId;
     private Long applyTime;
     private Long auditTime;
-    private Long gmtCreate;
 
     public Long getId() {
         return id;
@@ -52,11 +51,5 @@ public class Contact implements POJO {
         this.auditTime = auditTime;
     }
 
-    public Long getGmtCreate() {
-        return gmtCreate;
-    }
 
-    public void setGmtCreate(Long gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
 }

@@ -2,11 +2,14 @@ package com.wgq.chat.contact.protocol.audit;
 
 
 import com.sheep.protocol.POJO;
+import com.sheep.protocol.Param;
+import io.swagger.annotations.ApiModel;
 
 /**
  * 好友申请
  */
-public class FriendApplyParam implements POJO {
+@ApiModel("好友申请参数")
+public class FriendApplyParam implements Param {
     /**
      * 用户的密秘标识
      */

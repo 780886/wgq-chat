@@ -3,6 +3,7 @@ package com.wgq.chat.contact.repository;
 
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.FriendApplyBo;
+import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface AuditRepository {
 
 //    Long applyQun(Long currentUserId, QunApplyParam qunApplyParam);
 //
-//    Integer auditFriend(Audit audit, FriendAuditParam friendAuditParam);
+    Integer auditFriend(AuditBO auditBO,FriendAuditParam friendAuditParam);
 //
     AuditBO getAudit(Long auditId);
 }

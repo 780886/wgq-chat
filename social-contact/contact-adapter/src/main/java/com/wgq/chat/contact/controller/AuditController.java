@@ -39,11 +39,6 @@ public class AuditController {
     }
 
 
-    /**
-     *
-     * @param friendApplyParam
-     * @return
-     */
     @ApiOperation("申请好友")
     @PostMapping("friend-apply")
     public Boolean applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
@@ -51,15 +46,9 @@ public class AuditController {
     }
 
 
-    /**
-     *
-     *
-     * @param friendAuditParam
-     * @return
-     */
-    @ApiOperation("审核好友申请")
+    @ApiOperation("对好友申请进行审核")
     @PostMapping("audit-friend-apply")
-    public Boolean auditFriendApply(FriendAuditParam friendAuditParam) throws BusinessException {
-        return this.auditService.auditFriendApply(friendAuditParam);
+    public void auditFriendApply(FriendAuditParam friendAuditParam) throws BusinessException {
+        this.auditService.auditFriendApply(friendAuditParam);
     }
 }

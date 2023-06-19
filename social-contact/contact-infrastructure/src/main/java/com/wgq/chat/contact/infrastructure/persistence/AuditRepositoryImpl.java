@@ -1,10 +1,14 @@
 package com.wgq.chat.contact.infrastructure.persistence;
 
+import com.sheep.protocol.LoginUser;
+import com.sheep.protocol.ThreadContext;
+import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.FriendApplyBo;
 import com.wgq.chat.contact.dao.AuditDao;
 import com.wgq.chat.contact.infrastructure.persistence.data.mapper.AuditConverter;
 import com.wgq.chat.contact.po.Audit;
+import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.repository.AuditRepository;
 
 import javax.inject.Inject;
@@ -39,7 +43,14 @@ public class AuditRepositoryImpl  implements AuditRepository {
     }
 
     @Override
+    public Integer auditFriend(AuditBO auditBO,FriendAuditParam friendAuditParam) {
+        Audit audit = this.auditConverter.convert2po(auditBO, friendAuditParam);
+        return this.auditDao.update(audit);
+    }
+
+    @Override
     public AuditBO getAudit(Long auditId) {
-        return null;
+        Audit audit = this.auditDao.getEntity(auditId);
+        return this.auditConverter.audit2AuditBo(audit);
     }
 }

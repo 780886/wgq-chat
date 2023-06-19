@@ -11,15 +11,18 @@ import com.wgq.chat.contact.bo.FriendApplyBo;
 import com.wgq.chat.contact.bo.FriendAuditWrapBo;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
-import com.wgq.chat.contact.protocol.constant.BusinessCodeEnum;
+import com.wgq.chat.contact.protocol.enums.AuditBusiness;
+import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.repository.AuditRepository;
+import com.wgq.chat.contact.repository.ContactRepository;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Named
 public class AuditService {
 
     @Inject
@@ -27,6 +30,9 @@ public class AuditService {
 
     @Inject
     private AuditRepository auditRepository;
+
+    @Inject
+    private ContactRepository contactRepository;
 
     private UserProfileAppService userProfileAppService;
 
@@ -44,7 +50,6 @@ public class AuditService {
     }
 
     public FriendAuditWrapBo friendApplyList() {
-        // TODO 获取当前登录用户
         LoginUser loginUser = ThreadContext.getLoginToken();
         Long currentUserId = loginUser.getUserId();
         //获取审核记录
@@ -62,11 +67,17 @@ public class AuditService {
         return userIds;
     }
 
-    public Boolean auditFriendApply(FriendAuditParam friendAuditParam) throws BusinessException {
+    public void auditFriendApply(FriendAuditParam friendAuditParam) throws BusinessException {
         AuditBO auditBO = this.auditRepository.getAudit(friendAuditParam.getAuditId());
-        // TODO
-        Asserts.isTrue(auditBO.getBusinessType() == null, BusinessCodeEnum.EMAIL_EXIST_ERROR);
+        Asserts.isTrue(auditBO.getAuditBusiness() != AuditBusiness.FRIEND, ContactError.AUDIT_BUSINESS_TYPE);
         LoginUser loginUser = ThreadContext.getLoginToken();
-        return null;
+        Asserts.isTrue(auditBO.getBusinessId().equals(loginUser.getUserId()),ContactError.AUDIT_USER_IS_NOT_MATCH);
+        //审核用户申请
+        //TODO 分布式事务 MQ消息事务
+        this.auditRepository.auditFriend(auditBO,friendAuditParam);
+        if (friendAuditParam.getAgree()){
+            this.contactRepository.addContact(auditBO,friendAuditParam);
+            //TODO 同步发消息
+        }
     }
 }

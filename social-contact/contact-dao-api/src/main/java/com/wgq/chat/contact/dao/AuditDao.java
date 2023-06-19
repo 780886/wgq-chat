@@ -12,5 +12,10 @@ import java.util.List;
  * @Version 1.0
  **/
 public interface AuditDao {
+
     List<Audit> getAudits(Long userId);
+
+    Audit getEntity(Long auditId);
+
+    Integer update(Audit audit);
 }

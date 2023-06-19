@@ -1,8 +1,14 @@
 package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
+import com.sheep.protocol.enums.StatusRecord;
 
+import com.sheep.protocol.LoginUser;
+import com.sheep.protocol.ThreadContext;
+import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.FriendApplyBo;
 import com.wgq.chat.contact.po.Audit;
+import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
+import com.wgq.chat.contact.protocol.enums.AuditBusiness;
 
 import javax.inject.Named;
 import java.util.ArrayList;
@@ -20,7 +26,7 @@ public class AuditConverter {
 
     public Audit friendApply2AuditPo(FriendApplyBo friendApply){
         Audit audit = new Audit();
-        audit.setUserId(friendApply.getCurrentUserId());
+        audit.setApplyUserId(friendApply.getCurrentUserId());
         audit.setApplyReason(friendApply.getReason());
         audit.setAuditTime(System.currentTimeMillis());
         return audit;
@@ -30,11 +36,37 @@ public class AuditConverter {
         ArrayList<AuditBO> auditBOS = new ArrayList<>();
         for (Audit audit : audits) {
             AuditBO bo = new AuditBO();
-            bo.setApplyUserId(audit.getUserId());
+            bo.setApplyUserId(audit.getApplyUserId());
             bo.setAuditId(audit.getAuditUserId());
             bo.setAuditStatus(audit.getStatus());
             auditBOS.add(bo);
         }
         return auditBOS;
     }
+
+    public AuditBO audit2AuditBo(Audit audit) {
+        AuditBO auditBO = new AuditBO();
+        auditBO.setAuditId(audit.getAuditUserId());
+        auditBO.setBusinessId(audit.getBusinessId());
+        auditBO.setApplyUserId(audit.getApplyUserId());
+        auditBO.setAuditStatus(audit.getStatus());
+        return auditBO;
+    }
+
+    public Audit convert2po(AuditBO auditBO, FriendAuditParam friendAuditParam){
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        Audit audit = new Audit();
+        audit.setId(auditBO.getAuditId());
+        audit.setBusinessType(AuditBusiness.FRIEND.getBusiness());
+        audit.setApplyUserId(auditBO.getApplyUserId());
+        audit.setBusinessId(auditBO.getBusinessId());
+        audit.setApplyTime(auditBO.getApplyTime());
+        audit.setAuditTime(System.currentTimeMillis());
+        audit.setAuditUserId(loginUser.getUserId());
+        audit.setApplyReason(auditBO.getApplyReason());
+        audit.setAuditReason(auditBO.getAuditReason());
+        audit.setStatus(friendAuditParam.getAgree()?StatusRecord.ENABLE:StatusRecord.DISABLE);
+        return audit;
+    }
+
 }
