@@ -168,18 +168,18 @@ public class Audit implements POJO {
         this.auditTime = auditTime;
     }
 
-    @MethodOrder(order = 10)
-    @Column(
-            name = "create_time",
-            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '创建时间'",
-            nullable = false,
-            updatable = false
-    )
+
 
     public void setBusinessType(Integer businessType) {
         this.businessType = businessType;
     }
-
+    @MethodOrder(order = 10)
+    @Column(
+            name = "apply_time",
+            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '申请时间'",
+            nullable = false,
+            updatable = false
+    )
     public Long getApplyTime() {
         return applyTime;
     }

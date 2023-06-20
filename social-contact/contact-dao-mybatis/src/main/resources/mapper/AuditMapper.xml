@@ -4,10 +4,108 @@
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.contact.dao.AuditDao">
     <insert id="insert">
-
+        <if test="audit != null">
+            insert into audit
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="audit.id != null">
+                    id,
+                </if>
+                <if test="audit.applyUserId != null">
+                    apply_user_id,
+                </if>
+                <if test="audit.businessType != null">
+                    business_type,
+                </if>
+                <if test="audit.businessId != null">
+                    business_id,
+                </if>
+                <if test="audit.auditUserId != null">
+                    audit_user_id,
+                </if>
+                <if test="audit.applyReason != null">
+                    apply_reason,
+                </if>
+                <if test="audit.auditReason != null">
+                    audit_reason,
+                </if>
+                <if test="audit.status != null">
+                    status,
+                </if>
+                <if test="audit.auditTime != null">
+                    audit_time,
+                </if>
+                <if test="audit.applyTime != null">
+                    apply_time,
+                </if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="audit.id != null">
+                    #{audit.id},
+                </if>
+                <if test="audit.applyUserId != null">
+                    #{audit.applyUserId},
+                </if>
+                <if test="audit.businessType != null">
+                    #{audit.businessType},
+                </if>
+                <if test="audit.businessId != null">
+                    #{audit.businessId},
+                </if>
+                <if test="audit.auditUserId != null">
+                    #{audit.auditUserId},
+                </if>
+                <if test="audit.applyReason != null">
+                    #{audit.applyReason},
+                </if>
+                <if test="audit.auditReason != null">
+                    #{audit.auditReason},
+                </if>
+                <if test="audit.status != null">
+                    #{audit.status},
+                </if>
+                <if test="audit.auditTime != null">
+                    #{audit.auditTime},
+                </if>
+                <if test="audit.applyTime != null">
+                    #{audit.applyTime},
+                </if>
+            </trim>
+        </if>
     </insert>
     <update id="update">
-
+        <if test="audit != null and audit.id != null">
+            update audit set
+            <trim  suffixOverrides=",">
+                <if test="audit.applyUserId != null">
+                    apply_user_id = #{audit.applyUserId},
+                </if>
+                <if test="audit.businessType != null">
+                    business_type = #{audit.businessType},
+                </if>
+                <if test="audit.businessId != null">
+                    business_id = #{audit.businessId},
+                </if>
+                <if test="audit.auditUserId != null">
+                    audit_user_id = #{audit.auditUserId},
+                </if>
+                <if test="audit.applyReason != null">
+                    apply_reason =  #{audit.applyReason},
+                </if>
+                <if test="audit.auditReason != null">
+                    audit_reason = #{audit.auditReason},
+                </if>
+                <if test="audit.status != null">
+                    status =  #{audit.status},
+                </if>
+                <if test="audit.auditTime != null">
+                    audit_time = #{audit.auditTime},
+                </if>
+                <if test="audit.applyTime != null">
+                    apply_time = #{audit.applyTime},
+                </if>
+            </trim>
+            where id = #{audit.id}
+        </if>
     </update>
 
 
