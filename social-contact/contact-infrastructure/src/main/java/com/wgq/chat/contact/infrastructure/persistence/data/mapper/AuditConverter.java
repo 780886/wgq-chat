@@ -3,7 +3,6 @@ import com.sheep.protocol.enums.StatusRecord;
 
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
-import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.FriendApplyBo;
 import com.wgq.chat.contact.po.Audit;

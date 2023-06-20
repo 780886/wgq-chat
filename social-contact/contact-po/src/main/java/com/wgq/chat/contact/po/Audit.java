@@ -1,10 +1,13 @@
 package com.wgq.chat.contact.po;
 
 
+import com.sheep.dao.MethodOrder;
 import com.sheep.protocol.POJO;
 import com.sheep.protocol.enums.StatusRecord;
 
+import javax.persistence.*;
 
+@Table(name = "audit")
 public class Audit implements POJO {
 
     /**
@@ -50,7 +53,15 @@ public class Audit implements POJO {
      */
     private StatusRecord status;
 
+    /**
+     * 创建时间
+     */
+    private Long gmtCreate;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "int(11) UNSIGNED AUTO_INCREMENT")
+    @MethodOrder(order = 1)
     public Long getId() {
         return id;
     }
@@ -59,6 +70,11 @@ public class Audit implements POJO {
         this.id = id;
     }
 
+    @MethodOrder(order = 2)
+    @Column(name = "apply_user_id",
+            columnDefinition = "int(11)  UNSIGNED DEFAULT 0 COMMENT '用户ID'",
+            nullable = false,
+            updatable = false)
     public Long getApplyUserId() {
         return applyUserId;
     }
@@ -67,22 +83,105 @@ public class Audit implements POJO {
         this.applyUserId = applyUserId;
     }
 
-
-
+    @MethodOrder(order = 3)
+    @Column(
+            name = "business_type",
+            columnDefinition = "tinyint(1)  DEFAULT 0 COMMENT '业务类型'",
+            nullable = false,
+            updatable = false
+    )
     public Integer getBusinessType() {
         return businessType;
     }
 
-    public void setBusinessType(Integer businessType) {
-        this.businessType = businessType;
-    }
-
+    @MethodOrder(order = 4)
+    @Column(
+            name = "business_id",
+            columnDefinition = "int(11)  UNSIGNED DEFAULT 0 COMMENT '业务ID'",
+            nullable = false,
+            updatable = false
+    )
     public Long getBusinessId() {
         return businessId;
     }
 
     public void setBusinessId(Long businessId) {
         this.businessId = businessId;
+    }
+
+    @MethodOrder(order = 5)
+    @Column(
+            name = "audit_user_id",
+            columnDefinition = "int(11)  UNSIGNED DEFAULT 0 COMMENT '审核用户ID'",
+            nullable = false,
+            updatable = false
+    )
+    public Long getAuditUserId() {
+        return auditUserId;
+    }
+
+    public void setAuditUserId(Long auditUserId) {
+        this.auditUserId = auditUserId;
+    }
+
+    @MethodOrder(order = 6)
+    @Column(name = "apply_reason", columnDefinition = "varchar(256)  DEFAULT '' COMMENT '申请理由'", nullable = false, updatable = false)
+    public String getApplyReason() {
+        return applyReason;
+    }
+
+    public void setApplyReason(String applyReason) {
+        this.applyReason = applyReason;
+    }
+
+    @MethodOrder(order = 7)
+    @Column(name = "audit_reason", columnDefinition = "varchar(256)  DEFAULT '' COMMENT '审核理由'", nullable = false)
+    public String getAuditReason() {
+        return auditReason;
+    }
+
+    public void setAuditReason(String auditReason) {
+        this.auditReason = auditReason;
+    }
+
+    @MethodOrder(order = 8)
+    @Column(
+            name = "status",
+            columnDefinition = "tinyint(1)  DEFAULT 0 COMMENT '审核状态'",
+            nullable = false
+    )
+    public StatusRecord getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusRecord status) {
+        this.status = status;
+    }
+
+    @MethodOrder(order = 9)
+    @Column(
+            name = "audit_time",
+            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '审核时间'",
+            nullable = false
+    )
+    public Long getAuditTime() {
+        return auditTime;
+    }
+
+    public void setAuditTime(Long auditTime) {
+        this.auditTime = auditTime;
+    }
+
+    @MethodOrder(order = 10)
+    @Column(
+            name = "create_time",
+            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '创建时间'",
+            nullable = false,
+            updatable = false
+    )
+
+    public void setBusinessType(Integer businessType) {
+        this.businessType = businessType;
     }
 
     public Long getApplyTime() {
@@ -93,44 +192,11 @@ public class Audit implements POJO {
         this.applyTime = applyTime;
     }
 
-    public Long getAuditTime() {
-        return auditTime;
+    public Long getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setAuditTime(Long auditTime) {
-        this.auditTime = auditTime;
+    public void setGmtCreate(Long gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
-
-    public Long getAuditUserId() {
-        return auditUserId;
-    }
-
-    public void setAuditUserId(Long auditUserId) {
-        this.auditUserId = auditUserId;
-    }
-
-    public String getApplyReason() {
-        return applyReason;
-    }
-
-    public void setApplyReason(String applyReason) {
-        this.applyReason = applyReason;
-    }
-
-    public String getAuditReason() {
-        return auditReason;
-    }
-
-    public void setAuditReason(String auditReason) {
-        this.auditReason = auditReason;
-    }
-
-    public StatusRecord getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusRecord status) {
-        this.status = status;
-    }
-
 }

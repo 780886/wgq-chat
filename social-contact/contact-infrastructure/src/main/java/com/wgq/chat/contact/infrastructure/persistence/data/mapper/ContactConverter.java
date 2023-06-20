@@ -1,9 +1,7 @@
 package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
 
 import com.wgq.chat.contact.bo.AuditBO;
-import com.wgq.chat.contact.bo.FriendAuditWrapBo;
 import com.wgq.chat.contact.po.Contact;
-import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 
 import javax.inject.Named;
 
