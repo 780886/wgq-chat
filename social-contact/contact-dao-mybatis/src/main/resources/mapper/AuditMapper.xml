@@ -72,6 +72,7 @@
             </trim>
         </if>
     </insert>
+
     <update id="update">
         <if test="audit != null and audit.id != null">
             update audit set
@@ -108,10 +109,10 @@
         </if>
     </update>
 
-
     <select id="getAudits" resultType="com.wgq.chat.contact.po.Audit">
         select * from audit where id = #{userId}
     </select>
+
     <select id="getEntity" resultType="com.wgq.chat.contact.po.Audit">
         select * from audit where id = #{auditId}
     </select>
