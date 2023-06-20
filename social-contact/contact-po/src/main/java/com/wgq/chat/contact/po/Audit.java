@@ -53,10 +53,6 @@ public class Audit implements POJO {
      */
     private StatusRecord status;
 
-    /**
-     * 创建时间
-     */
-    private Long gmtCreate;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -192,11 +188,4 @@ public class Audit implements POJO {
         this.applyTime = applyTime;
     }
 
-    public Long getGmtCreate() {
-        return gmtCreate;
-    }
-
-    public void setGmtCreate(Long gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
 }

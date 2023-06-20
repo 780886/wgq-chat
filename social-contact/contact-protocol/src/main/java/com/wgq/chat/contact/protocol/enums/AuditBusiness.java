@@ -2,7 +2,8 @@ package com.wgq.chat.contact.protocol.enums;
 
 public enum AuditBusiness {
 
-    FRIEND(1,"朋友")
+    FRIEND(1,"好友"),
+    QUN(2,"群")
     ;
 
 

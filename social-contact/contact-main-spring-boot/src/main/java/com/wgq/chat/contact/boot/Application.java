@@ -16,11 +16,11 @@ public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-        try {
-            generaCreateDDL(Audit.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            generaCreateDDL(Audit.class);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

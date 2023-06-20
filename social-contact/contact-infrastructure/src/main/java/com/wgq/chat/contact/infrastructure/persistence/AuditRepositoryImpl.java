@@ -30,7 +30,8 @@ public class AuditRepositoryImpl  implements AuditRepository {
 
     @Override
     public Boolean applyFriend(FriendApplyBo friendApplyBo) {
-        return null;
+        Audit audit = this.auditConverter.convert2po(friendApplyBo);
+        return this.auditDao.insert(audit);
     }
 
     @Override

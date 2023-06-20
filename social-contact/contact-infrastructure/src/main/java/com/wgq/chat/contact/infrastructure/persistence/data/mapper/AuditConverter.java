@@ -1,5 +1,6 @@
 package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
 import com.sheep.protocol.enums.StatusRecord;
+import com.sheep.protocol.enums.StatusRecord;
 
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
@@ -68,4 +69,14 @@ public class AuditConverter {
         return audit;
     }
 
+    public Audit convert2po(FriendApplyBo friendApplyBo) {
+        Audit audit = new Audit();
+        audit.setApplyUserId(friendApplyBo.getCurrentUserId());
+        audit.setBusinessId(friendApplyBo.getFriendId());
+        audit.setApplyReason(friendApplyBo.getReason());
+        audit.setStatus(StatusRecord.ENABLE);
+        audit.setBusinessType(AuditBusiness.FRIEND.getBusiness());
+        audit.setApplyTime(System.currentTimeMillis());
+        return audit;
+    }
 }

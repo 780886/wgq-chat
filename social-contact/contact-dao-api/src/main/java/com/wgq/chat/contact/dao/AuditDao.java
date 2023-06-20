@@ -18,4 +18,6 @@ public interface AuditDao {
     Audit getEntity(Long auditId);
 
     Integer update(Audit audit);
+
+    Boolean insert(Audit audit);
 }

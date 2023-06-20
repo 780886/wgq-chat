@@ -44,6 +44,9 @@ public class AuditService {
         Long friendId = this.secretService.parseUserSecretIdentify(friendApplyParam.getFriendSecretIdentify());
         //构建好友申请的内部逻辑对象
         FriendApplyBo friendApplyBo = new FriendApplyBo();
+        friendApplyBo.setFriendId(friendId);
+        friendApplyBo.setCurrentUserId(loginUser.getUserId());
+        friendApplyBo.setReason(friendApplyParam.getReason());
         //提交申请
         return this.auditRepository.applyFriend(friendApplyBo);
 
