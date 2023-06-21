@@ -35,8 +35,8 @@ public class AuditRepositoryImpl  implements AuditRepository {
     }
 
     @Override
-    public List<AuditBO> getFriendAuditList(Long userId) {
-        List<Audit> audits = this.auditDao.getAudits(userId);
+    public List<AuditBO> getFriendAuditList(Long auditUserId) {
+        List<Audit> audits = this.auditDao.getAudits(auditUserId);
         return this.auditConverter.auditList2AuditBOList(audits);
     }
 
@@ -47,8 +47,8 @@ public class AuditRepositoryImpl  implements AuditRepository {
     }
 
     @Override
-    public AuditBO getAudit(Long auditId) {
-        Audit audit = this.auditDao.getEntity(auditId);
+    public AuditBO getAudit(Long id) {
+        Audit audit = this.auditDao.getEntity(id);
         return this.auditConverter.audit2AuditBo(audit);
     }
 }

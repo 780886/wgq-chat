@@ -18,6 +18,7 @@ import com.wgq.chat.contact.repository.ContactRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,7 +40,12 @@ public class AuditService {
 
     public Boolean applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
         //获取当前登录信息
-        LoginUser loginUser = ThreadContext.getLoginToken();
+//        LoginUser loginUser = ThreadContext.getLoginToken();
+        LoginUser loginUser = new LoginUser();
+        loginUser.setUserId(2L);
+        loginUser.setNickName("杨洋");
+        loginUser.setDeviceId("1");
+        loginUser.setDays(2);
         //通过密码标识获取好友的id
         Long friendId = this.secretService.parseUserSecretIdentify(friendApplyParam.getFriendSecretIdentify());
         //构建好友申请的内部逻辑对象
@@ -53,25 +59,32 @@ public class AuditService {
     }
 
     public FriendAuditWrapBo friendApplyList() {
-        LoginUser loginUser = ThreadContext.getLoginToken();
-        Long currentUserId = loginUser.getUserId();
+//        LoginUser loginUser = ThreadContext.getLoginToken();
+//        Long currentUserId = loginUser.getUserId();
+        Long currentUserId = 1L;
         //获取审核记录
         List<AuditBO> auditBOS = this.auditRepository.getFriendAuditList(currentUserId);
         Set<Long> fetchUserIds = this.fetchUserId(auditBOS);
-        List<UserProfileDTO> userProfiles = this.userProfileAppService.getUserList(fetchUserIds);
+//        List<UserProfileDTO> userProfiles = this.userProfileAppService.getUserList(fetchUserIds);
+        ArrayList<UserProfileDTO> userProfiles = new ArrayList<>();
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
+        userProfileDTO.setUserId(1L);
+        userProfileDTO.setNickName("汪国庆");
+        userProfiles.add(userProfileDTO);
         return new FriendAuditWrapBo(auditBOS,userProfiles);
     }
 
     private Set<Long> fetchUserId(List<AuditBO> auditBOS) {
         HashSet<Long> userIds = new HashSet<>();
         for (AuditBO auditBO : auditBOS) {
-            userIds.add(auditBO.getAuditId());
+            //TODO
+            userIds.add(auditBO.getApplyUserId());
         }
         return userIds;
     }
 
     public void auditFriendApply(FriendAuditParam friendAuditParam) throws BusinessException {
-        AuditBO auditBO = this.auditRepository.getAudit(friendAuditParam.getAuditId());
+        AuditBO auditBO = this.auditRepository.getAudit(friendAuditParam.getId());
         Asserts.isTrue(auditBO.getAuditBusiness() != AuditBusiness.FRIEND, ContactError.AUDIT_BUSINESS_TYPE);
         LoginUser loginUser = ThreadContext.getLoginToken();
         Asserts.isTrue(auditBO.getBusinessId().equals(loginUser.getUserId()),ContactError.AUDIT_USER_IS_NOT_MATCH);

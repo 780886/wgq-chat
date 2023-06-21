@@ -33,7 +33,7 @@ public class SecretServiceImpl implements SecretService {
     public String encryptUserIdentify(UserProfileDTO userDto) throws BusinessException {
         Asserts.isTrue(userDto == null, ContactError.USER_IDENTIFY_INFO_EMPTY);
         Asserts.isTrue(StringUtils.isNullOrEmpty(userDto.getUserId()),ContactError.USER_IDENTIFY_INFO_ID_IS_EMPTY);
-        return ThreeDES.getInstance().encryptHex(this.secretKey,userDto.getUserId().toString());
+        return ThreeDES.getInstance().encryptHex(this.getSecretKey(),userDto.getUserId().toString());
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.wgq.chat.contact.boot;
 
 
 import com.wgq.chat.contact.po.Audit;
+import com.wgq.chat.contact.po.Contact;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,11 +17,11 @@ public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-//        try {
-//            generaCreateDDL(Audit.class);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            generaCreateDDL(Contact.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package com.wgq.chat.contact.dao;
 
 import com.wgq.chat.contact.po.Audit;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,11 +14,11 @@ import java.util.List;
  **/
 public interface AuditDao {
 
-    List<Audit> getAudits(Long userId);
+    List<Audit> getAudits(@Param("auditUserId") Long auditUserId);
 
-    Audit getEntity(Long auditId);
+    Audit getEntity(@Param("id") Long id);
 
-    Integer update(Audit audit);
+    Integer update(@Param("audit") Audit audit);
 
-    Boolean insert(Audit audit);
+    Boolean insert(@Param("audit") Audit audit);
 }

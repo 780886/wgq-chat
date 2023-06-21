@@ -13,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class FriendAuditParam implements Param {
 
     @ApiModelProperty("审核主键ID")
-    private Long auditId;
+    private Long id;
 
     @ApiModelProperty("审核原因")
     private String reason;
@@ -21,12 +21,12 @@ public class FriendAuditParam implements Param {
     @ApiModelProperty("是否同意")
     private Boolean isAgree;
 
-    public Long getAuditId() {
-        return auditId;
+    public Long getId() {
+        return id;
     }
 
-    public void setAuditId(Long auditId) {
-        this.auditId = auditId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Boolean getAgree() {

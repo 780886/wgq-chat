@@ -37,7 +37,8 @@ public class AuditConverter {
         for (Audit audit : audits) {
             AuditBO bo = new AuditBO();
             bo.setApplyUserId(audit.getApplyUserId());
-            bo.setAuditId(audit.getAuditUserId());
+            bo.setId(audit.getId());
+            bo.setAuditUserId(audit.getAuditUserId());
             bo.setAuditStatus(audit.getStatus());
             auditBOS.add(bo);
         }
@@ -46,7 +47,7 @@ public class AuditConverter {
 
     public AuditBO audit2AuditBo(Audit audit) {
         AuditBO auditBO = new AuditBO();
-        auditBO.setAuditId(audit.getAuditUserId());
+        auditBO.setAuditUserId(audit.getAuditUserId());
         auditBO.setBusinessId(audit.getBusinessId());
         auditBO.setApplyUserId(audit.getApplyUserId());
         auditBO.setAuditStatus(audit.getStatus());
@@ -56,7 +57,7 @@ public class AuditConverter {
     public Audit convert2po(AuditBO auditBO, FriendAuditParam friendAuditParam){
         LoginUser loginUser = ThreadContext.getLoginToken();
         Audit audit = new Audit();
-        audit.setId(auditBO.getAuditId());
+        audit.setId(auditBO.getId());
         audit.setBusinessType(AuditBusiness.FRIEND.getBusiness());
         audit.setApplyUserId(auditBO.getApplyUserId());
         audit.setBusinessId(auditBO.getBusinessId());
@@ -73,6 +74,7 @@ public class AuditConverter {
         Audit audit = new Audit();
         audit.setApplyUserId(friendApplyBo.getCurrentUserId());
         audit.setBusinessId(friendApplyBo.getFriendId());
+        audit.setAuditUserId(friendApplyBo.getFriendId());
         audit.setApplyReason(friendApplyBo.getReason());
         audit.setStatus(StatusRecord.ENABLE);
         audit.setBusinessType(AuditBusiness.FRIEND.getBusiness());

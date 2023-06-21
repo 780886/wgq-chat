@@ -23,7 +23,7 @@ public class AuditBO {
     /**
      * 审核标识
      */
-    private Long auditId;
+    private Long id;
     /**
      * 业务ID  与业务类型对应
      * 如果是群，则为群ID
@@ -123,12 +123,12 @@ public class AuditBO {
         this.applyUserId = applyUserId;
     }
 
-    public Long getAuditId() {
-        return auditId;
+    public Long getId() {
+        return id;
     }
 
-    public void setAuditId(Long auditId) {
-        this.auditId = auditId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public StatusRecord getAuditStatus() {

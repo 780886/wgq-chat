@@ -27,7 +27,10 @@ public class ContactService {
 
     public ContactBO findFriend(String userIdentify) throws BusinessException {
         Asserts.isTrue(StringUtils.isNullOrEmpty(userIdentify), BusinessCodeEnum.USER_DISABLE);
-        UserProfileDTO userDto =this.userProfileAppService.getByIdentify(userIdentify);
+//        UserProfileDTO userDto =this.userProfileAppService.getByIdentify(userIdentify);
+        UserProfileDTO userDto = new UserProfileDTO();
+        userDto.setUserId(1L);
+        userDto.setNickName("汪国庆");
         String secretIdentify = secretService.encryptUserIdentify(userDto);
         return new ContactBO(userDto, secretIdentify);
     }

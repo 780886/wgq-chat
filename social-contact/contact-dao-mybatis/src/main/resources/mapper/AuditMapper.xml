@@ -3,6 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.contact.dao.AuditDao">
+
+    <resultMap id="auditResultMap" type="com.wgq.chat.contact.po.Audit">
+        <result column="id" property="id"/>
+        <result column="apply_user_id" property="applyUserId"/>
+        <result column="business_type" property="businessType"/>
+        <result column="business_id" property="businessId"/>
+        <result column="audit_user_id" property="auditUserId"/>
+        <result column="apply_reason" property="applyReason"/>
+        <result column="audit_reason" property="auditReason"/>
+        <result column="status" property="status"/>
+        <result column="audit_time" property="auditTime"/>
+        <result column="apply_time" property="applyTime"/>
+    </resultMap>
     <insert id="insert">
         <if test="audit != null">
             insert into audit
@@ -109,11 +122,11 @@
         </if>
     </update>
 
-    <select id="getAudits" resultType="com.wgq.chat.contact.po.Audit">
-        select * from audit where id = #{userId}
+    <select id="getAudits" resultMap="auditResultMap">
+        select * from audit where audit_user_id = #{auditUserId}
     </select>
 
-    <select id="getEntity" resultType="com.wgq.chat.contact.po.Audit">
-        select * from audit where id = #{auditId}
+    <select id="getEntity" resultMap="auditResultMap">
+        select * from audit where id = #{id}
     </select>
 </mapper>

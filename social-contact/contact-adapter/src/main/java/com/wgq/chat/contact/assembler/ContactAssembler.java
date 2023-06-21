@@ -36,14 +36,14 @@ public class ContactAssembler {
         Map<Long, UserProfileDTO> userDictionaries = friendAuditWrap.getFriendMap();
         for (AuditBO audit : auditBOS) {
             FriendAuditVO friendAuditVO = new FriendAuditVO();
-            friendAuditVO.setAuditId(audit.getAuditId());
+            friendAuditVO.setId(audit.getId());
             friendAuditVO.setAuditStatus(audit.getAuditStatus());
             UserProfileDTO applyUser = userDictionaries.get(audit.getApplyUserId());
             if (applyUser != null) {
                 friendAuditVO.setAvatar(applyUser.getAvatar());
                 friendAuditVO.setNickName(applyUser.getNickName());
-                userFriendApplyList.add(friendAuditVO);
             }
+            userFriendApplyList.add(friendAuditVO);
         }
         /**
          * 1.枚举变的时候，这部分的逻辑不需要改

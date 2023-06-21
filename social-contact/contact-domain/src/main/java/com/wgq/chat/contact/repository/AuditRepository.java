@@ -17,5 +17,5 @@ public interface AuditRepository {
 //
     Integer auditFriend(AuditBO auditBO,FriendAuditParam friendAuditParam);
 //
-    AuditBO getAudit(Long auditId);
+    AuditBO getAudit(Long id);
 }

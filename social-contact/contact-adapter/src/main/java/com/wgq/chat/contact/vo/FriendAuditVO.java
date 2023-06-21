@@ -6,7 +6,7 @@ public class FriendAuditVO {
     /**
      * 审核记录ID
      */
-    private Long auditId;
+    private Long id;
 
     /**
      * 头像
@@ -23,12 +23,12 @@ public class FriendAuditVO {
      */
     private StatusRecord auditStatus;
 
-    public Long getAuditId() {
-        return auditId;
+    public Long getId() {
+        return id;
     }
 
-    public void setAuditId(Long auditId) {
-        this.auditId = auditId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAvatar() {
