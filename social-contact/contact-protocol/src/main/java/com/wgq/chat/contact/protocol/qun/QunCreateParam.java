@@ -1,10 +1,22 @@
 package com.wgq.chat.contact.protocol.qun;
 
+import com.sheep.protocol.Param;
+
 import java.util.List;
 
-public class QunCreateParam {
+public class QunCreateParam implements Param {
+
     private String name;
-    private List<Long> userIds;
+
+    private String announcement;
+
+    private Integer nationalityId;
+
+    private Long organizationId;
+
+    private String remark;
+
+    private Long categoryId;
 
     public String getName() {
         return name;
@@ -14,11 +26,43 @@ public class QunCreateParam {
         this.name = name;
     }
 
-    public List<Long> getUserIds() {
-        return userIds;
+    public String getAnnouncement() {
+        return announcement;
     }
 
-    public void setUserIds(List<Long> userIds) {
-        this.userIds = userIds;
+    public void setAnnouncement(String announcement) {
+        this.announcement = announcement;
+    }
+
+    public Integer getNationalityId() {
+        return nationalityId;
+    }
+
+    public void setNationalityId(Integer nationalityId) {
+        this.nationalityId = nationalityId;
+    }
+
+    public Long getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }

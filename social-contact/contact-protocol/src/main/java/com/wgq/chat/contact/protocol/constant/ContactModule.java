@@ -15,4 +15,16 @@ public class ContactModule  {
             return "CONTACT";
         }
     };
+
+    public static final ModuleSupport QUN = new ModuleSupport() {
+        @Override
+        public String code() {
+            return "02";
+        }
+
+        @Override
+        public String name() {
+            return "QUN";
+        }
+    };
 }

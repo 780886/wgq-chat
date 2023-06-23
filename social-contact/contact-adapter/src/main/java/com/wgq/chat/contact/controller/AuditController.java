@@ -5,15 +5,13 @@ import com.wgq.chat.contact.assembler.ContactAssembler;
 import com.wgq.chat.contact.bo.FriendAuditWrapBo;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
+import com.wgq.chat.contact.protocol.audit.QunAuditParam;
 import com.wgq.chat.contact.service.AuditService;
 import com.wgq.chat.contact.vo.FriendAuditVO;
 import com.wgq.chat.contact.vo.FriendAuditWrapVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -41,14 +39,26 @@ public class AuditController {
 
     @ApiOperation("申请好友")
     @PostMapping("friend-apply")
-    public Boolean applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
+    public Boolean applyFriend(@RequestBody FriendApplyParam friendApplyParam) throws BusinessException {
         return this.auditService.applyFriend(friendApplyParam);
     }
 
 
     @ApiOperation("对好友申请进行审核")
     @PostMapping("audit-friend-apply")
-    public void auditFriendApply(FriendAuditParam friendAuditParam) throws BusinessException {
+    public void auditFriendApply(@RequestBody FriendAuditParam friendAuditParam) throws BusinessException {
         this.auditService.auditFriendApply(friendAuditParam);
+    }
+
+    @ApiOperation("加群")
+    @PostMapping("join-qun")
+    public void joinQun(@RequestBody Long qunId){
+
+    }
+
+    @ApiOperation("对加群进行审核")
+    @PostMapping("audit-qun-apply")
+    public void auditQunApply(@RequestBody QunAuditParam qunAuditParam) throws BusinessException {
+
     }
 }

@@ -1,24 +1,21 @@
 package com.wgq.chat.contact.protocol.audit;
 
 import com.sheep.protocol.POJO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 
-/**
- * 群的审核
- */
+@ApiModel("加群审核")
 public class QunAuditParam implements POJO {
-    /**
-     * 审核主键ID
-     */
+
+    @ApiModelProperty("审核主键ID")
     private Long auditId;
-    /**
-     * 审核原因
-     */
+
+    @ApiModelProperty("审核原因")
     private String reason;
-    /**
-     * 审核的状态
-     */
-    private Boolean status;
+
+    @ApiModelProperty("是否同意")
+    private Boolean isAgree;
 
     public Long getAuditId() {
         return auditId;
@@ -28,12 +25,12 @@ public class QunAuditParam implements POJO {
         this.auditId = auditId;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public Boolean getAgree() {
+        return isAgree;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setAgree(Boolean agree) {
+        isAgree = agree;
     }
 
     public String getReason() {
