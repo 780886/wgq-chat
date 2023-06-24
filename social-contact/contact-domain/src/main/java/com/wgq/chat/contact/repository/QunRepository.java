@@ -1,6 +1,8 @@
 package com.wgq.chat.contact.repository;
 
+import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
+import com.wgq.chat.contact.protocol.qun.QunModifyParam;
 
 /**
  * @ClassName QunRepository
@@ -12,4 +14,8 @@ import com.wgq.chat.contact.protocol.qun.QunCreateParam;
 public interface QunRepository {
 
     public Long createQun(QunCreateParam qunCreateParam);
+
+    void modify(QunModifyParam qunModifyParam);
+
+    QunBO getQunDetail(Long id);
 }

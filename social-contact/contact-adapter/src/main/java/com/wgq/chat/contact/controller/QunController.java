@@ -1,6 +1,8 @@
 package com.wgq.chat.contact.controller;
 
 import com.sheep.protocol.BusinessException;
+import com.wgq.chat.contact.assembler.QunAssembler;
+import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.protocol.qun.InviteFriendParam;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
 import com.wgq.chat.contact.protocol.qun.QunModifyParam;
@@ -28,6 +30,9 @@ public class QunController {
     @Inject
     private QunService qunService;
 
+    @Inject
+    private QunAssembler qunAssembler;
+
     @ApiOperation("创建群")
     @PostMapping("create-qun")
     public Long createQun(@RequestBody QunCreateParam qunCreateParam) throws BusinessException {
@@ -36,14 +41,15 @@ public class QunController {
 
     @ApiOperation("修改群")
     @PostMapping("modify")
-    public void modify(@RequestBody QunModifyParam qunModifyParam){
-
+    public void modify(@RequestBody QunModifyParam qunModifyParam) throws BusinessException {
+        this.qunService.modify(qunModifyParam);
     }
 
     @ApiOperation("群详情")
     @GetMapping("detail/{qunId}")
     public QunVO detail(@PathVariable("qunId")Long qunId){
-        return new QunVO();
+        QunBO qunBO = this.qunService.detail(qunId);
+        return this.qunAssembler.toQunVo(qunBO);
     }
 
 

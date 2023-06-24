@@ -3,8 +3,10 @@ package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
 import com.sheep.protocol.enums.StatusRecord;
+import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.po.Qun;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
+import com.wgq.chat.contact.protocol.qun.QunModifyParam;
 
 import javax.inject.Named;
 
@@ -36,5 +38,29 @@ public class QunConverter {
         qun.setCreateUserName(loginUser.getUserName());
         qun.setModifiedUserName(loginUser.getUserName());
         return qun;
+    }
+
+    public Qun convert2po(QunModifyParam qunModifyParam) {
+        Qun qun = new Qun();
+        qun.setId(qunModifyParam.getQunId());
+        qun.setName(qunModifyParam.getName());
+        qun.setAnnouncement(qunModifyParam.getAnnouncement());
+        qun.setRemark(qunModifyParam.getRemark());
+        return qun;
+    }
+
+    public QunBO qun2QunBO(Qun qun) {
+        //TODO
+        QunBO qunBO = new QunBO();
+        qunBO.setQunId(qun.getId());
+        qunBO.setName(qun.getName());
+        qunBO.setAnnouncement(qun.getAnnouncement());
+        qunBO.setNationality("");
+        qunBO.setRemark(qun.getRemark());
+        qunBO.setOwnerId(qun.getOwnerId());
+        qunBO.setOwnerName(1L);
+        qunBO.setCategoryId(qun.getCategoryId());
+        qunBO.setCategoryName("");
+        return qunBO;
     }
 }

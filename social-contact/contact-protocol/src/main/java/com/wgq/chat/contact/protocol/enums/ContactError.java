@@ -13,7 +13,8 @@ public enum ContactError implements ErrorSupport {
     AUDIT_USER_IS_NOT_MATCH(false,ContactModule.CONTACT,"04", "audit user id not match"),
 
     QUN_NAME_IS_EMPTY(false, ContactModule.QUN,"01","qun name is empty"),
-    QUN_CATEGORY_IS_EMPTY(false,ContactModule.QUN,"02","qun category is empty")
+    QUN_CATEGORY_IS_EMPTY(false,ContactModule.QUN,"02","qun category is empty"),
+    QUN_ID_IS_EMPTY(false, ContactModule.QUN,"01","qun id is empty")
     ;
 
 

@@ -7,4 +7,11 @@
     <insert id="insert">
 
     </insert>
+
+    <update id="update">
+
+    </update>
+    <select id="getEntity" resultType="com.wgq.chat.contact.po.Qun">
+
+    </select>
 </mapper>

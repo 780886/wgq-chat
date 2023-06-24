@@ -12,4 +12,8 @@ import com.wgq.chat.contact.po.Qun;
 public interface QunDao {
 
     Long insert(Qun qun);
+
+    void update(Qun qun);
+
+    Qun getEntity(Long id);
 }
