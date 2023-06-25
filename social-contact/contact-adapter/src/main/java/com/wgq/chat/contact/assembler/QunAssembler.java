@@ -5,6 +5,8 @@ import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.vo.QunVO;
 
 import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName QunAssermbler
@@ -20,5 +22,15 @@ public class QunAssembler {
         QunVO qunVO = new QunVO();
         BeanUtils.copyProperties(qunBO,qunVO);
         return qunVO;
+    }
+
+    public List<QunVO> toQunVOList(List<QunBO> qunBOS) {
+        ArrayList<QunVO> qunVOS = new ArrayList<>();
+        for (QunBO qunBO : qunBOS) {
+            QunVO qunVO = new QunVO();
+            BeanUtils.copyProperties(qunBO,qunVO);
+            qunVOS.add(qunVO);
+        }
+        return qunVOS;
     }
 }

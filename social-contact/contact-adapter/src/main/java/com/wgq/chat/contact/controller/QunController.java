@@ -56,7 +56,8 @@ public class QunController {
     @ApiOperation("通过类别获取群列表")
     @GetMapping("plaza-of-category-id/{categoryId}")
     public List<QunVO> qunPlazaOfCategoryId(@PathVariable("categoryId")Long categoryId){
-        return null;
+        List<QunBO> qunBOS = this.qunService.qunPlazaOfCategoryId(categoryId);
+        return this.qunAssembler.toQunVOList(qunBOS);
     }
 
     @ApiOperation("群广场")
@@ -82,7 +83,7 @@ public class QunController {
     @ApiOperation("退出群")
     @PostMapping("exist-qun")
     public void existQun(@RequestBody Long qunId){
-
+        this.qunService.existQun(qunId);
     }
 
     @ApiOperation("移除群成员")
@@ -99,13 +100,13 @@ public class QunController {
 
     @ApiOperation("转移群主")
     @PostMapping("transfer")
-    public void transfer(long qunId,long newOwnerId){
+    public void transfer(@RequestBody Long qunId,@RequestBody Long newOwnerId){
 
     }
 
     @ApiOperation("根据群id获取申请详情")
     @PostMapping("get-apply-detail")
-    public QunVO getApplyDetail(Long qunId){
+    public QunVO getApplyDetail(@RequestBody Long qunId){
         return new QunVO();
     }
 }

@@ -4,6 +4,8 @@ import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
 import com.wgq.chat.contact.protocol.qun.QunModifyParam;
 
+import java.util.List;
+
 /**
  * @ClassName QunRepository
  * @Description TODO
@@ -18,4 +20,6 @@ public interface QunRepository {
     void modify(QunModifyParam qunModifyParam);
 
     QunBO getQunDetail(Long id);
+
+    List<QunBO> getQunPlaza(Long categoryId);
 }

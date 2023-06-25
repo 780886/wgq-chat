@@ -16,6 +16,7 @@ import com.wgq.chat.contact.repository.QunRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 @Named
 public class QunRepositoryImpl implements QunRepository {
@@ -42,5 +43,11 @@ public class QunRepositoryImpl implements QunRepository {
     public QunBO getQunDetail(Long id) {
         Qun qun = this.qunDao.getEntity(id);
         return this.qunConverter.qun2QunBO(qun);
+    }
+
+    @Override
+    public List<QunBO> getQunPlaza(Long categoryId) {
+        List<Qun> quns = this.qunDao.getQuns(categoryId);
+        return this.qunConverter.qunList2qunBOList(quns);
     }
 }

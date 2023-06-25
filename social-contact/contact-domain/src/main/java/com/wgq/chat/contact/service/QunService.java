@@ -2,15 +2,20 @@ package com.wgq.chat.contact.service;
 
 import com.sheep.exception.Asserts;
 import com.sheep.protocol.BusinessException;
+import com.sheep.protocol.LoginUser;
+import com.sheep.protocol.ThreadContext;
 import com.sheep.utils.StringUtils;
+import com.wgq.chat.contact.bo.ExistQunBO;
 import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
 import com.wgq.chat.contact.protocol.qun.QunModifyParam;
+import com.wgq.chat.contact.repository.QunMemberRepository;
 import com.wgq.chat.contact.repository.QunRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 /**
  * @ClassName QunService
@@ -24,6 +29,9 @@ public class QunService {
 
     @Inject
     private QunRepository qunRepository;
+
+    @Inject
+    private QunMemberRepository qunMemberRepository;
 
     public Long createQun(QunCreateParam qunCreateParam) throws BusinessException {
         Asserts.isTrue(StringUtils.isNullOrEmpty(qunCreateParam.getName()),ContactError.QUN_NAME_IS_EMPTY);
@@ -40,5 +48,17 @@ public class QunService {
 
     public QunBO detail(Long qunId) {
         return this.qunRepository.getQunDetail(qunId);
+    }
+
+    public List<QunBO> qunPlazaOfCategoryId(Long categoryId) {
+        return this.qunRepository.getQunPlaza(categoryId);
+    }
+
+    public void existQun(Long qunId) {
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        ExistQunBO existQunBO = new ExistQunBO();
+        existQunBO.setQunId(qunId);
+        existQunBO.setMemberId(loginUser.getUserId());
+        this.qunMemberRepository.existQun(existQunBO);
     }
 }

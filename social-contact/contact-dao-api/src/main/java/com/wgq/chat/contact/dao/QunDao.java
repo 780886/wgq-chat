@@ -2,6 +2,8 @@ package com.wgq.chat.contact.dao;
 
 import com.wgq.chat.contact.po.Qun;
 
+import java.util.List;
+
 /**
  * @ClassName QunDao
  * @Description TODO
@@ -16,4 +18,7 @@ public interface QunDao {
     void update(Qun qun);
 
     Qun getEntity(Long id);
+
+    List<Qun> getQuns(Long categoryId);
+
 }

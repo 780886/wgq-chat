@@ -1,5 +1,7 @@
 package com.wgq.chat.contact.dao;
 
+import com.wgq.chat.contact.po.QunMember;
+
 /**
  * @ClassName QunMemberDao
  * @Description TODO
@@ -8,4 +10,7 @@ package com.wgq.chat.contact.dao;
  * @Version 1.0
  **/
 public interface QunMemberDao {
+
+    void remove(QunMember qunMember);
+
 }

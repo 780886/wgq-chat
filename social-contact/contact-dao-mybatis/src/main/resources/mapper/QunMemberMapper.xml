@@ -4,4 +4,16 @@
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.contact.dao.QunMemberDao">
 
+    <delete id="remove">
+        delete from qun_member
+        <if test="qunMember != null">
+            where
+            <if test="qunMember.qunId != null ">
+                qun_id = #{qunId}
+            </if>
+            <if test="qunMember.memberId != null ">
+                and member_id = #{memberId}
+            </if>
+        </if>
+    </delete>
 </mapper>

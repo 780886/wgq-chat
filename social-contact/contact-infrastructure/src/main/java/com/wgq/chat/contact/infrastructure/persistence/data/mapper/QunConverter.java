@@ -3,12 +3,15 @@ package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
 import com.sheep.protocol.enums.StatusRecord;
+import com.sheep.utils.BeanUtils;
 import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.po.Qun;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
 import com.wgq.chat.contact.protocol.qun.QunModifyParam;
 
 import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName QunConverter
@@ -62,5 +65,15 @@ public class QunConverter {
         qunBO.setCategoryId(qun.getCategoryId());
         qunBO.setCategoryName("");
         return qunBO;
+    }
+
+    public List<QunBO> qunList2qunBOList(List<Qun> quns) {
+        ArrayList<QunBO> qunBOS = new ArrayList<>();
+        for (Qun qun : quns) {
+            QunBO qunBO = new QunBO();
+            BeanUtils.copyProperties(qun, qunBO);
+            qunBOS.add(qunBO);
+        }
+        return qunBOS;
     }
 }
