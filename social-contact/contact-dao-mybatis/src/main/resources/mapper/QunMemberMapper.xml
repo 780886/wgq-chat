@@ -6,14 +6,13 @@
 
     <delete id="remove">
         delete from qun_member
-        <if test="qunMember != null">
-            where
+        <trim prefix="where" prefixOverrides="and | or ">
             <if test="qunMember.qunId != null ">
-                qun_id = #{qunId}
+                and qun_id = #{qunId}
             </if>
             <if test="qunMember.memberId != null ">
                 and member_id = #{memberId}
             </if>
-        </if>
+        </trim>
     </delete>
 </mapper>
