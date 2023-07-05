@@ -6,6 +6,7 @@ import com.wgq.chat.contact.bo.FriendAuditWrapBo;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.protocol.audit.QunAuditParam;
+import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.contact.service.AuditService;
 import com.wgq.chat.contact.vo.FriendAuditVO;
 import com.wgq.chat.contact.vo.FriendAuditWrapVo;
@@ -40,6 +41,9 @@ public class AuditController {
     @ApiOperation("申请好友")
     @PostMapping("friend-apply")
     public Boolean applyFriend(@RequestBody FriendApplyParam friendApplyParam) throws BusinessException {
+        if (true){
+            throw new BusinessException(BusinessCodeEnum.CAPTCHA_CODE_ERROR);
+        }
         return this.auditService.applyFriend(friendApplyParam);
     }
 

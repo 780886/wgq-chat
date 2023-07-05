@@ -1,4 +1,4 @@
-package com.wgq.chat.common.constant;
+package com.wgq.chat.contact.protocol.constant;
 
 public class ExpirationTimeConstants {
 
