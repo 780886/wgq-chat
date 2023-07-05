@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.*;
 
@@ -31,10 +32,10 @@ public class RedisContactsRepository implements ContactRepository {
 
     private static Logger logger = LoggerFactory.getLogger(RedisContactsRepository.class);
 
-    @Named
+    @Inject
     private RedisTemplate redisTemplate;
 
-    @Named
+    @Inject
     private QunRepository qunRepository;
 
     private Json json = JsonFactory.getProvider();
