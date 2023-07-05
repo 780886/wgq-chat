@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import static com.wgq.sql.generator.CodeGenerator.generaCreateDDL;
 
-@SpringBootApplication(scanBasePackages = "com.wgq.*")
+@SpringBootApplication(scanBasePackages = {"com.wgq.*","com.sheep.*"})
 @MapperScan("com.wgq.chat.contact.dao")
 public class Application {
 
