@@ -6,11 +6,14 @@ import com.wgq.chat.contact.dao.AuditDao;
 import com.wgq.chat.contact.infrastructure.persistence.data.mapper.AuditConverter;
 import com.wgq.chat.contact.po.Audit;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
+import com.wgq.chat.contact.protocol.audit.JoinQunParam;
+import com.wgq.chat.contact.protocol.audit.QunAuditParam;
 import com.wgq.chat.contact.repository.AuditRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @ClassName AuditRepositoryImpl
@@ -29,8 +32,13 @@ public class AuditRepositoryImpl  implements AuditRepository {
     private AuditConverter auditConverter;
 
     @Override
-    public Boolean applyFriend(FriendApplyBo friendApplyBo) {
+    public Long applyFriend(FriendApplyBo friendApplyBo) {
         Audit audit = this.auditConverter.convert2po(friendApplyBo);
+        Audit oldAudit = this.auditDao.exist(audit);
+        if (Objects.nonNull(oldAudit)){
+            audit.setId(oldAudit.getId());
+            return  this.auditDao.update(audit);
+        }
         return this.auditDao.insert(audit);
     }
 
@@ -41,7 +49,7 @@ public class AuditRepositoryImpl  implements AuditRepository {
     }
 
     @Override
-    public Integer auditFriend(AuditBO auditBO,FriendAuditParam friendAuditParam) {
+    public Long auditFriend(AuditBO auditBO,FriendAuditParam friendAuditParam) {
         Audit audit = this.auditConverter.convert2po(auditBO, friendAuditParam);
         return this.auditDao.update(audit);
     }
@@ -50,5 +58,22 @@ public class AuditRepositoryImpl  implements AuditRepository {
     public AuditBO getAudit(Long id) {
         Audit audit = this.auditDao.getEntity(id);
         return this.auditConverter.audit2AuditBo(audit);
+    }
+
+    @Override
+    public Long auditQun(AuditBO auditBO, QunAuditParam qunAuditParam) {
+        Audit audit = this.auditConverter.convert2po(auditBO, qunAuditParam);
+        return this.auditDao.update(audit);
+    }
+
+    @Override
+    public Long joinQun(JoinQunParam joinQunParam) {
+        Audit audit = this.auditConverter.joinQun2AuditPo(joinQunParam);
+        Audit oldAudit = this.auditDao.exist(audit);
+        if (oldAudit != null) {
+            audit.setId(oldAudit.getId());
+            return this.auditDao.update(audit);
+        }
+        return this.auditDao.insert(audit);
     }
 }

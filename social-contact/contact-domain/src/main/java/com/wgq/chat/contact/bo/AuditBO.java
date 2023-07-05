@@ -12,6 +12,8 @@ import com.wgq.chat.contact.protocol.enums.AuditBusiness;
  **/
 public class AuditBO {
 
+    private Long auditId;
+
 
 
     private AuditBusiness auditBusiness;
@@ -53,6 +55,14 @@ public class AuditBO {
      * 申请的理由
      */
     private String applyReason;
+
+    public Long getAuditId() {
+        return auditId;
+    }
+
+    public void setAuditId(Long auditId) {
+        this.auditId = auditId;
+    }
 
     public Long getApplyTime() {
         return applyTime;

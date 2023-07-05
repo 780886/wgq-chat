@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.contact.dao.QunMemberDao">
+    <insert id="insert">
+
+    </insert>
+
 
     <delete id="remove">
         delete from qun_member
@@ -15,4 +19,14 @@
             </if>
         </trim>
     </delete>
+    <delete id="removeMember">
+
+    </delete>
+
+
+    <delete id="delete"></delete>
+
+    <select id="isMember" resultType="java.lang.Long">
+
+    </select>
 </mapper>

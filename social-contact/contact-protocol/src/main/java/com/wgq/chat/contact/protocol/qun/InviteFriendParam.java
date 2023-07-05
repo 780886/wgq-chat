@@ -2,6 +2,7 @@ package com.wgq.chat.contact.protocol.qun;
 
 import com.sheep.protocol.Param;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @ClassName InviteFriendParam
@@ -13,8 +14,11 @@ import io.swagger.annotations.ApiModel;
 @ApiModel("邀请好友")
 public class InviteFriendParam implements Param {
 
+    @ApiModelProperty("群ID")
     private Long qunId;
-    private Long  friendId;
+
+    @ApiModelProperty("好友ID")
+    private Long friendId;
 
     public Long getQunId() {
         return qunId;

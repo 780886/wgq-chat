@@ -14,6 +14,11 @@ public class FriendApplyBo {
     private String reason;
 
 
+    public FriendApplyBo(Long currentUserId, Long friendId, String reason) {
+        this.currentUserId = currentUserId;
+        this.friendId = friendId;
+        this.reason = reason;
+    }
 
     public Long getCurrentUserId() {
         return currentUserId;

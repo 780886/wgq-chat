@@ -2,19 +2,17 @@ package com.wgq.chat.contact.controller;
 
 import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.assembler.QunAssembler;
-import com.wgq.chat.contact.bo.QunBO;
-import com.wgq.chat.contact.protocol.qun.InviteFriendParam;
-import com.wgq.chat.contact.protocol.qun.QunCreateParam;
-import com.wgq.chat.contact.protocol.qun.QunModifyParam;
-import com.wgq.chat.contact.protocol.qun.RemoveMemberParam;
+import com.wgq.chat.contact.bo.QunDetailWrapBO;
+import com.wgq.chat.contact.bo.QunPlazaBO;
+import com.wgq.chat.contact.protocol.qun.*;
 import com.wgq.chat.contact.service.QunService;
-import com.wgq.chat.contact.vo.QunPlazaVo;
+import com.wgq.chat.contact.vo.QunPlazaVO;
 import com.wgq.chat.contact.vo.QunVO;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import java.util.List;
 
 /**
  * @ClassName QunController
@@ -23,6 +21,7 @@ import java.util.List;
  * @Date 2023/6/23 21:26
  * @Version 1.0
  **/
+@Api(value = "群", tags = "IM 群管理")
 @RequestMapping("qun")
 @RestController
 public class QunController {
@@ -47,22 +46,22 @@ public class QunController {
 
     @ApiOperation("群详情")
     @GetMapping("detail/{qunId}")
-    public QunVO detail(@PathVariable("qunId")Long qunId){
-        QunBO qunBO = this.qunService.detail(qunId);
-        return this.qunAssembler.toQunVo(qunBO);
+    public QunVO detail(@PathVariable("qunId")Long qunId) throws BusinessException {
+        QunDetailWrapBO qunDetail = this.qunService.detail(qunId);
+        return this.qunAssembler.assemblerQun(qunDetail);
     }
 
 
     @ApiOperation("通过类别获取群列表")
     @GetMapping("plaza-of-category-id/{categoryId}")
-    public List<QunVO> qunPlazaOfCategoryId(@PathVariable("categoryId")Long categoryId){
-        List<QunBO> qunBOS = this.qunService.qunPlazaOfCategoryId(categoryId);
-        return this.qunAssembler.toQunVOList(qunBOS);
+    public QunPlazaVO qunPlazaOfCategoryId(@PathVariable("categoryId")Long categoryId){
+        QunPlazaBO qunPlaza = this.qunService.qunPlazaOfCategoryId(categoryId);
+        return this.qunAssembler.assembleQunPlaza(qunPlaza);
     }
 
     @ApiOperation("群广场")
     @GetMapping("qun-plaza")
-    public QunPlazaVo qunPlaza(){
+    public QunPlazaVO qunPlaza(){
         return null;
     }
 
@@ -74,34 +73,33 @@ public class QunController {
      */
     @ApiOperation("邀请好友加群")
     @PostMapping("invite-friend-join")
-    public String inviteFriend(@RequestBody InviteFriendParam inviteFriendParam){
-
-        return "token";
+    public String inviteFriend(@RequestBody InviteFriendParam inviteFriendParam) throws BusinessException {
+        return this.qunService.inviteFriend(inviteFriendParam);
     }
 
 
     @ApiOperation("退出群")
     @PostMapping("exist-qun")
-    public void existQun(@RequestBody Long qunId){
+    public void existQun(@RequestBody Long qunId) throws BusinessException {
         this.qunService.existQun(qunId);
     }
 
     @ApiOperation("移除群成员")
     @PostMapping("remove-member")
-    public void removeMember(@RequestBody RemoveMemberParam removeMemberParam){
-
+    public void removeMember(@RequestBody RemoveMemberOfQunParam removeMemberOfQunParam) throws BusinessException {
+        this.qunService.removeMember(removeMemberOfQunParam);
     }
 
     @ApiOperation("群解散")
     @PostMapping("dissolve")
-    public void dissolve(@RequestBody Long qunId){
-
+    public void dissolve(@RequestBody Long qunId) throws BusinessException {
+        this.qunService.dissolve(qunId);
     }
 
     @ApiOperation("转移群主")
     @PostMapping("transfer")
-    public void transfer(@RequestBody Long qunId,@RequestBody Long newOwnerId){
-
+    public void transfer(@RequestBody TransferOwnerOfQunParam transferOwnerOfQun) throws BusinessException {
+        this.qunService.transfer(transferOwnerOfQun);
     }
 
     @ApiOperation("根据群id获取申请详情")

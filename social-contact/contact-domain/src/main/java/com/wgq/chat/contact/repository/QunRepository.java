@@ -1,8 +1,11 @@
 package com.wgq.chat.contact.repository;
 
+import com.sheep.protocol.BusinessException;
+import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
 import com.wgq.chat.contact.protocol.qun.QunModifyParam;
+import com.wgq.chat.contact.protocol.qun.RemoveMemberOfQunParam;
 
 import java.util.List;
 
@@ -15,11 +18,24 @@ import java.util.List;
  **/
 public interface QunRepository {
 
-    public Long createQun(QunCreateParam qunCreateParam);
+    Long createQun(QunCreateParam qunCreateParam);
 
-    void modify(QunModifyParam qunModifyParam);
+    void modifyQun(QunModifyParam qunModifyParam) throws BusinessException;
 
     QunBO getQunDetail(Long id);
 
     List<QunBO> getQunPlaza(Long categoryId);
+
+    Long joinQun(AuditBO auditBO);
+
+    QunBO qunDetail(Long qunId);
+
+    Boolean isMember(Long qunId, Long newOwnerId);
+
+    void removeMember(RemoveMemberOfQunParam removeMemberOfQunParam);
+
+    void dissolve(Long qunId);
+
+    void transfer(QunBO newQun, Long newOwnerId);
+
 }

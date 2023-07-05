@@ -129,4 +129,7 @@
     <select id="getEntity" resultMap="auditResultMap">
         select * from audit where id = #{id}
     </select>
+    <select id="exist" resultType="com.wgq.chat.contact.po.Audit">
+
+    </select>
 </mapper>

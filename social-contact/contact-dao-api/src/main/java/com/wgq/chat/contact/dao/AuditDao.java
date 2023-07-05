@@ -18,7 +18,9 @@ public interface AuditDao {
 
     Audit getEntity(@Param("id") Long id);
 
-    Integer update(@Param("audit") Audit audit);
+    Long update(@Param("audit") Audit audit);
 
-    Boolean insert(@Param("audit") Audit audit);
+    Long insert(@Param("audit") Audit audit);
+
+    Audit exist(Audit audit);
 }

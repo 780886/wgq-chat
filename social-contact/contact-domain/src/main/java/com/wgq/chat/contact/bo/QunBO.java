@@ -9,23 +9,24 @@ package com.wgq.chat.contact.bo;
  **/
 public class QunBO {
 
-    private Long qunId;//群ID
+    private Long id;//群ID
     private String name;//群名称
     private String announcement;//群公告
+    private Integer nationalityId;
     private String nationality;//所在国籍
-    //private Long organizationId;//所在组织
-    private String remark;//备注
+    private Long organizationId;//所在组织
     private Long ownerId;//群主
     private Long ownerName;//群主Name
     private Long categoryId;//类型
     private String categoryName;//类型名称
+    private String remark;//备注
 
-    public Long getQunId() {
-        return qunId;
+    public Long getId() {
+        return id;
     }
 
-    public void setQunId(Long qunId) {
-        this.qunId = qunId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -90,5 +91,21 @@ public class QunBO {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public Integer getNationalityId() {
+        return nationalityId;
+    }
+
+    public void setNationalityId(Integer nationalityId) {
+        this.nationalityId = nationalityId;
+    }
+
+    public Long getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
     }
 }

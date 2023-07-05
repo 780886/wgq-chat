@@ -14,28 +14,28 @@ import java.util.Map;
  * @Version 1.0
  **/
 @ApiModel("群广场")
-public class QunPlazaVo {
+public class QunPlazaVO {
 
     @ApiModelProperty("类别字典")
-    private Map<Long,CategoryVo> categoryDicts;
+    private Map<Integer,CategoryVO> categoryDicts;
 
     @ApiModelProperty("群分类列表")
-    private Map<Long, List<QunVO>> qunList;
+    private Map<Long, List<QunVO>> qunMap;
 
 
-    public Map<Long, CategoryVo> getCategoryDicts() {
+    public Map<Integer, CategoryVO> getCategoryDicts() {
         return categoryDicts;
     }
 
-    public void setCategoryDicts(Map<Long, CategoryVo> categoryDicts) {
+    public void setCategoryDicts(Map<Integer, CategoryVO> categoryDicts) {
         this.categoryDicts = categoryDicts;
     }
 
-    public Map<Long, List<QunVO>> getQunList() {
-        return qunList;
+    public Map<Long, List<QunVO>> getQunMap() {
+        return qunMap;
     }
 
-    public void setQunList(Map<Long, List<QunVO>> qunList) {
-        this.qunList = qunList;
+    public void setQunMap(Map<Long, List<QunVO>> qunMap) {
+        this.qunMap = qunMap;
     }
 }

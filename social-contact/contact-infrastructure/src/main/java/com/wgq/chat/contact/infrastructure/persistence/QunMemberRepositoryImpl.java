@@ -19,10 +19,4 @@ public class QunMemberRepositoryImpl implements QunMemberRepository {
     @Inject
     private QunMemberDao qunMemberDao;
 
-
-    @Override
-    public void existQun(ExistQunBO existQunBO) {
-        QunMember qunMember = this.qunMemberConverter.convert2po(existQunBO);
-        this.qunMemberDao.remove(qunMember);
-    }
 }

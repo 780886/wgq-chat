@@ -11,10 +11,17 @@
     <update id="update">
 
     </update>
+    <update id="updateById">
+
+    </update>
+    <delete id="delete">
+
+    </delete>
     <select id="getEntity" resultType="com.wgq.chat.contact.po.Qun">
 
     </select>
     <select id="getQuns" resultType="com.wgq.chat.contact.po.Qun">
 
     </select>
+
 </mapper>

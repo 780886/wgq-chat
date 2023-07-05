@@ -26,18 +26,18 @@ public class QunConverter {
     public Qun convert2po(QunCreateParam qunCreateParam){
         LoginUser loginUser = ThreadContext.getLoginToken();
         Qun qun = new Qun();
-        qun.setName(qun.getName());
-        qun.setAnnouncement(qun.getAnnouncement());
-        qun.setNationalityId(qun.getNationalityId());
-        qun.setOrganizationId(qun.getOrganizationId());
+        qun.setName(qunCreateParam.getName());
+        qun.setAnnouncement(qunCreateParam.getAnnouncement());
+        qun.setNationalityId(qunCreateParam.getNationalityId());
+        qun.setOrganizationId(qunCreateParam.getOrganizationId());
         qun.setOwnerId(loginUser.getUserId());
-        qun.setCategoryId(qun.getCategoryId());
-        qun.setRemark(qun.getRemark());
+        qun.setCategoryId(qunCreateParam.getCategoryId());
+        qun.setRemark(qunCreateParam.getRemark());
         qun.setStatus(StatusRecord.ENABLE);
         qun.setCreateUserId(loginUser.getUserId());
         qun.setGmtCreate(System.currentTimeMillis());
         qun.setModifiedUserId(loginUser.getUserId());
-        qun.setGmtModified(qun.getGmtModified());
+        qun.setGmtModified(qun.getGmtCreate());
         qun.setCreateUserName(loginUser.getUserName());
         qun.setModifiedUserName(loginUser.getUserName());
         return qun;
@@ -55,7 +55,7 @@ public class QunConverter {
     public QunBO qun2QunBO(Qun qun) {
         //TODO
         QunBO qunBO = new QunBO();
-        qunBO.setQunId(qun.getId());
+        qunBO.setId(qun.getId());
         qunBO.setName(qun.getName());
         qunBO.setAnnouncement(qun.getAnnouncement());
         qunBO.setNationality("");
@@ -75,5 +75,12 @@ public class QunConverter {
             qunBOS.add(qunBO);
         }
         return qunBOS;
+    }
+
+    public Qun convert2po(QunBO qunBO, Long newOwnerId) {
+        Qun qun = new Qun();
+        qun.setId(qunBO.getId());
+        qun.setOwnerId(newOwnerId);
+        return qun;
     }
 }

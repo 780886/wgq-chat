@@ -13,4 +13,11 @@ public interface QunMemberDao {
 
     void remove(QunMember qunMember);
 
+    Long insert(QunMember qunMember);
+
+    Long isMember(Long qunId, Long memberId);
+
+    void removeMember(Long qunId, Long memberId);
+
+    void delete(Long qunId);
 }

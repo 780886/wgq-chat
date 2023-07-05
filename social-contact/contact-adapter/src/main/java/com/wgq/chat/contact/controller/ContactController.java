@@ -11,6 +11,7 @@ import com.wgq.chat.contact.service.ContactService;
 import com.wgq.chat.contact.vo.FriendAuditVO;
 import com.wgq.chat.contact.vo.FriendAuditWrapVo;
 import com.wgq.chat.contact.vo.UserFriendApplyVO;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.util.List;
 
+@Api(value = "contact", tags = "IM 联系人接口")
 @RestController
 @RequestMapping("/contact")
 public class ContactController {

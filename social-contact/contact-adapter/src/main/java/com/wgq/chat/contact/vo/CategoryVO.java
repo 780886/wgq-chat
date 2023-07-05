@@ -1,25 +1,23 @@
 package com.wgq.chat.contact.vo;
 
-/**
- * @ClassName CategoryVo
- * @Description TODO
- * @Author wgq
- * @Date 2023/6/23 21:42
- * @Version 1.0
- **/
-public class CategoryVo {
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-    private Long id;
+@ApiModel("类别")
+public class CategoryVO {
 
+    @ApiModelProperty("类别ID")
+    private Integer id;
+    @ApiModelProperty("类别名称")
     private String categoryName;
-
+    @ApiModelProperty("类别描述")
     private String description;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

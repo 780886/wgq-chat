@@ -5,11 +5,13 @@ import com.wgq.chat.contact.assembler.ContactAssembler;
 import com.wgq.chat.contact.bo.FriendAuditWrapBo;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
+import com.wgq.chat.contact.protocol.audit.JoinQunParam;
 import com.wgq.chat.contact.protocol.audit.QunAuditParam;
 import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.contact.service.AuditService;
 import com.wgq.chat.contact.vo.FriendAuditVO;
 import com.wgq.chat.contact.vo.FriendAuditWrapVo;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 
+@Api(value = "contact", tags = "IM 联系人审核")
 @RestController
 @RequestMapping("/audit")
 public class AuditController {
@@ -32,7 +35,7 @@ public class AuditController {
 
     @ApiOperation("获取好友申请列表")
     @GetMapping("friend-apply-list")
-    public FriendAuditWrapVo friendApplyList(){
+    public FriendAuditWrapVo friendApplyList() throws BusinessException{
         FriendAuditWrapBo friendAuditBo = this.auditService.friendApplyList();
         return this.contactAssembler.toUserFriendApplyVoList(friendAuditBo);
     }
@@ -40,7 +43,7 @@ public class AuditController {
 
     @ApiOperation("申请好友")
     @PostMapping("friend-apply")
-    public Boolean applyFriend(@RequestBody FriendApplyParam friendApplyParam) throws BusinessException {
+    public Long applyFriend(@RequestBody FriendApplyParam friendApplyParam) throws BusinessException {
         return this.auditService.applyFriend(friendApplyParam);
     }
 
@@ -51,15 +54,23 @@ public class AuditController {
         this.auditService.auditFriendApply(friendAuditParam);
     }
 
+    /**
+     * 1. 从controller 获取loginUser 并放入joinQunParam
+     * 2. 在业务里直接使用loginUser 参数不透传
+     * 3. 从service 逐层传递
+     *
+     * @param joinQunParam
+     * @throws BusinessException
+     */
     @ApiOperation("加群")
     @PostMapping("join-qun")
-    public void joinQun(@RequestBody Long qunId){
-
+    public void joinQun(@RequestBody JoinQunParam joinQunParam) throws BusinessException {
+        this.auditService.joinQun(joinQunParam);
     }
 
     @ApiOperation("对加群进行审核")
     @PostMapping("audit-qun-apply")
     public void auditQunApply(@RequestBody QunAuditParam qunAuditParam) throws BusinessException {
-
+        this.auditService.auditQunApply(qunAuditParam);
     }
 }

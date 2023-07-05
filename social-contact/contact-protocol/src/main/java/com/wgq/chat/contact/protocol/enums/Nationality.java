@@ -9,31 +9,36 @@ package com.wgq.chat.contact.protocol.enums;
  **/
 public enum Nationality {
 
-    CHINA(1,"中国")
-    ;
+    CHINA(1, "中国", "china");
 
     private Integer id;
-
     private String name;
+    private String flag;
 
-    Nationality(Integer id, String name) {
+    Nationality(Integer id, String name, String flag) {
         this.id = id;
         this.name = name;
+        this.flag = flag;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFlag() {
+        return flag;
+    }
+
+    public static Nationality getById(Integer id) {
+        for (Nationality nationality : Nationality.values()) {
+            if (nationality.getId().equals(id)) {
+                return nationality;
+            }
+        }
+        return null;
     }
 }

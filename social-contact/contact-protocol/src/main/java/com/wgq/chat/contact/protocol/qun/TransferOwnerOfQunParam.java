@@ -2,6 +2,7 @@ package com.wgq.chat.contact.protocol.qun;
 
 import com.sheep.protocol.Param;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * @ClassName TransferOwnerOfQunParam
@@ -14,8 +15,10 @@ import io.swagger.annotations.ApiModel;
 public class TransferOwnerOfQunParam implements Param {
 
 
+    @ApiModelProperty("群ID")
     private Long qunId;
 
+    @ApiModelProperty("新群主")
     private Long newOwnerId;
 
     public Long getQunId() {
