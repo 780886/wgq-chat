@@ -19,20 +19,22 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Named;
 import java.util.*;
 
 import static com.wgq.chat.protocol.constant.Chat.CHAT_TYPE_1_2_1;
 import static com.wgq.chat.protocol.constant.Chat.CHAT_TYPE_1_2_N;
 
 
-@Component
+@Named
 public class RedisContactsRepository implements ContactRepository {
 
     private static Logger logger = LoggerFactory.getLogger(RedisContactsRepository.class);
-    @Autowired
+
+    @Named
     private RedisTemplate redisTemplate;
 
-    @Autowired
+    @Named
     private QunRepository qunRepository;
 
     private Json json = JsonFactory.getProvider();

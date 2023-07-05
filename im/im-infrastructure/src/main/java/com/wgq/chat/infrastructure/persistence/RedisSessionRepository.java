@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -23,15 +25,16 @@ import java.util.concurrent.TimeUnit;
 import static com.wgq.chat.protocol.constant.Chat.*;
 
 
-@Component
+@Named
 public class RedisSessionRepository implements SessionRepository {
-    @Autowired
+
+    @Inject
     private QunRepository qunRepository;
 
-    @Autowired
+    @Inject
     private ContactRepository contactRepository;
 
-    @Autowired
+    @Inject
     private RedisTemplate redisTemplate;
 
     private Json json = JsonFactory.getProvider();
