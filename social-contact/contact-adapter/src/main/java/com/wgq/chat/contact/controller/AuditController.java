@@ -41,9 +41,6 @@ public class AuditController {
     @ApiOperation("申请好友")
     @PostMapping("friend-apply")
     public Boolean applyFriend(@RequestBody FriendApplyParam friendApplyParam) throws BusinessException {
-        if (true){
-            throw new BusinessException(BusinessCodeEnum.CAPTCHA_CODE_ERROR);
-        }
         return this.auditService.applyFriend(friendApplyParam);
     }
 
