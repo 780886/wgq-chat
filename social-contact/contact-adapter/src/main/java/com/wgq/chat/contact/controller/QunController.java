@@ -54,15 +54,16 @@ public class QunController {
 
     @ApiOperation("通过类别获取群列表")
     @GetMapping("plaza-of-category-id/{categoryId}")
-    public QunPlazaVO qunPlazaOfCategoryId(@PathVariable("categoryId")Long categoryId){
+    public QunPlazaVO qunPlazaOfCategoryId(@PathVariable("categoryId")Long categoryId) throws BusinessException {
         QunPlazaBO qunPlaza = this.qunService.qunPlazaOfCategoryId(categoryId);
         return this.qunAssembler.assembleQunPlaza(qunPlaza);
     }
 
     @ApiOperation("群广场")
     @GetMapping("qun-plaza")
-    public QunPlazaVO qunPlaza(){
-        return null;
+    public QunPlazaVO qunPlaza() throws BusinessException {
+        QunPlazaBO qunPlaza = this.qunService.qunPlaza();
+        return this.qunAssembler.assembleQunPlaza(qunPlaza);
     }
 
     /**

@@ -26,4 +26,6 @@ public interface QunDao {
 
     Integer updateById(Qun qun);
 
+    List<Qun> findEnabledQunList();
+
 }

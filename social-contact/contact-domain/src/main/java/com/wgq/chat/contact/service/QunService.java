@@ -37,7 +37,7 @@ public class QunService {
     @Inject
     private QunRepository qunRepository;
 
-
+//    @Inject
     private UserProfileAppService userProfileAppService;
 
     @Inject
@@ -60,18 +60,24 @@ public class QunService {
         this.qunRepository.modifyQun(qunModifyParam);
     }
 
-    public QunDetailWrapBO detail(Long qunId) {
+    public QunDetailWrapBO detail(Long qunId) throws BusinessException {
         QunBO qunBo = this.qunRepository.qunDetail(qunId);
         UserProfileDTO owner = this.userProfileAppService.getUser(qunBo.getOwnerId());
         return new QunDetailWrapBO(qunBo, owner);
     }
 
-    public QunPlazaBO qunPlazaOfCategoryId(Long categoryId) {
+    public QunPlazaBO qunPlazaOfCategoryId(Long categoryId) throws BusinessException {
         List<QunBO> qunBOS = this.qunRepository.getQunPlaza(categoryId);
         return this.wrapQunPlaza(qunBOS);
     }
 
-    private QunPlazaBO wrapQunPlaza(List<QunBO> qunBOS) {
+
+    public QunPlazaBO qunPlaza() throws BusinessException {
+        List<QunBO> qunBOs = this.qunRepository.queryQunPlaza();
+        return this.wrapQunPlaza(qunBOs);
+    }
+
+    private QunPlazaBO wrapQunPlaza(List<QunBO> qunBOS) throws BusinessException {
         QunPlazaBO qunPlaza = new QunPlazaBO();
         Set<Long> userIds = new HashSet<>();
         //Set<Long> categories = new HashSet<>();
@@ -85,6 +91,8 @@ public class QunService {
         qunPlaza.setQunList(qunBOS);
         return qunPlaza;
     }
+
+
 
     public void existQun(Long qunId) throws BusinessException {
         QunBO existQun = this.qunRepository.qunDetail(qunId);
@@ -141,4 +149,5 @@ public class QunService {
         this.qunRepository.transfer(existQun, transferOwnerOfQun.getNewOwnerId());
         //todo 推消息 mq
     }
+
 }

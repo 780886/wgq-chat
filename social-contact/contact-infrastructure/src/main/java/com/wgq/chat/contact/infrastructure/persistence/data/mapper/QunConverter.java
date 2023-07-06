@@ -4,6 +4,7 @@ import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
 import com.sheep.protocol.enums.StatusRecord;
 import com.sheep.utils.BeanUtils;
+import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.po.Qun;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
@@ -11,6 +12,7 @@ import com.wgq.chat.contact.protocol.qun.QunModifyParam;
 
 import javax.inject.Named;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -82,5 +84,22 @@ public class QunConverter {
         qun.setId(qunBO.getId());
         qun.setOwnerId(newOwnerId);
         return qun;
+    }
+
+    public List<QunBO> poList2BoList(List<Qun> quns) {
+        if (CollectionsUtils.isNullOrEmpty(quns)) {
+            return Collections.emptyList();
+        }
+        List<QunBO> qunBos = new ArrayList<>(quns.size());
+        for (Qun qun : quns) {
+            qunBos.add(this.po2Bo(qun));
+        }
+        return qunBos;
+    }
+
+    public QunBO po2Bo(Qun qun) {
+        QunBO qunBo = new QunBO();
+        BeanUtils.copyProperties(qun, qunBo);
+        return qunBo;
     }
 }

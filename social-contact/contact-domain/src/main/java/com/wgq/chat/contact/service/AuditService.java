@@ -39,6 +39,7 @@ public class AuditService {
     @Inject
     private ContactRepository contactRepository;
 
+//    @Inject
     private UserProfileAppService userProfileAppService;
 
     @Inject

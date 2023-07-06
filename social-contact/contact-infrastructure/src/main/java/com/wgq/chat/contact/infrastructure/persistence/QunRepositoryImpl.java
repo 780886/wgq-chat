@@ -77,7 +77,8 @@ public class QunRepositoryImpl implements QunRepository {
 
     @Override
     public QunBO qunDetail(Long qunId) {
-        return null;
+        Qun qun = this.qunDao.getEntity(qunId);
+        return this.qunConverter.po2Bo(qun);
     }
 
     @Override
@@ -100,5 +101,11 @@ public class QunRepositoryImpl implements QunRepository {
     public void transfer(QunBO qunBO, Long newOwnerId) {
         Qun qun = this.qunConverter.convert2po(qunBO,newOwnerId);
         this.qunDao.updateById(qun);
+    }
+
+    @Override
+    public List<QunBO> queryQunPlaza() {
+        List<Qun> quns = this.qunDao.findEnabledQunList();
+        return this.qunConverter.poList2BoList(quns);
     }
 }

@@ -38,4 +38,6 @@ public interface QunRepository {
 
     void transfer(QunBO newQun, Long newOwnerId);
 
+    List<QunBO> queryQunPlaza();
+
 }
