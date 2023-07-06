@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.sheep</groupId>
-            <artifactId>sheep-protocol</artifactId>
+            <artifactId>sheep-protocol-dao</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>

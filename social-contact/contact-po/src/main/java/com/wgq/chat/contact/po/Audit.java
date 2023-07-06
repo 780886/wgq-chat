@@ -1,8 +1,9 @@
 package com.wgq.chat.contact.po;
 
 
-import com.sheep.dao.MethodOrder;
+
 import com.sheep.protocol.POJO;
+import com.sheep.protocol.dao.MethodOrder;
 import com.sheep.protocol.enums.StatusRecord;
 
 import javax.persistence.*;

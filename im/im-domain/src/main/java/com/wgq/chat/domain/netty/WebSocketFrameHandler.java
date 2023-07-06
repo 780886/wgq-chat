@@ -16,7 +16,8 @@
 package com.wgq.chat.domain.netty;
 
 
-import com.sheep.core.spi.ApplicationContext;
+import com.sheep.utils.SpringUtils;
+import com.sheep.utils.StringUtils;
 import com.wgq.chat.domain.service.ChatService;
 import com.wgq.chat.protocol.constant.Chat;
 import io.netty.buffer.ByteBuf;
@@ -31,6 +32,8 @@ import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.util.List;
 
 /**
@@ -39,6 +42,10 @@ import java.util.List;
 public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocketFrame> {
 
     private static final Logger logger = LoggerFactory.getLogger(WebSocketFrameHandler.class);
+
+
+    @Inject
+    private  SpringUtils springUtils;
 
     /**
      *  一定要重写channelRead0方法，否则会报错,内存泄漏问题交由netty处理
@@ -71,7 +78,7 @@ public class WebSocketFrameHandler extends SimpleChannelInboundHandler<WebSocket
             }
             //从发前channel 中获取当前用户id
             protocol.setSender(currentUserId);
-            ChatService chatService = ApplicationContext.getContainer().getBean("chatService");
+            ChatService chatService = (ChatService) springUtils.getBean("chatService");
             chatService.saveMessage(protocol);
             if (protocol.getCharType() == Chat.CHAT_TYPE_1_2_1 && protocol.getSender() == protocol.getReceiver()) {
                 return;
