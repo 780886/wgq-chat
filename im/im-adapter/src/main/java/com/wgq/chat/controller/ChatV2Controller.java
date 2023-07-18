@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import java.util.List;
 
 @RestController
@@ -25,10 +26,10 @@ public class ChatV2Controller {
 
     private static Logger logger = LoggerFactory.getLogger(ChatV2Controller.class);
 
-    @Resource
+    @Inject
     private ChatService chatService;
 
-    @Resource
+//    @Inject
     private Authenticator authenticator;
 
     @RequestMapping("/get-user-id")

@@ -27,11 +27,11 @@ import java.util.Map;
 @Named
 public class ChatService {
 
-    @Inject
+//    @Inject
     private MessageRepository messageRepository;
-    @Inject
+//    @Inject
     private SessionRepository sessionRepository;
-    @Inject
+//    @Inject
     private ContactRepository contactsRepository;
 
     public ContactsDTO getContacts(Integer userId) {
