@@ -14,7 +14,6 @@ public class Contact implements POJO {
     private Long friendId;
     private Long applyTime;
     private Long auditTime;
-    private Long gmtCreate;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
