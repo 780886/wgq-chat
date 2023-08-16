@@ -11,16 +11,16 @@ import java.io.IOException;
 import static com.wgq.sql.generator.CodeGenerator.generaCreateDDL;
 
 @SpringBootApplication(scanBasePackages = {"com.wgq.*","com.sheep.*"})
-@MapperScan("com.wgq.chat.contact.dao")
+@MapperScan(basePackages = {"com.wgq.chat.contact.dao","com.wgq.passport.dao"})
 public class ContactApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ContactApplication.class, args);
-        try {
-            generaCreateDDL(Qun.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            generaCreateDDL(Qun.class);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

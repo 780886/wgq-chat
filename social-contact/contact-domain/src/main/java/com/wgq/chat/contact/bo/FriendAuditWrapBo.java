@@ -1,6 +1,6 @@
 package com.wgq.chat.contact.bo;
 
-import com.sheep.passport.protocol.dto.UserProfileDTO;
+import com.wgq.passport.protocol.dto.UserProfileDTO;
 
 
 import java.util.HashMap;

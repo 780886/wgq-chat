@@ -2,6 +2,7 @@ package com.wgq.chat.contact.controller;
 
 import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.assembler.ContactAssembler;
+import com.wgq.chat.contact.bo.AuditWrapBO;
 import com.wgq.chat.contact.bo.FriendAuditWrapBo;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
@@ -36,8 +37,8 @@ public class AuditController {
     @ApiOperation("获取好友申请列表")
     @GetMapping("friend-apply-list")
     public FriendAuditWrapVo friendApplyList() throws BusinessException{
-        FriendAuditWrapBo friendAuditBo = this.auditService.friendApplyList();
-        return this.contactAssembler.toUserFriendApplyVoList(friendAuditBo);
+        AuditWrapBO auditWrapBO = this.auditService.friendApplyList();
+        return this.contactAssembler.toUserFriendApplyVoList(auditWrapBO);
     }
 
 

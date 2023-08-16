@@ -4,12 +4,12 @@ import com.sheep.core.spi.JsonFactory;
 import com.sheep.cryptogram.ThreeDES;
 import com.sheep.exception.Asserts;
 import com.sheep.json.Json;
-import com.sheep.passport.protocol.dto.UserProfileDTO;
 import com.sheep.protocol.BusinessException;
 import com.sheep.utils.StringUtils;
 import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.service.SecretService;
 import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
+import com.wgq.passport.protocol.dto.UserProfileDTO;
 import org.springframework.beans.factory.annotation.Value;
 
 

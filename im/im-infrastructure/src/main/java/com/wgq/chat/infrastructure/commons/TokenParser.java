@@ -16,7 +16,7 @@ public class TokenParser {
     public static LoginUser parseUserId(String token) throws BusinessException {
         LoginUser loginUser=new LoginUser();
         if (token.contains("mock.")) {
-            loginUser.setUserId(Long.valueOf(token.substring("mock.".length())));
+//            loginUser.setUserId(Long.valueOf(token.substring("mock.".length())));
             return loginUser;
         }
         Map<String, String> header = new HashMap<>();
@@ -29,8 +29,9 @@ public class TokenParser {
         if (code.equals(200)) {
             Map<String, Object> userMap = (Map<String, Object>) map.get("data");
             Map<String, Object> userProperty = (Map<String, Object>) userMap.get("member");
-            loginUser.setUserId(Long.valueOf(userProperty.get("id").toString()));
-            loginUser.setUserName(userProperty.get("name").toString());
+            //TODO
+//            loginUser.setUserId(Long.valueOf(userProperty.get("id").toString()));
+//            loginUser.setUserName(userProperty.get("name").toString());
             return loginUser;
         }
         throw new BusinessException(SheepError.USER_NOT_LOGIN);

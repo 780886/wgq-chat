@@ -1,15 +1,16 @@
 package com.wgq.chat.contact.assembler;
 
 
-import com.sheep.passport.protocol.dto.UserProfileDTO;
 import com.sheep.protocol.enums.StatusRecord;
 import com.sheep.utils.EnumUtils;
 import com.wgq.chat.contact.bo.AuditBO;
+import com.wgq.chat.contact.bo.AuditWrapBO;
 import com.wgq.chat.contact.bo.ContactBO;
 import com.wgq.chat.contact.bo.FriendAuditWrapBo;
 import com.wgq.chat.contact.vo.FriendAuditVO;
 import com.wgq.chat.contact.vo.FriendAuditWrapVo;
 import com.wgq.chat.contact.vo.UserFriendApplyVO;
+import com.wgq.passport.protocol.dto.UserProfileDTO;
 import org.springframework.cglib.core.EmitUtils;
 import org.springframework.stereotype.Component;
 
@@ -30,8 +31,8 @@ public class ContactAssembler {
         return userFriendApply;
     }
 
-    public FriendAuditWrapVo toUserFriendApplyVoList(FriendAuditWrapBo friendAuditWrap) {
-        List<AuditBO> auditBOS = friendAuditWrap.getAuditBos();
+    public FriendAuditWrapVo toUserFriendApplyVoList(AuditWrapBO friendAuditWrap) {
+        List<AuditBO> auditBOS = friendAuditWrap.getAuditList();
         List<FriendAuditVO> userFriendApplyList = new ArrayList<>();
         Map<Long, UserProfileDTO> userDictionaries = friendAuditWrap.getFriendMap();
         for (AuditBO audit : auditBOS) {

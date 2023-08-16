@@ -1,8 +1,6 @@
 package com.wgq.chat.contact.service;
 
 import com.sheep.exception.Asserts;
-import com.sheep.passport.api.UserProfileAppService;
-import com.sheep.passport.protocol.dto.UserProfileDTO;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
@@ -16,6 +14,8 @@ import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.protocol.qun.*;
 import com.wgq.chat.contact.repository.QunMemberRepository;
 import com.wgq.chat.contact.repository.QunRepository;
+import com.wgq.passport.api.UserProfileAppService;
+import com.wgq.passport.protocol.dto.UserProfileDTO;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,7 +37,7 @@ public class QunService {
     @Inject
     private QunRepository qunRepository;
 
-//    @Inject
+    @Inject
     private UserProfileAppService userProfileAppService;
 
     @Inject

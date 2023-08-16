@@ -1,7 +1,6 @@
 package com.wgq.chat.contact.assembler;
 
 import com.sheep.exception.Asserts;
-import com.sheep.passport.protocol.dto.UserProfileDTO;
 import com.sheep.protocol.BusinessException;
 import com.sheep.utils.BeanUtils;
 import com.wgq.chat.contact.bo.QunBO;
@@ -13,6 +12,7 @@ import com.wgq.chat.contact.protocol.enums.Nationality;
 import com.wgq.chat.contact.vo.CategoryVO;
 import com.wgq.chat.contact.vo.QunPlazaVO;
 import com.wgq.chat.contact.vo.QunVO;
+import com.wgq.passport.protocol.dto.UserProfileDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
