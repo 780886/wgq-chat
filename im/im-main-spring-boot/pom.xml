@@ -33,7 +33,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.wgq.chat</groupId>
-			<artifactId>im-domain</artifactId>
+			<artifactId>im-infrastructure</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>

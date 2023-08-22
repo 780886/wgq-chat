@@ -1,5 +1,6 @@
 package com.wgq.chat.contact.vo;
 
+import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

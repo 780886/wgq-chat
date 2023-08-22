@@ -24,7 +24,7 @@ public class ContactService {
     @Inject
     private UserProfileAppService userProfileAppService;
 
-    @RedissonLock(key = "#userIdentify",waitTime = 500)
+//    @RedissonLock(key = "#userIdentify",waitTime = 500)
     public ContactBO findFriend(String userIdentify) throws BusinessException {
         Asserts.isTrue(StringUtils.isNullOrEmpty(userIdentify), BusinessCodeEnum.USER_DISABLE);
         UserProfileDTO userDto =this.userProfileAppService.getByIdentify(userIdentify);

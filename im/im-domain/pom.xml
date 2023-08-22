@@ -32,8 +32,18 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.sheep</groupId>
+            <artifactId>sheep-json</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>com.wgq.chat</groupId>
             <artifactId>im-protocol</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.wgq.passport</groupId>
+            <artifactId>passport-protocol</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
