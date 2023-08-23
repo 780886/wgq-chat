@@ -122,6 +122,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         online(channel, userProfileDTO.getUserId());
         //返回给用户登录成功
 //        boolean hasPower = iRoleService.hasPower(user.getId(), RoleEnum.CHAT_MANAGER);
+        logger.info("用户登录成功,用户id:{},",userProfileDTO.getUserId());
         //发送给对应的用户
 //        sendMsg(channel, WSAdapter.buildLoginSuccessResp(user, token, hasPower));
         //发送用户上线事件

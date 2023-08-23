@@ -17,6 +17,24 @@ public class PushMessageDTO implements POJO {
 
     private Integer pushType;
 
+    public PushMessageDTO() {
+    }
+
+    public PushMessageDTO(Long userId, PushBashDTO<?> pushBashDTO,Integer pushType) {
+        this.userId = userId;
+        this.pushBashDTO = pushBashDTO;
+        this.pushType = pushType;
+    }
+
+    public PushMessageDTO(Long userId,PushBashDTO<?> pushBashDTO) {
+        this.userId = userId;
+        this.pushBashDTO = pushBashDTO;
+    }
+
+    public PushMessageDTO(PushBashDTO<?> pushBashDTO) {
+        this.pushBashDTO = pushBashDTO;
+    }
+
 
     public Long getUserId() {
         return userId;

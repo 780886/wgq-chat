@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = {"com.wgq.*","com.sheep.*"},exclude = DruidDataSourceAutoConfigure.class)
-@MapperScan(basePackages = {"com.wgq.passport.dao"})
+@MapperScan(basePackages = {"com.wgq.chat.dao","com.wgq.passport.dao"})
 public class ImApplication {
 
 	public static void main(String[] args) {

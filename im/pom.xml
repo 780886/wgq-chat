@@ -23,6 +23,9 @@
 		<module>im-infrastructure</module>
 		<module>im-main-spring-boot</module>
 		<module>im-protocol</module>
+		<module>im-dao-api</module>
+		<module>im-dao-mybatis</module>
+		<module>im-po</module>
 	</modules>
 
 </project>

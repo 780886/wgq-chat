@@ -1,12 +1,12 @@
-package com.wgq.chat.infrastructure.service;
+package com.wgq.chat.infrastructure.chat.consumer;
 
-import com.wgq.chat.domain.service.PushConsumer;
 import com.wgq.chat.domain.service.WebSocketService;
 import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.PushMessageDTO;
 import com.wgq.chat.protocol.enums.PushTypeEnum;
 import org.apache.rocketmq.spring.annotation.MessageModel;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
+import org.apache.rocketmq.spring.core.RocketMQListener;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,7 +20,7 @@ import javax.inject.Named;
  */
 @RocketMQMessageListener(topic = MQConstant.PUSH_TOPIC, consumerGroup = MQConstant.PUSH_GROUP, messageModel = MessageModel.BROADCASTING)
 @Named
-public class PushConsumerImpl implements PushConsumer {
+public class PushConsumer implements RocketMQListener<PushMessageDTO> {
 
     @Inject
     private WebSocketService webSocketService;

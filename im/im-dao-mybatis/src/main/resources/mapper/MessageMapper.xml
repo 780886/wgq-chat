@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 引入配置文件 -->
+<mapper namespace="com.wgq.chat.dao.MessageDao">
+
+    <insert id="insert" useGeneratedKeys="true">
+        insert into message(sender_user_id,room_id,`type`,status)
+        values (#{message.senderUserId},#{message.roomId},#{message.type},#{message.status})
+    </insert>
+    <select id="getMessage" resultType="com.wgq.chat.po.Message">
+        select * from message where id = #{messageId} and sender_user_id = #{senderUserId}
+    </select>
+    <select id="getMessageById" resultType="com.wgq.chat.po.Message">
+        select * from message where id = #{messageId}
+    </select>
+</mapper>

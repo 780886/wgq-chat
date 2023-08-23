@@ -37,6 +37,11 @@
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>com.wgq</groupId>
+			<artifactId>im-dao-mybatis</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>com.wgq.passport</groupId>
 			<artifactId>passport-adapter</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
