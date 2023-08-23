@@ -21,6 +21,11 @@ public class PushBashDTO<T> {
      */
     private T data;
 
+    public PushBashDTO(Integer type, T data) {
+        this.type = type;
+        this.data = data;
+    }
+
     public Integer getType() {
         return type;
     }

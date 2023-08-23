@@ -3,19 +3,27 @@ package com.wgq.chat.infrastructure.service;
 import com.sheep.core.spi.JsonFactory;
 import com.sheep.json.Json;
 import com.sheep.protocol.BusinessException;
+import com.sheep.protocol.LoginUser;
+import com.sheep.redis.frequency.annotation.FrequencyControl;
 import com.sheep.utils.CollectionsUtils;
+import com.wgq.chat.domain.listener.UserOfflineEvent;
 import com.wgq.chat.domain.netty.NettyUtil;
 import com.wgq.chat.domain.service.WebSocketService;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
 import com.wgq.chat.protocol.dto.ChannelExtraDTO;
 import com.wgq.chat.protocol.dto.PushBashDTO;
+import com.wgq.chat.protocol.enums.RespTypeEnum;
+import com.wgq.chat.protocol.vo.LoginUrlVO;
 import com.wgq.passport.api.UserProfileAppService;
+import com.wgq.passport.protocol.dto.LoginDTO;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.inject.Inject;
@@ -49,6 +57,9 @@ public class WebSocketServiceImpl implements WebSocketService {
      */
     private static final ConcurrentHashMap<Long, CopyOnWriteArrayList<Channel>> ONLINE_UID_MAP = new ConcurrentHashMap<>();
 
+    public static ConcurrentHashMap<Channel, ChannelExtraDTO> getOnlineMap() {
+        return ONLINE_WS_MAP;
+    }
 
 
     @Inject
@@ -58,9 +69,16 @@ public class WebSocketServiceImpl implements WebSocketService {
     @Inject
     private UserProfileAppService userProfileAppService;
 
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
+
+    @FrequencyControl(time = 1000, count = 50, spEl = "T(com.wgq.chat.domain.netty.NettyUtil).getAttr(#channel,T(com.wgq.chat.domain.netty.NettyUtil).IP)")
     @Override
     public void handleLoginReq(Channel channel) {
-        System.out.println(" = " + "跳转登录页面");
+        LoginUrlVO loginUrlVO = new LoginUrlVO.LoginUrlVOBuilder()
+                .loginUrl("www.baidu.com")
+                .build();
+        sendMsg(channel,new PushBashDTO<LoginUrlVO>(RespTypeEnum.LOGIN_URL.getType(),loginUrlVO));
     }
 
     @Override
@@ -75,10 +93,11 @@ public class WebSocketServiceImpl implements WebSocketService {
                 .map(ChannelExtraDTO::getUserId);
         boolean offlineAll = offline(channel, uidOptional);
         if (uidOptional.isPresent() && offlineAll) {//已登录用户断连,并且全下线成功
-//            User user = new User();
-//            user.setId(uidOptional.get());
-//            user.setLastOptTime(new Date());
-//            applicationEventPublisher.publishEvent(new UserOfflineEvent(this, user));
+
+            LoginUser loginUser = new LoginUser
+                    .LoginUserBuild()
+                    .userId(uidOptional.get()).build();
+            applicationEventPublisher.publishEvent(new UserOfflineEvent(this, loginUser));
         }
     }
 
@@ -89,6 +108,9 @@ public class WebSocketServiceImpl implements WebSocketService {
             Long userId  = this.userProfileAppService.getValidUserId(authorizeDTO.getToken());
             UserProfileDTO userProfileDTO = this.userProfileAppService.getUser(userId);
             loginSuccess(channel,userProfileDTO, authorizeDTO.getToken());
+        }else {
+            //让前端的token失效
+            sendMsg(channel,new PushBashDTO<LoginDTO>(RespTypeEnum.INVALIDATE_TOKEN.getType(),null));
         }
     }
 

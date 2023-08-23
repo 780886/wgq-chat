@@ -1,5 +1,6 @@
 package com.wgq.chat.contact.bo;
 
+
 import com.sheep.protocol.BO;
 import com.wgq.chat.contact.protocol.enums.Category;
 import com.wgq.passport.protocol.dto.UserProfileDTO;

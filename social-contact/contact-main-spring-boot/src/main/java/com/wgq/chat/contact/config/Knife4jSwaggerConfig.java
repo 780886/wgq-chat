@@ -1,4 +1,4 @@
-package com.wgq.chat.contact.boot.config;
+package com.wgq.chat.contact.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;

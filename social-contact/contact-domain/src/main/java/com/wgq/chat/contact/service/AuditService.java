@@ -4,7 +4,6 @@ import com.sheep.exception.Asserts;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
-import com.sheep.redisson.annotation.RedissonLock;
 import com.wgq.chat.contact.bo.*;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;

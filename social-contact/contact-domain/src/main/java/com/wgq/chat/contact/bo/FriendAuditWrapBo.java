@@ -1,5 +1,6 @@
 package com.wgq.chat.contact.bo;
 
+
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 
 
@@ -36,7 +37,7 @@ public class FriendAuditWrapBo {
      * key:好友的id
      * value:好友的基本信息
      */
-    private Map<Long,UserProfileDTO> friendMap;
+    private Map<Long, UserProfileDTO> friendMap;
 
     public List<AuditBO> getAuditBos() {
         return auditBOS;

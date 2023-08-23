@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * @Description:
  * @Version :1.0
  */
-public enum LoginStatusEnum {
+public enum ReqTypeEnum {
 
     LOGIN(1, "请求登录地址"),
     HEARTBEAT(2, "心跳包"),
@@ -21,13 +21,13 @@ public enum LoginStatusEnum {
     private final Integer type;
     private final String desc;
 
-    private static Map<Integer, LoginStatusEnum> cache;
+    private static Map<Integer, ReqTypeEnum> cache;
 
     static {
-        cache = Arrays.stream(LoginStatusEnum.values()).collect(Collectors.toMap(LoginStatusEnum::getType, Function.identity()));
+        cache = Arrays.stream(ReqTypeEnum.values()).collect(Collectors.toMap(ReqTypeEnum::getType, Function.identity()));
     }
 
-    LoginStatusEnum(Integer type, String desc) {
+    ReqTypeEnum(Integer type, String desc) {
         this.type = type;
         this.desc = desc;
     }
@@ -40,15 +40,15 @@ public enum LoginStatusEnum {
         return desc;
     }
 
-    public static Map<Integer, LoginStatusEnum> getCache() {
+    public static Map<Integer, ReqTypeEnum> getCache() {
         return cache;
     }
 
-    public static void setCache(Map<Integer, LoginStatusEnum> cache) {
-        LoginStatusEnum.cache = cache;
+    public static void setCache(Map<Integer, ReqTypeEnum> cache) {
+        ReqTypeEnum.cache = cache;
     }
 
-    public static LoginStatusEnum of(Integer type) {
+    public static ReqTypeEnum of(Integer type) {
         return cache.get(type);
     }
 }

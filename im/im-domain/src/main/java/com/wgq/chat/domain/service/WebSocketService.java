@@ -50,10 +50,10 @@ public interface WebSocketService {
     /**
      * 推动消息给所有在线的人
      *
-     * @param wsBaseResp 发送的消息体
+     * @param pushBashDTO 发送的消息体
      * @param skipUid    需要跳过的人
      */
-//    void sendToAllOnline(WSBaseResp<?> wsBaseResp, Long skipUid);
+//    void sendToAllOnline(PushBashDTO<?> pushBashDTO, Long skipUid);
 
     /**
      * 推动消息给所有在线的人

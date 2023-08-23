@@ -6,13 +6,10 @@ import com.sheep.utils.EnumUtils;
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.AuditWrapBO;
 import com.wgq.chat.contact.bo.ContactBO;
-import com.wgq.chat.contact.bo.FriendAuditWrapBo;
 import com.wgq.chat.contact.vo.FriendAuditVO;
 import com.wgq.chat.contact.vo.FriendAuditWrapVo;
 import com.wgq.chat.contact.vo.UserFriendApplyVO;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
-import org.springframework.cglib.core.EmitUtils;
-import org.springframework.stereotype.Component;
 
 import javax.inject.Named;
 import java.util.ArrayList;

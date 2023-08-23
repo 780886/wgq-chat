@@ -7,7 +7,7 @@ import com.sheep.utils.StringUtils;
 import com.wgq.chat.domain.service.WebSocketService;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
 import com.wgq.chat.protocol.dto.PushBashDTO;
-import com.wgq.chat.protocol.enums.LoginStatusEnum;
+import com.wgq.chat.protocol.enums.ReqTypeEnum;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -115,8 +115,8 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame msg) throws Exception {
         PushBashDTO pushBashDTO = json.parse(msg.text(), PushBashDTO.class);
-        LoginStatusEnum  loginStatusEnum  = LoginStatusEnum.of(pushBashDTO.getType());
-        switch (loginStatusEnum){
+        ReqTypeEnum reqTypeEnum = ReqTypeEnum.of(pushBashDTO.getType());
+        switch (reqTypeEnum){
             case LOGIN:
                 this.webSocketService.handleLoginReq(channelHandlerContext.channel());
                 break;
