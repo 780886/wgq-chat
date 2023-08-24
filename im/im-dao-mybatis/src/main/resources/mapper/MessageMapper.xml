@@ -9,7 +9,7 @@
         <result property="senderUserId" column="sender_user_id"/>
         <result property="roomId" column="room_id"/>
         <result property="content" column="content"/>
-        <result property="replyMsgId" column="reply_message_id"/>
+        <result property="replyMessageId" column="reply_message_id"/>
         <result property="gapCount" column="gap_count"/>
         <result property="type" column="type"/>
         <result property="status" column="status"/>
@@ -17,9 +17,60 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
-    <insert id="insert" useGeneratedKeys="true">
-        insert into message(sender_user_id,room_id,`type`,status)
-        values (#{message.senderUserId},#{message.roomId},#{message.type},#{message.status})
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="message.id != null">
+                id,
+            </if>
+            <if test="message.senderUserId != null">
+                sender_user_id,
+            </if>
+            <if test="message.roomId != null">
+                room_id,
+            </if>
+            <if test="message.content != null">
+                content,
+            </if>
+            <if test="message.replyMessageId != null">
+                reply_message_id,
+            </if>
+            <if test="message.gapCount != null">
+                gap_count,
+            </if>
+            <if test="message.type != null">
+                `type`,
+            </if>
+            <if test="message.status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="message.id != null">
+                #{message.id},
+            </if>
+            <if test="message.senderUserId != null">
+                #{message.senderUserId},
+            </if>
+            <if test="message.roomId != null">
+                #{message.roomId},
+            </if>
+            <if test="message.content != null">
+                #{message.content},
+            </if>
+            <if test="message.replyMessageId != null">
+                #{message.replyMessageId},
+            </if>
+            <if test="message.gapCount != null">
+                #{message.gapCount},
+            </if>
+            <if test="message.type != null">
+                #{message.type},
+            </if>
+            <if test="message.status != null">
+                #{message.status},
+            </if>
+        </trim>
     </insert>
     <select id="getMessage" resultMap="messageMap">
         select * from message where id = #{messageId} and sender_user_id = #{senderUserId}

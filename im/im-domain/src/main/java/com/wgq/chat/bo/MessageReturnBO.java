@@ -1,5 +1,7 @@
 package com.wgq.chat.bo;
 
+import java.util.Date;
+
 /**
  * @ClassName: MessageVO
  * @Author : wgq
@@ -10,22 +12,61 @@ package com.wgq.chat.bo;
 public class MessageReturnBO {
 
     /**
+     * 消息发送者userId
+     */
+    private Long senderUserId;
+    /**
+     * 消息id
+     */
+    private Long messageId;
+    /**
+     * 房间id
+     */
+    private Long roomId;
+    /**
+     * 发送时间
+     */
+    private Date sendTime;
+    /**
      * 消息类型
      */
     private Integer messageType;
-    private Integer chatType;
     /**
-     * 发送者
+     * 消息内容不同的消息类型
      */
-    private Integer sender;
-    /**
-     * 接收者
-     */
-    private Integer receiver;
-    //文本类型
-    private Object data;
-    private Long serverTime;
-    private Long clientSendTime;
+    private Object body;
+
+    public Long getSenderUserId() {
+        return senderUserId;
+    }
+
+    public void setSenderUserId(Long senderUserId) {
+        this.senderUserId = senderUserId;
+    }
+
+    public Long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
+    }
+
+    public Date getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
+    }
 
     public Integer getMessageType() {
         return messageType;
@@ -35,51 +76,11 @@ public class MessageReturnBO {
         this.messageType = messageType;
     }
 
-    public Integer getChatType() {
-        return chatType;
+    public Object getBody() {
+        return body;
     }
 
-    public void setChatType(Integer chatType) {
-        this.chatType = chatType;
-    }
-
-    public Integer getSender() {
-        return sender;
-    }
-
-    public void setSender(Integer sender) {
-        this.sender = sender;
-    }
-
-    public Integer getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(Integer receiver) {
-        this.receiver = receiver;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    public Long getServerTime() {
-        return serverTime;
-    }
-
-    public void setServerTime(Long serverTime) {
-        this.serverTime = serverTime;
-    }
-
-    public Long getClientSendTime() {
-        return clientSendTime;
-    }
-
-    public void setClientSendTime(Long clientSendTime) {
-        this.clientSendTime = clientSendTime;
+    public void setBody(Object body) {
+        this.body = body;
     }
 }

@@ -1,5 +1,6 @@
 package com.wgq.chat.assemble;
 
+import com.sheep.utils.BeanUtils;
 import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.vo.MessageReturnVO;
 
@@ -16,6 +17,7 @@ import javax.inject.Named;
 public class ChatAssemble {
     public MessageReturnVO assemble2vo(MessageReturnBO messageReturnBO) {
         MessageReturnVO messageReturnVO = new MessageReturnVO();
+        BeanUtils.copyProperties(messageReturnBO,messageReturnVO);
         return messageReturnVO;
     }
 }

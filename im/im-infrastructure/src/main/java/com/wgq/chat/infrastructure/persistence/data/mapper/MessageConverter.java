@@ -1,5 +1,4 @@
 package com.wgq.chat.infrastructure.persistence.data.mapper;
-
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.po.Message;
@@ -19,14 +18,21 @@ public class MessageConverter {
         Message message = new Message();
         message.setSenderUserId(messageBO.getSenderUserId());
         message.setRoomId(messageBO.getRoomId());
-        message.setType(messageBO.getType());
+        message.setType(messageBO.getMessageType());
         message.setStatus(messageBO.getStatus());
+        message.setContent(String.valueOf(messageBO.getBody()));
         return message;
     }
 
 
     public MessageReturnBO convert2MessageReturnBO(Message message) {
         MessageReturnBO messageReturnBO = new MessageReturnBO();
+        messageReturnBO.setSenderUserId(message.getSenderUserId());
+        messageReturnBO.setMessageId(message.getId());
+        messageReturnBO.setRoomId(message.getRoomId());
+        messageReturnBO.setSendTime(message.getCreateTime());
+        messageReturnBO.setMessageType(message.getType());
+        messageReturnBO.setBody(message.getContent());
         return messageReturnBO;
     }
 
@@ -34,7 +40,7 @@ public class MessageConverter {
         MessageBO messageBO = new MessageBO();
         messageBO.setSenderUserId(message.getSenderUserId());
         messageBO.setRoomId(message.getRoomId());
-        messageBO.setType(message.getType());
+        messageBO.setMessageType(message.getType());
         messageBO.setStatus(message.getStatus());
         return messageBO;
     }

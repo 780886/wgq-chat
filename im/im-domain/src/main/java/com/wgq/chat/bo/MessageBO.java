@@ -34,16 +34,22 @@ public class MessageBO {
      *
      * @see com.abin.mallchat.common.chat.domain.enums.MessageTypeEnum
      */
-    private Integer type;
+    private Integer messageType;
+
+    /**
+     * 消息内容不同的消息类型
+     */
+    private Object body;
 
     public MessageBO() {
     }
 
-    public MessageBO(Long roomId, Long senderUserId, Integer status, Integer type) {
+    public MessageBO(Long roomId, Long senderUserId, Integer status, Integer messageType,Object body) {
         this.roomId = roomId;
         this.senderUserId = senderUserId;
         this.status = status;
-        this.type = type;
+        this.messageType = messageType;
+        this.body = body;
     }
 
     public Long getRoomId() {
@@ -58,8 +64,12 @@ public class MessageBO {
         return status;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(Integer messageType) {
+        this.messageType = messageType;
     }
 
     public void setRoomId(Long roomId) {
@@ -74,7 +84,11 @@ public class MessageBO {
         this.status = status;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public Object getBody() {
+        return body;
+    }
+
+    public void setBody(Object body) {
+        this.body = body;
     }
 }

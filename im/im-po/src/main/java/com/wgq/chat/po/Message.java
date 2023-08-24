@@ -39,7 +39,7 @@ public class Message implements POJO {
     /**
      * 回复的消息内容
      */
-    private Long replyMsgId;
+    private Long replyMessageId;
 
     /**
      * 消息状态 0正常 1删除
@@ -107,12 +107,12 @@ public class Message implements POJO {
         this.content = content;
     }
 
-    public Long getReplyMsgId() {
-        return replyMsgId;
+    public Long getReplyMessageId() {
+        return replyMessageId;
     }
 
-    public void setReplyMsgId(Long replyMsgId) {
-        this.replyMsgId = replyMsgId;
+    public void setReplyMessageId(Long replyMessageId) {
+        this.replyMessageId = replyMessageId;
     }
 
     public Integer getStatus() {

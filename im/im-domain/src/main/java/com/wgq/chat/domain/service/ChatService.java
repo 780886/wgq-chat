@@ -31,7 +31,10 @@ public class ChatService {
 
     public MessageReturnBO sendMsg(MessageSendParam messageSendParam) {
         LoginUser loginUser = ThreadContext.getLoginToken();
-        MessageBO messageBO = new MessageBO(messageSendParam.getRoomId(), loginUser.getUserId(), messageSendParam.getMsgType(), MessageStatusEnum.NORMAL.getStatus());
+        MessageBO messageBO = new MessageBO(messageSendParam.getRoomId(),
+                loginUser.getUserId(), MessageStatusEnum.NORMAL.getStatus(),
+                messageSendParam.getMessageType()
+                ,messageSendParam.getBody());
         Long messageId = this.messageRepository.save(messageBO);
         this.applicationEventPublisher.publishEvent(new MessageSendEvent(this,messageId));
         return this.messageRepository.getMessage(messageId,loginUser.getUserId());

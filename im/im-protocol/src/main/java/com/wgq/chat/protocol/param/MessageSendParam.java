@@ -10,12 +10,18 @@ package com.wgq.chat.protocol.param;
 public class MessageSendParam {
 
 
+    /**
+     * 房间id
+     */
     private Long roomId;
+    /**
+     * 消息类型
+     */
+    private Integer messageType;
 
-
-    private Integer msgType;
-
-
+    /**
+     * 消息内容不同的消息类型
+     */
     private Object body;
 
     public Long getRoomId() {
@@ -26,12 +32,12 @@ public class MessageSendParam {
         this.roomId = roomId;
     }
 
-    public Integer getMsgType() {
-        return msgType;
+    public Integer getMessageType() {
+        return messageType;
     }
 
-    public void setMsgType(Integer msgType) {
-        this.msgType = msgType;
+    public void setMessageType(Integer messageType) {
+        this.messageType = messageType;
     }
 
     public Object getBody() {
