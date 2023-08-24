@@ -4,14 +4,27 @@
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.dao.MessageDao">
 
+    <resultMap id="messageMap" type="com.wgq.chat.po.Message">
+        <result property="id" column="id"/>
+        <result property="senderUserId" column="sender_user_id"/>
+        <result property="roomId" column="room_id"/>
+        <result property="content" column="content"/>
+        <result property="replyMsgId" column="reply_message_id"/>
+        <result property="gapCount" column="gap_count"/>
+        <result property="type" column="type"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
     <insert id="insert" useGeneratedKeys="true">
         insert into message(sender_user_id,room_id,`type`,status)
         values (#{message.senderUserId},#{message.roomId},#{message.type},#{message.status})
     </insert>
-    <select id="getMessage" resultType="com.wgq.chat.po.Message">
+    <select id="getMessage" resultMap="messageMap">
         select * from message where id = #{messageId} and sender_user_id = #{senderUserId}
     </select>
-    <select id="getMessageById" resultType="com.wgq.chat.po.Message">
+    <select id="getMessageById" resultMap="messageMap">
         select * from message where id = #{messageId}
     </select>
 </mapper>
