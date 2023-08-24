@@ -29,7 +29,8 @@ public class MessageRepositoryImpl implements MessageRepository {
     @Override
     public Long save(MessageBO messageBO) {
         Message message = this.messageConverter.convert2po(messageBO);
-        return this.messageDao.insert(message);
+        this.messageDao.insert(message);
+        return message.getId();
     }
 
     @Override
