@@ -3,6 +3,7 @@ package com.wgq.chat.protocol.dto;
 
 
 import com.sheep.protocol.POJO;
+import com.wgq.chat.protocol.enums.PushTypeEnum;
 
 public class PushMessageDTO implements POJO {
 
@@ -20,19 +21,15 @@ public class PushMessageDTO implements POJO {
     public PushMessageDTO() {
     }
 
-    public PushMessageDTO(Long userId, PushBashDTO<?> pushBashDTO,Integer pushType) {
+    public PushMessageDTO(Long userId, PushBashDTO<?> pushBashDTO) {
         this.userId = userId;
         this.pushBashDTO = pushBashDTO;
-        this.pushType = pushType;
-    }
-
-    public PushMessageDTO(Long userId,PushBashDTO<?> pushBashDTO) {
-        this.userId = userId;
-        this.pushBashDTO = pushBashDTO;
+        this.pushType = PushTypeEnum.USER.getType();
     }
 
     public PushMessageDTO(PushBashDTO<?> pushBashDTO) {
         this.pushBashDTO = pushBashDTO;
+        this.pushType = PushTypeEnum.ALL.getType();
     }
 
 
