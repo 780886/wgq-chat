@@ -27,7 +27,7 @@ public class PushConsumer implements RocketMQListener<PushMessageDTO> {
 
     @Override
     public void onMessage(PushMessageDTO pushMessageDTO) {
-        PushTypeEnum pushTypeEnum = PushTypeEnum.of(pushMessageDTO.getPushType());
+        PushTypeEnum pushTypeEnum = PushTypeEnum.of(pushMessageDTO.getPushBashDTO().getType());
         switch (pushTypeEnum) {
             case USER:
                 webSocketService.sendToUid(pushMessageDTO.getPushBashDTO(), pushMessageDTO.getUserId());

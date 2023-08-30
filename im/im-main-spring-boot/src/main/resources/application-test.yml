@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.120.150:3306/im?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3308/im?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
@@ -31,10 +31,11 @@ spring:
       maxPoolPreparedStatementPerConnectionSize: 20
       useGlobalDataSourceStat: true
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
   redis:
-    host: 192.168.120.150
+    host: 127.0.0.1
     port: 6379
-    password: 123456
+
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml
@@ -45,9 +46,8 @@ logging:
     com.wgq.chat: info
 server:
   port: 8111
-
 rocketmq:
-  name-server: 192.168.120.150:9876
+  name-server: 101.33.251.36:9876
   # 默认的消息组
   producer:
     group: chatGroup
