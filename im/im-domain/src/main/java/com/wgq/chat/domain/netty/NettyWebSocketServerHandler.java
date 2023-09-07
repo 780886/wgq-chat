@@ -118,7 +118,7 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
         ReqTypeEnum reqTypeEnum = ReqTypeEnum.of(pushBashDTO.getType());
         switch (reqTypeEnum){
             case LOGIN:
-                this.webSocketService.handleLoginReq(channelHandlerContext.channel());
+                this.webSocketService.authorize(channelHandlerContext.channel(),null);
                 break;
             case HEARTBEAT:
                 break;

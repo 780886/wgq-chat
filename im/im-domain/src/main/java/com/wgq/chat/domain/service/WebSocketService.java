@@ -1,8 +1,10 @@
 package com.wgq.chat.domain.service;
 
 import com.sheep.protocol.BusinessException;
+import com.sheep.protocol.ClientInformation;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
 import com.wgq.chat.protocol.dto.PushBashDTO;
+import com.wgq.passport.protocol.query.login.LoginQuery;
 import io.netty.channel.Channel;
 
 public interface WebSocketService {
@@ -12,6 +14,8 @@ public interface WebSocketService {
      * @param channel
      */
     void handleLoginReq(Channel channel);
+
+    void login(Channel channel,LoginQuery loginQuery, ClientInformation client) throws BusinessException;
 
     /**
      * 处理所有ws连接的事件
@@ -35,10 +39,6 @@ public interface WebSocketService {
      */
     void authorize(Channel channel, AuthorizeDTO authorizeDTO) throws BusinessException;
 
-    /**
-     * 扫码用户登录成功通知,清除本地Cache中的loginCode和channel的关系
-     */
-    Boolean scanLoginSuccess(Integer loginCode, Long uid) throws BusinessException;
 
     /**
      * 推动消息给所有在线的人

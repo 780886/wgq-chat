@@ -3,11 +3,14 @@ package com.wgq.chat.infrastructure.service;
 import com.sheep.core.spi.JsonFactory;
 import com.sheep.json.Json;
 import com.sheep.protocol.BusinessException;
-import com.sheep.redis.constant.RedisKey;
+import com.sheep.protocol.ClientInformation;
+import com.sheep.protocol.LoginUser;
+import com.sheep.protocol.ThreadContext;
 import com.sheep.redis.frequency.annotation.FrequencyControl;
-import com.sheep.redis.utils.RedisUtils;
 import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.domain.event.UserOfflineEvent;
+import com.wgq.chat.domain.event.UserOnlineEvent;
+import com.wgq.chat.domain.netty.NettyUtil;
 import com.wgq.chat.domain.netty.UserContainer;
 import com.wgq.chat.domain.service.WebSocketService;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
@@ -47,6 +50,7 @@ public class WebSocketServiceImpl implements WebSocketService {
     private Logger logger = LoggerFactory.getLogger(WebSocketServiceImpl.class);
 
     private Json json = JsonFactory.getProvider();
+
     private UserContainer container = UserContainer.getContainer();
 
 
@@ -72,6 +76,25 @@ public class WebSocketServiceImpl implements WebSocketService {
         sendMsg(channel,new PushBashDTO<LoginUrlVO>(RespTypeEnum.LOGIN_URL.getType(),loginUrlVO));
     }
 
+    /**
+     * 登录
+     * @param channel
+     * @param loginQuery
+     * @param client
+     */
+    @Override
+    public void login(Channel channel,LoginQuery loginQuery, ClientInformation client) {
+        LoginDTO loginDTO = null;
+        try {
+            loginDTO = this.userLoginService.login(loginQuery, client);
+            loginSuccess(channel,loginDTO);
+        } catch (BusinessException e) {
+            //让前端的token失效
+            logger.error("登录失败,请重新登录...",e);
+            sendMsg(channel,new PushBashDTO<String>(RespTypeEnum.LOGIN_FAIL.getType(),e.getCode()+ e.getMessage()));
+        }
+    }
+
     @Override
     public void connect(Channel channel) {
         container.getOnlineMap().put(channel, new ChannelExtraDTO());
@@ -94,6 +117,11 @@ public class WebSocketServiceImpl implements WebSocketService {
 
     @Override
     public void authorize(Channel channel, AuthorizeDTO authorizeDTO) throws BusinessException {
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        if (loginUser == null){
+            logger.info("用户未登录,无法进行授权");
+            return;
+        }
         boolean verifyStatus = this.userProfileAppService.verify(authorizeDTO.getToken());
         if (verifyStatus) {//用户校验成功给用户登录
             Long userId  = this.userProfileAppService.getValidUserId(authorizeDTO.getToken());
@@ -108,48 +136,48 @@ public class WebSocketServiceImpl implements WebSocketService {
     /**
      * (channel必在本地)登录成功，并更新状态
      */
+    private void loginSuccess(Channel channel, LoginDTO loginDTO) {
+        //更新上线列表
+        container.online(channel, loginDTO.getLoginUser().getUserId());
+        //返回给用户登录成功
+        logger.info("用户登录成功,用户id:{},",loginDTO.getLoginUser().getUserId());
+        sendMsg(channel, new PushBashDTO<>(RespTypeEnum.LOGIN_SUCCESS.getType(),loginDTO));
+        //发送用户上线事件
+        boolean online = container.isOnline(loginDTO.getLoginUser().getUserId());
+        if (!online) {
+            UserProfileDTO userProfileDTO = new UserProfileDTO();
+            userProfileDTO.setGmtModified(System.currentTimeMillis());
+            userProfileDTO.setIp(NettyUtil.getAttr(channel, NettyUtil.IP));
+            applicationEventPublisher.publishEvent(new UserOnlineEvent(this, userProfileDTO));
+        }
+    }
+
+
+    /**
+     * (channel必在本地)登录成功，并更新状态
+     */
     private void loginSuccess(Channel channel, UserProfileDTO userProfileDTO, String token) {
         //更新上线列表
         container.online(channel, userProfileDTO.getUserId());
         //返回给用户登录成功
-//        boolean hasPower = true;
-//        boolean hasPower = iRoleService.hasPower(user.getId(), RoleEnum.CHAT_MANAGER);
         logger.info("用户登录成功,用户id:{},",userProfileDTO.getUserId());
-        //TODO 以下适用于群聊
         //发送给对应的用户
-//        LoginUser loginUser = new LoginUser.LoginUserBuild()
-//                .avatar(userProfileDTO.getAvatar())
-//                .nickName(userProfileDTO.getNickName())
-//                .userId(userProfileDTO.getUserId())
-//                .build();
-//        LoginDTO loginDTO = new LoginDTO(loginUser, token);
-//        sendMsg(channel, new PushBashDTO<>(RespTypeEnum.LOGIN_SUCCESS.getType(),loginDTO));
-//        //发送用户上线事件
-//        boolean online = isOnline(userProfileDTO.getUserId());
-//        if (!online) {
-//            userProfileDTO.setGmtModified(System.currentTimeMillis());
-//            userProfileDTO.setIp(NettyUtil.getAttr(channel, NettyUtil.IP));
-//            applicationEventPublisher.publishEvent(new UserOnlineEvent(this, userProfileDTO));
-//        }
-    }
-
-    @Override
-    public Boolean scanLoginSuccess(Integer loginCode, Long userId) throws BusinessException {
-        if (userId == null){
-            return Boolean.FALSE;
+        LoginUser loginUser = new LoginUser.LoginUserBuild()
+                .avatar(userProfileDTO.getAvatar())
+                .nickName(userProfileDTO.getNickName())
+                .userId(userProfileDTO.getUserId())
+                .build();
+        LoginDTO loginDTO = new LoginDTO(loginUser, token);
+        sendMsg(channel, new PushBashDTO<>(RespTypeEnum.LOGIN_SUCCESS.getType(),loginDTO));
+        //发送用户上线事件
+        boolean online = container.isOnline(userProfileDTO.getUserId());
+        if (!online) {
+            userProfileDTO.setGmtModified(System.currentTimeMillis());
+            userProfileDTO.setIp(NettyUtil.getAttr(channel, NettyUtil.IP));
+            applicationEventPublisher.publishEvent(new UserOnlineEvent(this, userProfileDTO));
         }
-        LoginQuery loginQuery = new LoginQuery();
-        loginQuery.setUserName("wgq");
-        LoginDTO loginDTO = this.userLoginService.login(loginQuery,null);
-        loginSuccess(null,null,loginDTO.getToken());
-        return Boolean.TRUE;
     }
 
-
-    public boolean isOnline(Long userId) {
-        String onlineKey = RedisKey.getKey(RedisKey.ONLINE_UID_ZET);
-        return RedisUtils.zIsMember(onlineKey, userId);
-    }
 
     @Override
     public void sendToUid(PushBashDTO<?> pushBashDTO, Long userId) {

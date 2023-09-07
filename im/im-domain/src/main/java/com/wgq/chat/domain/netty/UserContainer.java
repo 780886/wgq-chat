@@ -1,15 +1,17 @@
 package com.wgq.chat.domain.netty;
 
+import com.sheep.redis.constant.RedisKey;
+import com.sheep.redis.utils.RedisUtils;
 import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.protocol.dto.ChannelExtraDTO;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName UserContainer
@@ -45,7 +47,7 @@ public class UserContainer {
      */
     private static final ConcurrentHashMap<Channel, ChannelExtraDTO> ONLINE_WS_MAP = new ConcurrentHashMap<>();
 
-    public  ConcurrentHashMap<Channel, ChannelExtraDTO> getOnlineMap() {
+    public ConcurrentHashMap<Channel, ChannelExtraDTO> getOnlineMap() {
         return ONLINE_WS_MAP;
     }
 
@@ -54,6 +56,15 @@ public class UserContainer {
     }
 
 
+    //移除用户
+    public void remove(Long userId) {
+        String onlineKey = RedisKey.getKey(RedisKey.ONLINE_UID_ZET);
+        String offlineKey = RedisKey.getKey(RedisKey.OFFLINE_UID_ZET);
+        //移除离线表
+        RedisUtils.zRemove(offlineKey, userId);
+        //移除上线表
+        RedisUtils.zRemove(onlineKey, userId);
+    }
     /**
      * 用户上线
      */
@@ -64,17 +75,37 @@ public class UserContainer {
         NettyUtil.setAttr(channel, NettyUtil.USER_ID, userId);
     }
 
-    public void online(Long uid, long optTime) {
+    public void online(Long userId, Long optTime) {
         logger.info("更新线上表...");
-//        String onlineKey = RedisKey.getKey(RedisKey.ONLINE_UID_ZET);
-//        String offlineKey = RedisKey.getKey(RedisKey.OFFLINE_UID_ZET);
-//        //移除离线表
-//        RedisUtils.zRemove(offlineKey, uid);
-//        //更新上线表
-//        RedisUtils.zAdd(onlineKey, uid, optTime.getTime());
+        String onlineKey = RedisKey.getKey(RedisKey.ONLINE_UID_ZET);
+        String offlineKey = RedisKey.getKey(RedisKey.OFFLINE_UID_ZET);
+        //移除离线表
+        RedisUtils.zRemove(offlineKey, userId);
+        //更新上线表
+        RedisUtils.zAdd(onlineKey, userId, optTime);
     }
 
+    //获取用户上线列表
+    public List<Long> getOnlineUidList() {
+        String onlineKey = RedisKey.getKey(RedisKey.ONLINE_UID_ZET);
+        Set<String> strings = RedisUtils.zAll(onlineKey);
+        return strings.stream().map(Long::parseLong).collect(Collectors.toList());
+    }
 
+    public boolean isOnline(Long userId) {
+        String onlineKey = RedisKey.getKey(RedisKey.ONLINE_UID_ZET);
+        return RedisUtils.zIsMember(onlineKey, userId);
+    }
+
+    //用户下线
+    public void offline(Long uid, Date optTime) {
+        String onlineKey = RedisKey.getKey(RedisKey.ONLINE_UID_ZET);
+        String offlineKey = RedisKey.getKey(RedisKey.OFFLINE_UID_ZET);
+        //移除上线线表
+        RedisUtils.zRemove(onlineKey, uid);
+        //更新上线表
+        RedisUtils.zAdd(offlineKey, uid, optTime.getTime());
+    }
 
 
     /**

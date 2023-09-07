@@ -1,6 +1,7 @@
 package com.wgq.chat.infrastructure.chat.listener;
 
 import com.wgq.chat.domain.event.UserOnlineEvent;
+import com.wgq.chat.domain.netty.UserContainer;
 import com.wgq.chat.infrastructure.chat.produce.PushService;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 import org.springframework.context.event.EventListener;
@@ -21,6 +22,7 @@ public class UserOnlineListener {
 
     @Inject
     private PushService pushService;
+    private UserContainer container = UserContainer.getContainer();
 
     /**
      * TODO 远程推送
@@ -30,8 +32,8 @@ public class UserOnlineListener {
     @EventListener(classes = UserOnlineEvent.class)
     public void saveRedisAndPush(UserOnlineEvent event) {
         UserProfileDTO userProfileDTO = event.getUserProfileDTO();
-//        User user = event.getUser();
-//        userCache.online(user.getId(), user.getLastOptTime());
+        //上线
+        container.online(userProfileDTO.getUserId(), userProfileDTO.getGmtModified());
 //        //推送给所有在线用户，该用户登录成功
 //        pushService.sendPushMsg(wsAdapter.buildOnlineNotifyResp(event.getUser()));
     }
