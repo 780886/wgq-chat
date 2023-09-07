@@ -1,9 +1,13 @@
 package com.wgq.chat.infrastructure.chat.listener;
 
+import com.sheep.protocol.BusinessException;
+import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.domain.event.UserOnlineEvent;
 import com.wgq.chat.domain.netty.UserContainer;
 import com.wgq.chat.infrastructure.chat.produce.PushService;
+import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
+import com.wgq.passport.protocol.param.UserModifyParam;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 
@@ -22,7 +26,11 @@ public class UserOnlineListener {
 
     @Inject
     private PushService pushService;
+
     private UserContainer container = UserContainer.getContainer();
+
+    @Inject
+    private UserProfileAppService userProfileAppService;
 
     /**
      * TODO 远程推送
@@ -44,17 +52,12 @@ public class UserOnlineListener {
      */
     @Async
     @EventListener(classes = UserOnlineEvent.class)
-    public void updateUserInfo(UserOnlineEvent event) {
+    public void updateUserInfo(UserOnlineEvent event) throws BusinessException {
         UserProfileDTO userProfileDTO = event.getUserProfileDTO();
-        User user = event.getUser();
-        User update = new User();
-        update.setId(user.getId());
-        update.setLastOptTime(user.getLastOptTime());
-        update.setIpInfo(user.getIpInfo());
-        update.setActiveStatus(ChatActiveStatusEnum.ONLINE.getStatus());
-        userDao.updateById(update);
-        //更新用户ip详情
-        ipService.refreshIpDetailAsync(user.getId());
+        UserModifyParam userModifyParam = new UserModifyParam(userProfileDTO.getUserId(), userProfileDTO.getGmtModified(), userProfileDTO.getIp(), StatusRecord.ONLINE);
+        this.userProfileAppService.modify(userModifyParam);
+//        //更新用户ip详情
+//        ipService.refreshIpDetailAsync(user.getId());
     }
 
 }

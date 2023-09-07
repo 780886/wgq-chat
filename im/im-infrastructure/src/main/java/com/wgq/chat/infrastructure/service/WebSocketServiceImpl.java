@@ -14,8 +14,8 @@ import com.wgq.chat.protocol.dto.AuthorizeDTO;
 import com.wgq.chat.protocol.dto.ChannelExtraDTO;
 import com.wgq.chat.protocol.dto.PushBashDTO;
 import com.wgq.chat.protocol.enums.RespTypeEnum;
-import com.wgq.passport.api.UserLoginService;
 import com.wgq.passport.api.UserProfileAppService;
+import com.wgq.passport.api.UserSecurityService;
 import com.wgq.passport.protocol.dto.LoginDTO;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 import io.netty.channel.Channel;
@@ -57,7 +57,7 @@ public class WebSocketServiceImpl implements WebSocketService {
     private UserProfileAppService userProfileAppService;
 
     @Inject
-    private UserLoginService userLoginService;
+    private UserSecurityService userSecurityService;
 
     @Autowired
     private ApplicationEventPublisher applicationEventPublisher;
@@ -84,9 +84,9 @@ public class WebSocketServiceImpl implements WebSocketService {
 
     @Override
     public void authorize(Channel channel, AuthorizeDTO authorizeDTO) throws BusinessException {
-        boolean verifyStatus = this.userProfileAppService.verify(authorizeDTO.getToken());
+        boolean verifyStatus = this.userSecurityService.tokenVerify(authorizeDTO.getToken());
         if (verifyStatus) {//用户校验成功给用户登录
-            Long userId  = this.userProfileAppService.getValidUserId(authorizeDTO.getToken());
+            Long userId  = this.userSecurityService.getValidUserId(authorizeDTO.getToken());
             UserProfileDTO userProfileDTO = this.userProfileAppService.getUser(userId);
             loginSuccess(channel,userProfileDTO, authorizeDTO.getToken());
         }else {
