@@ -1,7 +1,5 @@
 package com.wgq.chat.protocol.enums;
 
-import com.wgq.chat.protocol.vo.LoginUrlVO;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
@@ -15,9 +13,8 @@ import java.util.stream.Collectors;
  * @Version 1.0
  **/
 public enum RespTypeEnum {
-    LOGIN_URL(1, "登录二维码返回", LoginUrlVO.class),
-    LOGIN_FAIL(4, "登录失败", null),
-    LOGIN_SUCCESS(3, "用户登录成功返回用户信息", null),
+
+    LOGIN_AUTHORIZE_SUCCESS(1, "用户认证成功返回用户信息", null),
 //    MESSAGE(4, "新消息", WSMessage.class),
 //    ONLINE_OFFLINE_NOTIFY(5, "上下线通知", WSOnlineOfflineNotify.class),
     INVALIDATE_TOKEN(6, "使前端的token失效，意味着前端需要重新登录", null),

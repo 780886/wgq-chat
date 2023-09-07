@@ -6,7 +6,7 @@ import com.sheep.utils.SpringUtils;
 import com.sheep.utils.StringUtils;
 import com.wgq.chat.domain.service.WebSocketService;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
-import com.wgq.chat.protocol.dto.PushBashDTO;
+import com.wgq.chat.protocol.dto.WebsocketBaseRequestDTO;
 import com.wgq.chat.protocol.enums.ReqTypeEnum;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -114,16 +114,16 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame msg) throws Exception {
-        PushBashDTO pushBashDTO = json.parse(msg.text(), PushBashDTO.class);
-        ReqTypeEnum reqTypeEnum = ReqTypeEnum.of(pushBashDTO.getType());
+        WebsocketBaseRequestDTO websocketBaseRequestDTO = json.parse(msg.text(), WebsocketBaseRequestDTO.class);
+        ReqTypeEnum reqTypeEnum = ReqTypeEnum.of(websocketBaseRequestDTO.getType());
         switch (reqTypeEnum){
-            case LOGIN:
-                this.webSocketService.authorize(channelHandlerContext.channel(),null);
+            case AUTHORIZE:
+                this.webSocketService.authorize(channelHandlerContext.channel(),new AuthorizeDTO(websocketBaseRequestDTO.getToken()));
                 break;
             case HEARTBEAT:
                 break;
-            default:
-                logger.info("未知类型");
+            case LOGIN:
+                break;
         }
     }
 

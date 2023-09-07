@@ -14,9 +14,10 @@ import java.util.stream.Collectors;
  */
 public enum ReqTypeEnum {
 
-    LOGIN(1, "请求登录地址"),
-    HEARTBEAT(2, "心跳包"),
-    AUTHORIZE(3, "登录认证");
+    AUTHORIZE(1, "登录认证"),
+    LOGIN(2, "请求登录地址"),
+    HEARTBEAT(3, "心跳包");
+
 
     private final Integer type;
     private final String desc;

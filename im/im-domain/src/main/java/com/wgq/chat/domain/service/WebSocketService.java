@@ -1,21 +1,11 @@
 package com.wgq.chat.domain.service;
 
 import com.sheep.protocol.BusinessException;
-import com.sheep.protocol.ClientInformation;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
 import com.wgq.chat.protocol.dto.PushBashDTO;
-import com.wgq.passport.protocol.query.login.LoginQuery;
 import io.netty.channel.Channel;
 
 public interface WebSocketService {
-    /**
-     * 处理用户登录请求，需要返回一张带code的二维码
-     *
-     * @param channel
-     */
-    void handleLoginReq(Channel channel);
-
-    void login(Channel channel,LoginQuery loginQuery, ClientInformation client) throws BusinessException;
 
     /**
      * 处理所有ws连接的事件

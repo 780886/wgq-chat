@@ -44,16 +44,17 @@ public class UserOnlineListener {
      */
     @Async
     @EventListener(classes = UserOnlineEvent.class)
-    public void saveDB(UserOnlineEvent event) {
-//        User user = event.getUser();
-//        User update = new User();
-//        update.setId(user.getId());
-//        update.setLastOptTime(user.getLastOptTime());
-//        update.setIpInfo(user.getIpInfo());
-//        update.setActiveStatus(ChatActiveStatusEnum.ONLINE.getStatus());
-//        userDao.updateById(update);
-//        //更新用户ip详情
-//        ipService.refreshIpDetailAsync(user.getId());
+    public void updateUserInfo(UserOnlineEvent event) {
+        UserProfileDTO userProfileDTO = event.getUserProfileDTO();
+        User user = event.getUser();
+        User update = new User();
+        update.setId(user.getId());
+        update.setLastOptTime(user.getLastOptTime());
+        update.setIpInfo(user.getIpInfo());
+        update.setActiveStatus(ChatActiveStatusEnum.ONLINE.getStatus());
+        userDao.updateById(update);
+        //更新用户ip详情
+        ipService.refreshIpDetailAsync(user.getId());
     }
 
 }

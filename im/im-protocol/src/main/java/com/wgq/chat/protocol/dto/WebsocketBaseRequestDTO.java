@@ -4,13 +4,13 @@ import com.sheep.protocol.DTO;
 import com.wgq.chat.protocol.enums.ReqTypeEnum;
 
 /**
- * @ClassName: RequestLoginDTO
- * @Author : wgq
- * @Date :2023/8/22  15:51
- * @Description:
- * @Version :1.0
- */
-public class PushBashDTO<T> implements DTO {
+ * @ClassName WebsocketBaseRequtstDTO
+ * @Description TODO
+ * @Author wgq
+ * @Date 2023/9/7 10:56
+ * @Version 1.0
+ **/
+public class WebsocketBaseRequestDTO implements DTO {
 
     /**
      * @see ReqTypeEnum
@@ -20,14 +20,14 @@ public class PushBashDTO<T> implements DTO {
     /**
      * 每个请求包具体的数据，类型不同结果不同
      */
-    private T data;
+    private String token;
 
-    public PushBashDTO() {
+    public WebsocketBaseRequestDTO() {
     }
 
-    public PushBashDTO(Integer type, T data) {
+    public WebsocketBaseRequestDTO(Integer type, String token) {
         this.type = type;
-        this.data = data;
+        this.token = token;
     }
 
     public Integer getType() {
@@ -38,11 +38,11 @@ public class PushBashDTO<T> implements DTO {
         this.type = type;
     }
 
-    public T getData() {
-        return data;
+    public String getToken() {
+        return token;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public void setToken(String token) {
+        this.token = token;
     }
 }
