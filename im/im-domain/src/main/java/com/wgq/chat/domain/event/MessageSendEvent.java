@@ -1,4 +1,4 @@
-package com.wgq.chat.event;
+package com.wgq.chat.domain.event;
 
 import org.springframework.context.ApplicationEvent;
 

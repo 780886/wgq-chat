@@ -30,10 +30,10 @@ public class ChatController {
     @Inject
     private ChatAssemble chatAssemble;
 
-    @PostMapping("/msg/sendMsg")
+    @PostMapping("/sendMessage")
     @ApiOperation("发送消息")
-    public MessageReturnVO sendMsg(@RequestBody MessageSendParam messageSendParam) {//todo 发送给单聊
-        MessageReturnBO messageReturnBO = this.chatService.sendMsg(messageSendParam);
+    public MessageReturnVO sendMessage(@RequestBody MessageSendParam messageSendParam) {//todo 发送给单聊
+        MessageReturnBO messageReturnBO = this.chatService.sendMessage(messageSendParam);
         //返回完整消息格式，方便前端展示
         return this.chatAssemble.assemble2vo(messageReturnBO);
     }

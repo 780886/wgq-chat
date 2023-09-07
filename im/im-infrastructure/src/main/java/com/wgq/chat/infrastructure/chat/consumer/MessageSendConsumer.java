@@ -37,6 +37,6 @@ public class MessageSendConsumer implements RocketMQListener<MessageSendDTO> {
         MessageBO messageBO = this.messageRepository.getMessage(messageSendDTO.getMessageId());
         List<Long> memberUidList = new ArrayList<>();
         memberUidList.add(1L);
-        pushService.sendPushMsg(new PushBashDTO<>(1,2),memberUidList);
+        pushService.sendPushMsg(new PushBashDTO<>(1,messageBO),memberUidList);
     }
 }
