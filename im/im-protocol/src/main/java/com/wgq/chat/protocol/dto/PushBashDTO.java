@@ -1,5 +1,7 @@
 package com.wgq.chat.protocol.dto;
 
+import com.sheep.protocol.DTO;
+
 /**
  * @ClassName: RequestLoginDTO
  * @Author : wgq
@@ -7,7 +9,7 @@ package com.wgq.chat.protocol.dto;
  * @Description:
  * @Version :1.0
  */
-public class PushBashDTO<T> {
+public class PushBashDTO<T> implements DTO {
 
     /**
      * 请求类型 1.请求登录二维码，2心跳检测
@@ -20,6 +22,9 @@ public class PushBashDTO<T> {
      * 每个请求包具体的数据，类型不同结果不同
      */
     private T data;
+
+    public PushBashDTO() {
+    }
 
     public PushBashDTO(Integer type, T data) {
         this.type = type;

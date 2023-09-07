@@ -38,14 +38,7 @@ public interface WebSocketService {
     /**
      * 扫码用户登录成功通知,清除本地Cache中的loginCode和channel的关系
      */
-    Boolean scanLoginSuccess(Integer loginCode, Long uid);
-
-    /**
-     * 通知用户扫码成功
-     *
-     * @param loginCode
-     */
-    Boolean scanSuccess(Integer loginCode);
+    Boolean scanLoginSuccess(Integer loginCode, Long uid) throws BusinessException;
 
     /**
      * 推动消息给所有在线的人

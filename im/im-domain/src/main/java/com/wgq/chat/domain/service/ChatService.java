@@ -4,7 +4,7 @@ import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.MessageReturnBO;
-import com.wgq.chat.event.MessageSendEvent;
+import com.wgq.chat.domain.event.MessageSendEvent;
 import com.wgq.chat.protocol.enums.MessageStatusEnum;
 import com.wgq.chat.protocol.param.MessageSendParam;
 import com.wgq.chat.repository.MessageRepository;
@@ -29,7 +29,7 @@ public class ChatService {
     @Inject
     private ApplicationEventPublisher applicationEventPublisher;
 
-    public MessageReturnBO sendMsg(MessageSendParam messageSendParam) {
+    public MessageReturnBO sendMessage(MessageSendParam messageSendParam) {
         LoginUser loginUser = ThreadContext.getLoginToken();
         MessageBO messageBO = new MessageBO(messageSendParam.getRoomId(),
                 loginUser.getUserId(), MessageStatusEnum.NORMAL.getStatus(),

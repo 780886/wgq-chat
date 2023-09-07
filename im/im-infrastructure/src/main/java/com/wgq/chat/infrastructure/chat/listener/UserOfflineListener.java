@@ -1,13 +1,18 @@
-package com.wgq.chat.domain.listener;
+package com.wgq.chat.infrastructure.chat.listener;
 
-import com.sheep.protocol.LoginUser;
+import com.wgq.chat.domain.event.UserOfflineEvent;
+import com.wgq.chat.domain.netty.UserContainer;
 import com.wgq.chat.domain.service.WebSocketService;
+import com.wgq.chat.infrastructure.chat.produce.PushService;
+import com.wgq.passport.protocol.dto.UserProfileDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * 用户下线监听器
@@ -15,27 +20,26 @@ import org.springframework.stereotype.Component;
  * @author zhongzb create on 2022/08/26
  */
 
-@Component
+@Named
 public class UserOfflineListener {
 
     private Logger logger = LoggerFactory.getLogger(UserOfflineListener.class);
-    @Autowired
+
+    private UserContainer container = UserContainer.getContainer();
+
+    @Inject
     private WebSocketService webSocketService;
-//    @Autowired
-//    private UserDao userDao;
-//    @Autowired
-//    private UserCache userCache;
-//    @Autowired
-//    private WSAdapter wsAdapter;
+    @Autowired
+    private PushService pushService;
 
     @Async
     @EventListener(classes = UserOfflineEvent.class)
     public void saveRedisAndPush(UserOfflineEvent event) {
-        LoginUser loginUser = event.getLoginUser();
-        logger.info("用户下线:{}",loginUser.getUserId());
-//        userCache.offline(user.getId(), user.getLastOptTime());
-//        //推送给所有在线用户，该用户下线
-//        webSocketService.sendToAllOnline(wsAdapter.buildOfflineNotifyResp(event.getUser()), event.getUser().getId());
+        UserProfileDTO userProfileDTO = event.getUserProfileDTO();
+        logger.info("用户下线:{}",userProfileDTO.getUserId());
+        container.online(userProfileDTO.getUserId(), userProfileDTO.getGmtModified());
+        //推送给所有在线用户，该用户登录成功
+//        pushService.sendPushMsg(new PushBashDTO<>(5,2),memberUidList);
     }
 
 //    @Async

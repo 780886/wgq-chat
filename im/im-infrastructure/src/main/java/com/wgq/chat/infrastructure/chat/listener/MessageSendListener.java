@@ -1,7 +1,7 @@
-package com.wgq.chat.infrastructure.chat.event.listener;
+package com.wgq.chat.infrastructure.chat.listener;
 
 import com.sheep.rocketmq.MQProducer;
-import com.wgq.chat.event.MessageSendEvent;
+import com.wgq.chat.domain.event.MessageSendEvent;
 import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.MessageSendDTO;
 import org.springframework.transaction.event.TransactionPhase;

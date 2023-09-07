@@ -30,6 +30,10 @@ public class PushService {
         mqProducer.sendMsg(MQConstant.PUSH_TOPIC, new PushMessageDTO(userId, message));
     }
 
+    /**
+     * 推送所有用户 群聊功能
+     * @param message
+     */
     public void sendPushMsg(PushBashDTO<?> message) {
         mqProducer.sendMsg(MQConstant.PUSH_TOPIC, new PushMessageDTO(message));
     }
