@@ -42,6 +42,6 @@ public class MessageRepositoryImpl implements MessageRepository {
     @Override
     public MessageBO getMessage(Long messageId) {
         Message message = this.messageDao.getMessageById(messageId);
-        return this.messageConverter.convert2bo(message);
+        return this.messageConverter.convert2BO(message);
     }
 }

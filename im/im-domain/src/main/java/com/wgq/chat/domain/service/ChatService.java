@@ -4,7 +4,8 @@ import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.MessageReturnBO;
-import com.wgq.chat.domain.event.MessageSendEvent;
+import com.wgq.chat.protocol.constant.MQConstant;
+import com.wgq.chat.protocol.dto.MessageSendDTO;
 import com.wgq.chat.protocol.enums.MessageStatusEnum;
 import com.wgq.chat.protocol.param.MessageSendParam;
 import com.wgq.chat.repository.MessageRepository;
@@ -29,6 +30,9 @@ public class ChatService {
     @Inject
     private ApplicationEventPublisher applicationEventPublisher;
 
+    @Inject
+    private MQProducerService mqProducerService;
+
     public MessageReturnBO sendMessage(MessageSendParam messageSendParam) {
         LoginUser loginUser = ThreadContext.getLoginToken();
         MessageBO messageBO = new MessageBO(messageSendParam.getRoomId(),
@@ -36,7 +40,7 @@ public class ChatService {
                 messageSendParam.getMessageType()
                 ,messageSendParam.getBody());
         Long messageId = this.messageRepository.save(messageBO);
-        this.applicationEventPublisher.publishEvent(new MessageSendEvent(this,messageId));
+        this.mqProducerService.sendSecureMsg(MQConstant.SEND_MSG_TOPIC,new MessageSendDTO(messageId),messageId);
         return this.messageRepository.getMessage(messageId,loginUser.getUserId());
     }
 }

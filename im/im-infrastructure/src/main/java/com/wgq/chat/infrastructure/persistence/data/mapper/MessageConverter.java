@@ -36,12 +36,13 @@ public class MessageConverter {
         return messageReturnBO;
     }
 
-    public MessageBO convert2bo(Message message) {
+    public MessageBO convert2BO(Message message) {
         MessageBO messageBO = new MessageBO();
         messageBO.setSenderUserId(message.getSenderUserId());
         messageBO.setRoomId(message.getRoomId());
         messageBO.setMessageType(message.getType());
         messageBO.setStatus(message.getStatus());
+        messageBO.setBody(message.getContent());
         return messageBO;
     }
 }

@@ -32,7 +32,7 @@ public class ChatController {
 
     @PostMapping("/sendMessage")
     @ApiOperation("发送消息")
-    public MessageReturnVO sendMessage(@RequestBody MessageSendParam messageSendParam) {//todo 发送给单聊
+    public MessageReturnVO sendMessage(@RequestBody MessageSendParam messageSendParam) {
         MessageReturnBO messageReturnBO = this.chatService.sendMessage(messageSendParam);
         //返回完整消息格式，方便前端展示
         return this.chatAssemble.assemble2vo(messageReturnBO);
