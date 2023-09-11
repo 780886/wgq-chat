@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * @Description:
  * @Version :1.0
  */
-public enum ReqTypeEnum {
+public enum RequestTypeEnum {
 
     AUTHORIZE(1, "登录认证"),
     LOGIN(2, "请求登录地址"),
@@ -22,13 +22,13 @@ public enum ReqTypeEnum {
     private final Integer type;
     private final String desc;
 
-    private static Map<Integer, ReqTypeEnum> cache;
+    private static Map<Integer, RequestTypeEnum> cache;
 
     static {
-        cache = Arrays.stream(ReqTypeEnum.values()).collect(Collectors.toMap(ReqTypeEnum::getType, Function.identity()));
+        cache = Arrays.stream(RequestTypeEnum.values()).collect(Collectors.toMap(RequestTypeEnum::getType, Function.identity()));
     }
 
-    ReqTypeEnum(Integer type, String desc) {
+    RequestTypeEnum(Integer type, String desc) {
         this.type = type;
         this.desc = desc;
     }
@@ -41,15 +41,15 @@ public enum ReqTypeEnum {
         return desc;
     }
 
-    public static Map<Integer, ReqTypeEnum> getCache() {
+    public static Map<Integer, RequestTypeEnum> getCache() {
         return cache;
     }
 
-    public static void setCache(Map<Integer, ReqTypeEnum> cache) {
-        ReqTypeEnum.cache = cache;
+    public static void setCache(Map<Integer, RequestTypeEnum> cache) {
+        RequestTypeEnum.cache = cache;
     }
 
-    public static ReqTypeEnum of(Integer type) {
+    public static RequestTypeEnum of(Integer type) {
         return cache.get(type);
     }
 }

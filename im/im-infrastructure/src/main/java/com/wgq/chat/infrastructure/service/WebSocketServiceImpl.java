@@ -5,15 +5,15 @@ import com.sheep.json.Json;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.utils.CollectionsUtils;
-import com.wgq.chat.domain.event.UserOfflineEvent;
-import com.wgq.chat.domain.event.UserOnlineEvent;
 import com.wgq.chat.domain.netty.NettyUtil;
 import com.wgq.chat.domain.netty.UserContainer;
+import com.wgq.chat.domain.service.MQProducerService;
 import com.wgq.chat.domain.service.WebSocketService;
+import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
 import com.wgq.chat.protocol.dto.ChannelExtraDTO;
 import com.wgq.chat.protocol.dto.PushBashDTO;
-import com.wgq.chat.protocol.enums.RespTypeEnum;
+import com.wgq.chat.protocol.enums.ResponseTypeEnum;
 import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.api.UserSecurityService;
 import com.wgq.passport.protocol.dto.LoginDTO;
@@ -22,9 +22,7 @@ import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.inject.Inject;
@@ -59,8 +57,8 @@ public class WebSocketServiceImpl implements WebSocketService {
     @Inject
     private UserSecurityService userSecurityService;
 
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
+    @Inject
+    private MQProducerService mqProducerService;
 
     @Override
     public void connect(Channel channel) {
@@ -78,7 +76,7 @@ public class WebSocketServiceImpl implements WebSocketService {
             UserProfileDTO userProfileDTO = new UserProfileDTO();
             userProfileDTO.setUserId(uidOptional.get());
             userProfileDTO.setGmtModified(System.currentTimeMillis());
-            applicationEventPublisher.publishEvent(new UserOfflineEvent(this, userProfileDTO));
+            this.mqProducerService.sendPushMessage(MQConstant.USER_OFFLINE_TOPIC,userProfileDTO);
         }
     }
 
@@ -91,7 +89,7 @@ public class WebSocketServiceImpl implements WebSocketService {
             loginSuccess(channel,userProfileDTO, authorizeDTO.getToken());
         }else {
             //让前端的token失效
-            sendMsg(channel,new PushBashDTO<LoginDTO>(RespTypeEnum.INVALIDATE_TOKEN.getType(),null));
+            sendMsg(channel,new PushBashDTO<LoginDTO>(ResponseTypeEnum.INVALIDATE_TOKEN.getType(),null));
         }
     }
 
@@ -108,13 +106,13 @@ public class WebSocketServiceImpl implements WebSocketService {
                 .userId(userProfileDTO.getUserId())
                 .build();
         LoginDTO loginDTO = new LoginDTO(loginUser, token);
-        sendMsg(channel, new PushBashDTO<>(RespTypeEnum.LOGIN_AUTHORIZE_SUCCESS.getType(),loginDTO));
+        sendMsg(channel, new PushBashDTO<>(ResponseTypeEnum.LOGIN_AUTHORIZE_SUCCESS.getType(),loginDTO));
         //发送用户上线事件
         boolean online = container.isOnline(userProfileDTO.getUserId());
         if (!online) {
             userProfileDTO.setGmtModified(System.currentTimeMillis());
             userProfileDTO.setIp(NettyUtil.getAttr(channel, NettyUtil.IP));
-            applicationEventPublisher.publishEvent(new UserOnlineEvent(this, userProfileDTO));
+            this.mqProducerService.sendPushMessage(MQConstant.USER_ONLINE_TOPIC,userProfileDTO);
         }
     }
 

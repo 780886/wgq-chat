@@ -22,9 +22,9 @@ import javax.inject.Named;
  */
 @RocketMQMessageListener(topic = MQConstant.PUSH_TOPIC, consumerGroup = MQConstant.PUSH_GROUP, messageModel = MessageModel.BROADCASTING)
 @Named
-public class PushConsumer implements RocketMQListener<PushMessageDTO> {
+public class MessagePushConsumer implements RocketMQListener<PushMessageDTO> {
 
-    private static Logger logger = LoggerFactory.getLogger(PushConsumer.class);
+    private static Logger logger = LoggerFactory.getLogger(MessagePushConsumer.class);
 
     @Inject
     private WebSocketService webSocketService;

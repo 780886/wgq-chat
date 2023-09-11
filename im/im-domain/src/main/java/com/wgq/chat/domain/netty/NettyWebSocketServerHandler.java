@@ -7,7 +7,7 @@ import com.sheep.utils.StringUtils;
 import com.wgq.chat.domain.service.WebSocketService;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
 import com.wgq.chat.protocol.dto.WebsocketBaseRequestDTO;
-import com.wgq.chat.protocol.enums.ReqTypeEnum;
+import com.wgq.chat.protocol.enums.RequestTypeEnum;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -115,8 +115,8 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame msg) throws Exception {
         WebsocketBaseRequestDTO websocketBaseRequestDTO = json.parse(msg.text(), WebsocketBaseRequestDTO.class);
-        ReqTypeEnum reqTypeEnum = ReqTypeEnum.of(websocketBaseRequestDTO.getType());
-        switch (reqTypeEnum){
+        RequestTypeEnum requestTypeEnum = RequestTypeEnum.of(websocketBaseRequestDTO.getType());
+        switch (requestTypeEnum){
             case AUTHORIZE:
                 this.webSocketService.authorize(channelHandlerContext.channel(),new AuthorizeDTO(websocketBaseRequestDTO.getToken()));
                 break;

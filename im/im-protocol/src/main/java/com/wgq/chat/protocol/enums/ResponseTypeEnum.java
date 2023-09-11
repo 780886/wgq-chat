@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * @Date 2023/8/22 21:14
  * @Version 1.0
  **/
-public enum RespTypeEnum {
+public enum ResponseTypeEnum {
 
     LOGIN_AUTHORIZE_SUCCESS(1, "用户认证成功返回用户信息", null),
 //    MESSAGE(4, "新消息", WSMessage.class),
@@ -28,17 +28,17 @@ public enum RespTypeEnum {
     private final String desc;
     private final Class dataClass;
 
-    private static Map<Integer, RespTypeEnum> cache;
+    private static Map<Integer, ResponseTypeEnum> cache;
 
     static {
-        cache = Arrays.stream(RespTypeEnum.values()).collect(Collectors.toMap(RespTypeEnum::getType, Function.identity()));
+        cache = Arrays.stream(ResponseTypeEnum.values()).collect(Collectors.toMap(ResponseTypeEnum::getType, Function.identity()));
     }
 
-    public static RespTypeEnum of(Integer type) {
+    public static ResponseTypeEnum of(Integer type) {
         return cache.get(type);
     }
 
-    RespTypeEnum(Integer type, String desc, Class dataClass) {
+    ResponseTypeEnum(Integer type, String desc, Class dataClass) {
         this.type = type;
         this.desc = desc;
         this.dataClass = dataClass;

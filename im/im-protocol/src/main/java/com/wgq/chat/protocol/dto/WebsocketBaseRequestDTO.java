@@ -1,7 +1,7 @@
 package com.wgq.chat.protocol.dto;
 
 import com.sheep.protocol.DTO;
-import com.wgq.chat.protocol.enums.ReqTypeEnum;
+import com.wgq.chat.protocol.enums.RequestTypeEnum;
 
 /**
  * @ClassName WebsocketBaseRequtstDTO
@@ -13,7 +13,7 @@ import com.wgq.chat.protocol.enums.ReqTypeEnum;
 public class WebsocketBaseRequestDTO implements DTO {
 
     /**
-     * @see ReqTypeEnum
+     * @see RequestTypeEnum
      */
     private Integer type;
 
