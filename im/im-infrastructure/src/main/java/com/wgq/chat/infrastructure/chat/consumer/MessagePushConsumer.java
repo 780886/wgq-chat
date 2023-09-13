@@ -1,8 +1,8 @@
 package com.wgq.chat.infrastructure.chat.consumer;
 
+import com.sheep.mq.PushMessageDTO;
 import com.wgq.chat.domain.service.WebSocketService;
 import com.wgq.chat.protocol.constant.MQConstant;
-import com.wgq.chat.protocol.dto.PushMessageDTO;
 import com.wgq.chat.protocol.enums.PushTypeEnum;
 import org.apache.rocketmq.spring.annotation.MessageModel;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;

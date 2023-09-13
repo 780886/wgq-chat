@@ -1,10 +1,14 @@
 package com.wgq.chat.contact.service;
 
 import com.sheep.exception.Asserts;
+import com.sheep.mq.MQPublisher;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
-import com.wgq.chat.contact.bo.*;
+import com.wgq.chat.contact.bo.AuditBO;
+import com.wgq.chat.contact.bo.AuditWrapBO;
+import com.wgq.chat.contact.bo.FriendApplyBo;
+import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.protocol.audit.JoinQunParam;
@@ -19,7 +23,10 @@ import com.wgq.passport.protocol.dto.UserProfileDTO;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Named
 public class AuditService {
@@ -39,22 +46,21 @@ public class AuditService {
     @Inject
     private QunRepository qunRepository;
 
+    @Inject
+    private MQPublisher mqPublisher;
 
 
-    public Long applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
+
+    public void applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
         //获取当前登录信息
         LoginUser loginUser = ThreadContext.getLoginToken();
-//        LoginUser loginUser = new LoginUser();
-//        loginUser.setUserId(2L);
-//        loginUser.setNickName("杨洋");
-//        loginUser.setDeviceId("1");
-//        loginUser.setDays(2);
         //通过密码标识获取好友的id
         Long friendId = this.secretService.parseUserSecretIdentify(friendApplyParam.getFriendSecretIdentify());
         //构建好友申请的内部逻辑对象
         FriendApplyBo friendApplyBo = new FriendApplyBo(loginUser.getUserId(),friendId,friendApplyParam.getReason());
         //提交申请
-        return this.auditRepository.applyFriend(friendApplyBo);
+        this.auditRepository.applyFriend(friendApplyBo);
+        //通知
 
     }
 

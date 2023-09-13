@@ -1,10 +1,10 @@
 package com.wgq.chat.infrastructure.chat.consumer;
 
+import com.sheep.mq.MQPublisher;
+import com.sheep.mq.PushBashDTO;
 import com.wgq.chat.bo.MessageBO;
-import com.wgq.chat.domain.service.MQProducerService;
 import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.MessageSendDTO;
-import com.wgq.chat.protocol.dto.PushBashDTO;
 import com.wgq.chat.repository.MessageRepository;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -24,7 +24,7 @@ import javax.inject.Named;
 public class MessageSendConsumer implements RocketMQListener<MessageSendDTO> {
 
     @Inject
-    private MQProducerService mqProducerService;
+    private MQPublisher mqPublisher;
 
     @Inject
     private MessageRepository messageRepository;
@@ -33,6 +33,6 @@ public class MessageSendConsumer implements RocketMQListener<MessageSendDTO> {
     @Override
     public void onMessage(MessageSendDTO messageSendDTO) {
         MessageBO messageBO = this.messageRepository.getMessage(messageSendDTO.getMessageId());
-        this.mqProducerService.sendPushMessage(MQConstant.PUSH_TOPIC,new PushBashDTO<>(1,messageBO),1L);
+        this.mqPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(1,messageBO),1L);
     }
 }

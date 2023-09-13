@@ -6,7 +6,7 @@ import com.sheep.utils.SpringUtils;
 import com.sheep.utils.StringUtils;
 import com.wgq.chat.domain.service.WebSocketService;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
-import com.wgq.chat.protocol.dto.WebsocketBaseRequestDTO;
+import com.wgq.chat.protocol.dto.WebsocketRequestBaseDTO;
 import com.wgq.chat.protocol.enums.RequestTypeEnum;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -114,11 +114,11 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame msg) throws Exception {
-        WebsocketBaseRequestDTO websocketBaseRequestDTO = json.parse(msg.text(), WebsocketBaseRequestDTO.class);
-        RequestTypeEnum requestTypeEnum = RequestTypeEnum.of(websocketBaseRequestDTO.getType());
+        WebsocketRequestBaseDTO websocketRequestBaseDTO = json.parse(msg.text(), WebsocketRequestBaseDTO.class);
+        RequestTypeEnum requestTypeEnum = RequestTypeEnum.of(websocketRequestBaseDTO.getType());
         switch (requestTypeEnum){
             case AUTHORIZE:
-                this.webSocketService.authorize(channelHandlerContext.channel(),new AuthorizeDTO(websocketBaseRequestDTO.getToken()));
+                this.webSocketService.authorize(channelHandlerContext.channel(),new AuthorizeDTO(websocketRequestBaseDTO.getToken()));
                 break;
             case HEARTBEAT:
                 break;

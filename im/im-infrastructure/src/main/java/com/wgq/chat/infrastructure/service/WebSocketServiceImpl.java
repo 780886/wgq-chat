@@ -2,17 +2,17 @@ package com.wgq.chat.infrastructure.service;
 
 import com.sheep.core.spi.JsonFactory;
 import com.sheep.json.Json;
+import com.sheep.mq.MQPublisher;
+import com.sheep.mq.PushBashDTO;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.domain.netty.NettyUtil;
 import com.wgq.chat.domain.netty.UserContainer;
-import com.wgq.chat.domain.service.MQProducerService;
 import com.wgq.chat.domain.service.WebSocketService;
 import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
 import com.wgq.chat.protocol.dto.ChannelExtraDTO;
-import com.wgq.chat.protocol.dto.PushBashDTO;
 import com.wgq.chat.protocol.enums.ResponseTypeEnum;
 import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.api.UserSecurityService;
@@ -58,7 +58,7 @@ public class WebSocketServiceImpl implements WebSocketService {
     private UserSecurityService userSecurityService;
 
     @Inject
-    private MQProducerService mqProducerService;
+    private MQPublisher mqPublisher;
 
     @Override
     public void connect(Channel channel) {
@@ -76,7 +76,7 @@ public class WebSocketServiceImpl implements WebSocketService {
             UserProfileDTO userProfileDTO = new UserProfileDTO();
             userProfileDTO.setUserId(uidOptional.get());
             userProfileDTO.setGmtModified(System.currentTimeMillis());
-            this.mqProducerService.sendPushMessage(MQConstant.USER_OFFLINE_TOPIC,userProfileDTO);
+            this.mqPublisher.publish(MQConstant.USER_OFFLINE_TOPIC,new PushBashDTO<UserProfileDTO>(ResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileDTO),userProfileDTO.getUserId());
         }
     }
 
@@ -112,7 +112,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         if (!online) {
             userProfileDTO.setGmtModified(System.currentTimeMillis());
             userProfileDTO.setIp(NettyUtil.getAttr(channel, NettyUtil.IP));
-            this.mqProducerService.sendPushMessage(MQConstant.USER_ONLINE_TOPIC,userProfileDTO);
+            this.mqPublisher.publish(MQConstant.USER_ONLINE_TOPIC,new PushBashDTO<UserProfileDTO>(ResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileDTO),userProfileDTO.getUserId());
         }
     }
 

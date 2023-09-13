@@ -3,23 +3,17 @@ package com.wgq.chat.contact.controller;
 import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.assembler.ContactAssembler;
 import com.wgq.chat.contact.bo.AuditWrapBO;
-import com.wgq.chat.contact.bo.FriendAuditWrapBo;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.protocol.audit.JoinQunParam;
 import com.wgq.chat.contact.protocol.audit.QunAuditParam;
-import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.contact.service.AuditService;
-import com.wgq.chat.contact.vo.FriendAuditVO;
 import com.wgq.chat.contact.vo.FriendAuditWrapVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
-import java.util.List;
 
 
 @Api(value = "contact", tags = "IM 联系人审核")
@@ -44,8 +38,8 @@ public class AuditController {
 
     @ApiOperation("申请好友")
     @PostMapping("friend-apply")
-    public Long applyFriend(@RequestBody FriendApplyParam friendApplyParam) throws BusinessException {
-        return this.auditService.applyFriend(friendApplyParam);
+    public void applyFriend(@RequestBody FriendApplyParam friendApplyParam) throws BusinessException {
+        this.auditService.applyFriend(friendApplyParam);
     }
 
 
