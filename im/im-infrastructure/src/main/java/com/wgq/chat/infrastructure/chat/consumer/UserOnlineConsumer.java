@@ -37,6 +37,7 @@ public class UserOnlineConsumer implements RocketMQListener<UserProfileDTO> {
     public void onMessage(UserProfileDTO userProfileDTO) {
         //上线
         logger.info("用户上线:{}",userProfileDTO.getUserId());
+        userProfileDTO.setGmtModified(System.currentTimeMillis());
         this.container.online(userProfileDTO.getUserId(), userProfileDTO.getGmtModified());
         UserModifyParam userModifyParam = new UserModifyParam(userProfileDTO.getUserId(), userProfileDTO.getGmtModified(), userProfileDTO.getIp(), StatusRecord.ONLINE);
         try {
