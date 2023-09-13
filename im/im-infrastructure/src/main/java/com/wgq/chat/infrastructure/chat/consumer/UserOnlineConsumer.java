@@ -1,8 +1,9 @@
 package com.wgq.chat.infrastructure.chat.consumer;
 
+import com.sheep.mq.MQConstant;
+import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.domain.netty.UserContainer;
-import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 import com.wgq.passport.protocol.param.UserModifyParam;
@@ -37,12 +38,11 @@ public class UserOnlineConsumer implements RocketMQListener<UserProfileDTO> {
         //上线
         logger.info("用户上线:{}",userProfileDTO.getUserId());
         this.container.online(userProfileDTO.getUserId(), userProfileDTO.getGmtModified());
-
         UserModifyParam userModifyParam = new UserModifyParam(userProfileDTO.getUserId(), userProfileDTO.getGmtModified(), userProfileDTO.getIp(), StatusRecord.ONLINE);
-//        try {
-//            this.userProfileAppService.modify(userModifyParam);
-//        } catch (BusinessException e) {
-//            logger.error("用户上线:{},状态修改失败!",userProfileDTO.getUserId(),e);
-//        }
+        try {
+            this.userProfileAppService.modify(userModifyParam);
+        } catch (BusinessException e) {
+            logger.error("用户上线:{},状态修改失败!",userProfileDTO.getUserId(),e);
+        }
     }
 }

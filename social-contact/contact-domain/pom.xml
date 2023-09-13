@@ -35,7 +35,7 @@
         </dependency>
         <dependency>
             <groupId>com.wgq.chat</groupId>
-            <artifactId>im-protocol</artifactId>
+            <artifactId>contact-protocol</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>

@@ -2,18 +2,18 @@ package com.wgq.chat.infrastructure.service;
 
 import com.sheep.core.spi.JsonFactory;
 import com.sheep.json.Json;
+import com.sheep.mq.MQConstant;
 import com.sheep.mq.MQPublisher;
 import com.sheep.mq.PushBashDTO;
+import com.sheep.mq.WebsocketResponseTypeEnum;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.domain.netty.NettyUtil;
 import com.wgq.chat.domain.netty.UserContainer;
 import com.wgq.chat.domain.service.WebSocketService;
-import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
 import com.wgq.chat.protocol.dto.ChannelExtraDTO;
-import com.wgq.chat.protocol.enums.ResponseTypeEnum;
 import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.api.UserSecurityService;
 import com.wgq.passport.protocol.dto.LoginDTO;
@@ -76,7 +76,7 @@ public class WebSocketServiceImpl implements WebSocketService {
             UserProfileDTO userProfileDTO = new UserProfileDTO();
             userProfileDTO.setUserId(uidOptional.get());
             userProfileDTO.setGmtModified(System.currentTimeMillis());
-            this.mqPublisher.publish(MQConstant.USER_OFFLINE_TOPIC,new PushBashDTO<UserProfileDTO>(ResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileDTO),userProfileDTO.getUserId());
+            this.mqPublisher.publish(MQConstant.USER_OFFLINE_TOPIC,new PushBashDTO<UserProfileDTO>(WebsocketResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileDTO),userProfileDTO.getUserId());
         }
     }
 
@@ -89,7 +89,7 @@ public class WebSocketServiceImpl implements WebSocketService {
             loginSuccess(channel,userProfileDTO, authorizeDTO.getToken());
         }else {
             //让前端的token失效
-            sendMsg(channel,new PushBashDTO<LoginDTO>(ResponseTypeEnum.INVALIDATE_TOKEN.getType(),null));
+            sendMsg(channel,new PushBashDTO<LoginDTO>(WebsocketResponseTypeEnum.INVALIDATE_TOKEN.getType(),null));
         }
     }
 
@@ -106,13 +106,13 @@ public class WebSocketServiceImpl implements WebSocketService {
                 .userId(userProfileDTO.getUserId())
                 .build();
         LoginDTO loginDTO = new LoginDTO(loginUser, token);
-        sendMsg(channel, new PushBashDTO<>(ResponseTypeEnum.LOGIN_AUTHORIZE_SUCCESS.getType(),loginDTO));
+        sendMsg(channel, new PushBashDTO<LoginDTO>(WebsocketResponseTypeEnum.LOGIN_AUTHORIZE_SUCCESS.getType(),loginDTO));
         //发送用户上线事件
         boolean online = container.isOnline(userProfileDTO.getUserId());
         if (!online) {
             userProfileDTO.setGmtModified(System.currentTimeMillis());
             userProfileDTO.setIp(NettyUtil.getAttr(channel, NettyUtil.IP));
-            this.mqPublisher.publish(MQConstant.USER_ONLINE_TOPIC,new PushBashDTO<UserProfileDTO>(ResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileDTO),userProfileDTO.getUserId());
+            this.mqPublisher.publish(MQConstant.USER_ONLINE_TOPIC,new PushBashDTO<UserProfileDTO>(WebsocketResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileDTO),userProfileDTO.getUserId());
         }
     }
 

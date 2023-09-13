@@ -1,7 +1,7 @@
 package com.wgq.chat.contact.service;
 
 import com.sheep.exception.Asserts;
-import com.sheep.mq.MQPublisher;
+import com.sheep.mq.*;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
@@ -60,7 +60,8 @@ public class AuditService {
         FriendApplyBo friendApplyBo = new FriendApplyBo(loginUser.getUserId(),friendId,friendApplyParam.getReason());
         //提交申请
         this.auditRepository.applyFriend(friendApplyBo);
-        //通知
+        // TODO
+        this.mqPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.APPLY.getType(),new WebsocketFriendApplyDTO(friendApplyBo.getFriendId(),1)),friendApplyBo.getFriendId());
 
     }
 

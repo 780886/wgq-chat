@@ -1,11 +1,11 @@
 package com.wgq.chat.domain.service;
 
+import com.sheep.mq.MQConstant;
 import com.sheep.mq.MQPublisher;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.MessageReturnBO;
-import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.MessageSendDTO;
 import com.wgq.chat.protocol.enums.MessageStatusEnum;
 import com.wgq.chat.protocol.param.MessageSendParam;

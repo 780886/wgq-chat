@@ -1,9 +1,9 @@
 package com.wgq.chat.infrastructure.chat.consumer;
 
+import com.sheep.mq.MQConstant;
+import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.domain.netty.UserContainer;
-import com.wgq.chat.domain.service.WebSocketService;
-import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 import com.wgq.passport.protocol.param.UserModifyParam;
@@ -31,9 +31,6 @@ public class UserOfflineConsumer implements RocketMQListener<UserProfileDTO> {
     private UserContainer container = UserContainer.getContainer();
 
     @Inject
-    private WebSocketService webSocketService;
-
-    @Inject
     private UserProfileAppService userProfileAppService;
 
 
@@ -44,10 +41,10 @@ public class UserOfflineConsumer implements RocketMQListener<UserProfileDTO> {
         //推送给所有在线用户，该用户登录成功
 //        pushService.sendPushMsg(new PushBashDTO<>(5,2),memberUidList);
         UserModifyParam userModifyParam = new UserModifyParam(userProfileDTO.getUserId(), userProfileDTO.getGmtModified(), userProfileDTO.getIp(), StatusRecord.OFFLINE);
-//        try {
-//            this.userProfileAppService.modify(userModifyParam);
-//        } catch (BusinessException e) {
-//            logger.error("用户下线:{},状态修改失败!",userProfileDTO.getUserId(),e);
-//        }
+        try {
+            this.userProfileAppService.modify(userModifyParam);
+        } catch (BusinessException e) {
+            logger.error("用户下线:{},状态修改失败!",userProfileDTO.getUserId(),e);
+        }
     }
 }

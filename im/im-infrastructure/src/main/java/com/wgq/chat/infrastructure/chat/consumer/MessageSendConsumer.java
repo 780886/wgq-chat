@@ -1,9 +1,9 @@
 package com.wgq.chat.infrastructure.chat.consumer;
 
+import com.sheep.mq.MQConstant;
 import com.sheep.mq.MQPublisher;
 import com.sheep.mq.PushBashDTO;
 import com.wgq.chat.bo.MessageBO;
-import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.MessageSendDTO;
 import com.wgq.chat.repository.MessageRepository;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
