@@ -1,6 +1,7 @@
 package com.wgq.chat.contact.infrastructure.persistence;
 
 import com.wgq.chat.contact.bo.AuditBO;
+import com.wgq.chat.contact.bo.FriendBO;
 import com.wgq.chat.contact.dao.ContactDao;
 import com.wgq.chat.contact.infrastructure.persistence.data.mapper.ContactConverter;
 import com.wgq.chat.contact.po.Contact;
@@ -25,4 +26,11 @@ public class ContactRepositoryImpl implements ContactRepository {
         this.contactDao.insert(contact);
         return contact.getId();
     }
+
+    @Override
+    public FriendBO findContact(Long userId, Long friendId) {
+        Contact contact = this.contactDao.getContactByUserIdAndFriendId(userId,friendId);
+        return this.contactConverter.convert2FriendBO(contact);
+    }
+
 }

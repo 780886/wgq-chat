@@ -11,6 +11,9 @@ public enum ContactError implements ErrorSupport {
     USER_SECRET_IDENTIFY_IS_EMPTY(false,ContactModule.CONTACT,"02","user secret identify is empty"),
     AUDIT_BUSINESS_TYPE_NOT_MATCH(false,ContactModule.CONTACT,"03", "audit business type is not match"),
     AUDIT_USER_IS_NOT_MATCH(false,ContactModule.CONTACT,"04", "audit user id not match"),
+    AUDIT_NOT_EXIST(false, ContactModule.CONTACT, "05", "audit record not exist"),
+    AGREE_FRIEND_APPLY(false, ContactModule.CONTACT, "06", "agree friend apply"),
+
 
     QUN_NAME_IS_EMPTY(false, ContactModule.QUN,"01","qun name is empty"),
     QUN_CATEGORY_IS_EMPTY(false,ContactModule.QUN,"02","qun category is empty"),
@@ -21,8 +24,8 @@ public enum ContactError implements ErrorSupport {
     CATEGORY_OF_QUN_EMPTY(false, ContactModule.QUN, "07", "qun category can't be empty"),
     QUN_OWNER_IS_NOT_MATCH(false, ContactModule.QUN, "08", "qun owner can't match"),
     USER_IS_MEMBER(false, ContactModule.QUN, "09", "user is member of qun"),
-    USER_IS_NOT_MEMBER(false, ContactModule.QUN, "10", "user is not member of qun"),
-    ;
+    USER_IS_NOT_MEMBER(false, ContactModule.QUN, "10", "user is not member of qun");
+
 
 
     private boolean system;

@@ -1,10 +1,8 @@
 package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
-import com.sheep.protocol.constant.magic.Symbol;
-import com.sheep.protocol.enums.StatusRecord;
-import com.sheep.protocol.enums.StatusRecord;
-
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
+import com.sheep.protocol.constant.magic.Symbol;
+import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.FriendApplyBo;
 import com.wgq.chat.contact.po.Audit;
@@ -51,6 +49,7 @@ public class AuditConverter {
 
     public AuditBO audit2AuditBo(Audit audit) {
         AuditBO auditBO = new AuditBO();
+        auditBO.setAuditId(audit.getId());
         auditBO.setAuditUserId(audit.getAuditUserId());
         auditBO.setBusinessId(audit.getBusinessId());
         auditBO.setApplyUserId(audit.getApplyUserId());
@@ -115,6 +114,16 @@ public class AuditConverter {
         audit.setAuditUserId(0L);
         audit.setAuditTime(0L);
         audit.setApplyTime(System.currentTimeMillis());
+        return audit;
+    }
+
+    public Audit convert2po(Long applyUserId, Long auditUserId) {
+        Audit audit = new Audit();
+        audit.setApplyUserId(applyUserId);
+        audit.setAuditUserId(auditUserId);
+        audit.setStatus(StatusRecord.DISABLE);
+        //朋友关系
+        audit.setBusinessType(AuditBusiness.FRIEND.getBusiness());
         return audit;
     }
 }

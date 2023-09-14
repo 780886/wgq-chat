@@ -14,8 +14,6 @@ public class AuditBO {
 
     private Long auditId;
 
-
-
     private AuditBusiness auditBusiness;
 
     /**

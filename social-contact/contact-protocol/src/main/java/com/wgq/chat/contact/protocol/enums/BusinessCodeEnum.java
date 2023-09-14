@@ -47,7 +47,9 @@ public enum BusinessCodeEnum implements ErrorSupport {
     PASSWORD_NOT_EMPTY(false, ContactModule.CONTACT,"1501", "密码不能为空,请重新输入!"),
     PASSWORD_FORMAT_ERROR(false, ContactModule.CONTACT,"1502", "密码格式不正确,请重新输入!"),
     PASSWORD_NOT_EQUAL(false, ContactModule.CONTACT,"1503", "两次输入的密码不一致，请重新输入!"),
-    USERNAME_PASSWORD_ERROR(false, ContactModule.CONTACT,"1504", "用户名或密码错误，请重新输入!");
+    USERNAME_PASSWORD_ERROR(false, ContactModule.CONTACT,"1504", "用户名或密码错误，请重新输入!"),
+    //联系人
+    EXIST_FRIEND_RELATIONSHIP(false, ContactModule.CONTACT,"1601", "你们已经是好友了!");
 
 
     private boolean system;

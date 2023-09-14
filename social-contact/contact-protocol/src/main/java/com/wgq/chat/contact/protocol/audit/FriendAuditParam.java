@@ -1,6 +1,5 @@
 package com.wgq.chat.contact.protocol.audit;
 
-import com.sheep.protocol.POJO;
 import com.sheep.protocol.Param;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,6 +19,15 @@ public class FriendAuditParam implements Param {
 
     @ApiModelProperty("是否同意")
     private Boolean isAgree;
+
+    public FriendAuditParam() {
+    }
+
+    public FriendAuditParam(Long id, String reason, Boolean isAgree) {
+        this.id = id;
+        this.reason = reason;
+        this.isAgree = isAgree;
+    }
 
     public Long getId() {
         return id;

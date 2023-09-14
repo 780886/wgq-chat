@@ -12,4 +12,6 @@ import com.wgq.chat.contact.po.Contact;
 public interface ContactDao {
 
     Long insert(Contact contact);
+
+    Contact getContactByUserIdAndFriendId(Long userId, Long friendId);
 }

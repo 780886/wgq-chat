@@ -126,10 +126,45 @@
         select * from audit where audit_user_id = #{auditUserId}
     </select>
 
-    <select id="getEntity" resultMap="auditResultMap">
+    <select id="getAuditById" resultMap="auditResultMap">
         select * from audit where id = #{id}
     </select>
+
     <select id="exist" resultType="com.wgq.chat.contact.po.Audit">
 
+    </select>
+    <select id="getAudit" resultType="com.wgq.chat.contact.po.Audit">
+        select * from audit
+        <if test="audit != null">
+            <trim prefix="where" prefixOverrides="and">
+                <if test="audit.applyUserId != null">
+                    and apply_user_id = #{audit.applyUserId}
+                </if>
+                <if test="audit.businessType != null">
+                    and business_type = #{audit.businessType}
+                </if>
+                <if test="audit.businessId != null">
+                    and business_id = #{audit.businessId}
+                </if>
+                <if test="audit.auditUserId != null">
+                    and audit_user_id = #{audit.auditUserId}
+                </if>
+                <!--                <if test="audit.applyUserId != null">-->
+                <!--                    and apply_user_id = #{audit.applyUserId}-->
+                <!--                </if>-->
+                <!--                <if test="audit.applyUserId != null">-->
+                <!--                    and apply_user_id = #{audit.applyUserId}-->
+                <!--                </if>-->
+                <if test="audit.status != null">
+                    and status = #{audit.status}
+                </if>
+                <if test="audit.auditTime != null">
+                    and audit_time = #{audit.auditTime}
+                </if>
+                <if test="audit.applyTime != null">
+                    and apply_time = #{audit.applyTime}
+                </if>
+            </trim>
+        </if>
     </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.wgq.chat.controller;
 
+import com.sheep.protocol.BusinessException;
 import com.wgq.chat.assemble.ChatAssemble;
 import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.domain.service.ChatService;
@@ -32,8 +33,9 @@ public class ChatController {
 
     @PostMapping("/sendMessage")
     @ApiOperation("发送消息")
-    public MessageReturnVO sendMessage(@RequestBody MessageSendParam messageSendParam) {
-        MessageReturnBO messageReturnBO = this.chatService.sendMessage(messageSendParam);
+    public MessageReturnVO sendMessage(@RequestBody MessageSendParam messageSendParam) throws BusinessException {
+        Long messageId = this.chatService.sendMessage(messageSendParam);
+        MessageReturnBO messageReturnBO = this.chatService.getMessage(messageId);
         //返回完整消息格式，方便前端展示
         return this.chatAssemble.assemble2vo(messageReturnBO);
     }

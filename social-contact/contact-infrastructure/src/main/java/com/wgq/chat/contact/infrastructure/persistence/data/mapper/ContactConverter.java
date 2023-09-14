@@ -1,6 +1,7 @@
 package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
 
 import com.wgq.chat.contact.bo.AuditBO;
+import com.wgq.chat.contact.bo.FriendBO;
 import com.wgq.chat.contact.po.Contact;
 
 import javax.inject.Named;
@@ -16,5 +17,12 @@ public class ContactConverter {
         contact.setApplyTime(auditBO.getApplyTime());
         contact.setAuditTime(System.currentTimeMillis());
         return contact;
+    }
+
+    public FriendBO convert2FriendBO(Contact contact) {
+        FriendBO friendBO = new FriendBO();
+        friendBO.setUserId(contact.getUserId());
+        friendBO.setFriendId(contact.getFriendId());
+        return friendBO;
     }
 }

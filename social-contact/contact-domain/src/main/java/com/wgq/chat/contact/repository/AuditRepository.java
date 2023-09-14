@@ -24,4 +24,6 @@ public interface AuditRepository {
     Long auditQun(AuditBO auditBO, QunAuditParam qunAuditParam);
 
     Long joinQun(JoinQunParam joinQunParam);
+
+    AuditBO getAudit(Long applyUserId, Long auditUserId);
 }

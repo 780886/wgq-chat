@@ -26,6 +26,7 @@
 		<module>im-dao-api</module>
 		<module>im-dao-mybatis</module>
 		<module>im-po</module>
+		<module>im-client-api</module>
 	</modules>
 
 </project>

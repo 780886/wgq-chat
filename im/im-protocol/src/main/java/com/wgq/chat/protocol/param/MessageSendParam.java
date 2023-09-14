@@ -24,6 +24,15 @@ public class MessageSendParam {
      */
     private Object body;
 
+    public MessageSendParam() {
+    }
+
+    public MessageSendParam(Long roomId, Integer messageType, Object body) {
+        this.roomId = roomId;
+        this.messageType = messageType;
+        this.body = body;
+    }
+
     public Long getRoomId() {
         return roomId;
     }

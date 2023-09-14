@@ -7,4 +7,7 @@
     <insert id="insert">
 
     </insert>
+    <select id="getContactByUserIdAndFriendId" resultType="com.wgq.chat.contact.po.Contact">
+        select * from cotact where user_id = #{userId} and friend_id = #{friendId}
+    </select>
 </mapper>

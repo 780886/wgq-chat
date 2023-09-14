@@ -5,31 +5,34 @@ import com.sheep.mq.*;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
-import com.wgq.chat.contact.bo.AuditBO;
-import com.wgq.chat.contact.bo.AuditWrapBO;
-import com.wgq.chat.contact.bo.FriendApplyBo;
-import com.wgq.chat.contact.bo.QunBO;
+import com.sheep.protocol.enums.StatusRecord;
+import com.wgq.chat.api.ChatServiceApi;
+import com.wgq.chat.contact.assemble.AuditAssemble;
+import com.wgq.chat.contact.bo.*;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.protocol.audit.JoinQunParam;
 import com.wgq.chat.contact.protocol.audit.QunAuditParam;
 import com.wgq.chat.contact.protocol.enums.AuditBusiness;
+import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.contact.repository.ContactRepository;
 import com.wgq.chat.contact.repository.QunRepository;
+import com.wgq.chat.protocol.dto.MessageSendDTO;
 import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Named
 public class AuditService {
+
+    private static Logger logger = LoggerFactory.getLogger(AuditService.class);
 
     @Inject
     private SecretService secretService;
@@ -44,10 +47,16 @@ public class AuditService {
     private UserProfileAppService userProfileAppService;
 
     @Inject
+    private ChatServiceApi chatServiceApi;
+
+    @Inject
     private QunRepository qunRepository;
 
     @Inject
     private MQPublisher mqPublisher;
+
+    @Inject
+    private AuditAssemble auditAssemble;
 
 
 
@@ -56,28 +65,38 @@ public class AuditService {
         LoginUser loginUser = ThreadContext.getLoginToken();
         //通过密码标识获取好友的id
         Long friendId = this.secretService.parseUserSecretIdentify(friendApplyParam.getFriendSecretIdentify());
+        //查看是否是好友关系
+        FriendBO friendBO = this.contactRepository.findContact(loginUser.getUserId(),friendId);
+        Asserts.isTrue(Objects.isNull(friendBO), BusinessCodeEnum.EXIST_FRIEND_RELATIONSHIP);
+        //是否有待审批的申请记录(自己的)
+        AuditBO ownAuditBO = this.auditRepository.getAudit(loginUser.getUserId(),friendId);
+        if (Objects.nonNull(ownAuditBO)){
+            logger.info("已有好友申请记录,userId:{},friendId:{}",loginUser.getUserId(),friendId);
+            return;
+        }
+        //是否有待审批的申请记录(别人请求自己的)
+        AuditBO friendAuditBO = this.auditRepository.getAudit(friendId,loginUser.getUserId());
+        if (Objects.nonNull(friendAuditBO)){
+            //直接同意
+            this.auditFriendApply(new FriendAuditParam(friendAuditBO.getAuditId(),friendApplyParam.getReason(),true));
+            return;
+        }
         //构建好友申请的内部逻辑对象
         FriendApplyBo friendApplyBo = new FriendApplyBo(loginUser.getUserId(),friendId,friendApplyParam.getReason());
         //提交申请
         this.auditRepository.applyFriend(friendApplyBo);
-        // TODO
+        // 用户申请消息
         this.mqPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.APPLY.getType(),new WebsocketFriendApplyDTO(friendApplyBo.getFriendId(),1)),friendApplyBo.getFriendId());
 
     }
 
     public AuditWrapBO friendApplyList() throws BusinessException{
-//        LoginUser loginUser = ThreadContext.getLoginToken();
-//        Long currentUserId = loginUser.getUserId();
-        Long currentUserId = 1L;
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        Long currentUserId = loginUser.getUserId();
         //获取审核记录
         List<AuditBO> auditBOS = this.auditRepository.getFriendAuditList(currentUserId);
         Set<Long> fetchUserIds = this.fetchUserId(auditBOS);
         Map<Long, UserProfileDTO> userProfiles = this.userProfileAppService.getUserMap(fetchUserIds);
-//        ArrayList<UserProfileDTO> userProfiles = new ArrayList<>();
-//        UserProfileDTO userProfileDTO = new UserProfileDTO();
-//        userProfileDTO.setUserId(1L);
-//        userProfileDTO.setNickName("汪国庆");
-//        userProfiles.add(userProfileDTO);
         return new AuditWrapBO(auditBOS,userProfiles);
     }
 
@@ -92,7 +111,9 @@ public class AuditService {
 
     public void auditFriendApply(FriendAuditParam friendAuditParam) throws BusinessException {
         AuditBO auditBO = this.auditRepository.getAudit(friendAuditParam.getId());
+        Asserts.isTrue(Objects.isNull(auditBO),ContactError.AUDIT_NOT_EXIST);
         Asserts.isTrue(AuditBusiness.FRIEND != auditBO.getAuditBusiness(), ContactError.AUDIT_BUSINESS_TYPE_NOT_MATCH);
+        Asserts.isTrue(auditBO.getAuditStatus().equals(StatusRecord.ENABLE), ContactError.AGREE_FRIEND_APPLY);
         LoginUser loginUser = ThreadContext.getLoginToken();
         Asserts.isTrue(auditBO.getBusinessId().equals(loginUser.getUserId()),ContactError.AUDIT_USER_IS_NOT_MATCH);
         //审核用户申请
@@ -100,7 +121,10 @@ public class AuditService {
         this.auditRepository.auditFriend(auditBO,friendAuditParam);
         if (friendAuditParam.getAgree()){
             this.contactRepository.addContact(auditBO,friendAuditParam);
-            //TODO 同步发消息
+            //创建一个聊天房间
+            //TODO 发送一条同意消息。。我们已经是好友了，开始聊天吧 确实房间id
+            MessageSendDTO messageSendDTO = this.auditAssemble.assembleMessageSendDTO(2L);
+            this.chatServiceApi.sendMessage(messageSendDTO,loginUser.getUserId());
         }
     }
 

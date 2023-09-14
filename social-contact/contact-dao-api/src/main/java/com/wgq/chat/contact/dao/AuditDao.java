@@ -16,11 +16,13 @@ public interface AuditDao {
 
     List<Audit> getAudits(@Param("auditUserId") Long auditUserId);
 
-    Audit getEntity(@Param("id") Long id);
+    Audit getAuditById(@Param("id") Long id);
 
     Long update(@Param("audit") Audit audit);
 
     Long insert(@Param("audit") Audit audit);
 
     Audit exist(Audit audit);
+
+    Audit getAudit(@Param("audit") Audit audit);
 }

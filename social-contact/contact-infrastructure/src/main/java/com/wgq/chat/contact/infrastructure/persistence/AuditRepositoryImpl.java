@@ -56,7 +56,7 @@ public class AuditRepositoryImpl  implements AuditRepository {
 
     @Override
     public AuditBO getAudit(Long id) {
-        Audit audit = this.auditDao.getEntity(id);
+        Audit audit = this.auditDao.getAuditById(id);
         return this.auditConverter.audit2AuditBo(audit);
     }
 
@@ -75,5 +75,12 @@ public class AuditRepositoryImpl  implements AuditRepository {
             return this.auditDao.update(audit);
         }
         return this.auditDao.insert(audit);
+    }
+
+    @Override
+    public AuditBO getAudit(Long applyUserId, Long auditUserId) {
+        Audit audit = this.auditConverter.convert2po(applyUserId,auditUserId);
+        Audit queryAudit = this.auditDao.getAudit(audit);
+        return this.auditConverter.audit2AuditBo(queryAudit);
     }
 }
