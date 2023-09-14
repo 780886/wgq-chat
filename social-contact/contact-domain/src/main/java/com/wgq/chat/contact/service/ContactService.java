@@ -3,12 +3,11 @@ package com.wgq.chat.contact.service;
 
 import com.sheep.exception.Asserts;
 import com.sheep.protocol.BusinessException;
-import com.sheep.redisson.annotation.RedissonLock;
 import com.sheep.utils.StringUtils;
 import com.wgq.chat.contact.bo.ContactBO;
-import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
 import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
+import com.wgq.passport.protocol.enums.BusinessCodeEnum;
 
 import javax.inject.Inject;
 import javax.inject.Named;
