@@ -37,6 +37,7 @@ public class UserOfflineConsumer implements RocketMQListener<UserProfileDTO> {
     @Override
     public void onMessage(UserProfileDTO userProfileDTO) {
         logger.info("用户下线:{}",userProfileDTO.getUserId());
+        userProfileDTO.setGmtModified(System.currentTimeMillis());
         container.online(userProfileDTO.getUserId(), userProfileDTO.getGmtModified());
         //推送给所有在线用户，该用户登录成功
 //        pushService.sendPushMsg(new PushBashDTO<>(5,2),memberUidList);
