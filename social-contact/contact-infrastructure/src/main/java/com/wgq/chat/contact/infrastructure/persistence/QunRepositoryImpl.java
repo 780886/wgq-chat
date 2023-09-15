@@ -2,29 +2,27 @@ package com.wgq.chat.contact.infrastructure.persistence;
 
 import com.sheep.exception.Asserts;
 import com.sheep.protocol.BusinessException;
+import com.sheep.protocol.LoginUser;
+import com.sheep.protocol.ThreadContext;
 import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.QunBO;
-import com.wgq.chat.contact.dao.ContactDao;
 import com.wgq.chat.contact.dao.QunDao;
 import com.wgq.chat.contact.dao.QunMemberDao;
-import com.wgq.chat.contact.infrastructure.persistence.data.mapper.ContactConverter;
 import com.wgq.chat.contact.infrastructure.persistence.data.mapper.QunConverter;
 import com.wgq.chat.contact.infrastructure.persistence.data.mapper.QunMemberConverter;
-import com.wgq.chat.contact.po.Contact;
 import com.wgq.chat.contact.po.Qun;
 import com.wgq.chat.contact.po.QunMember;
-import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
 import com.wgq.chat.contact.protocol.qun.QunModifyParam;
 import com.wgq.chat.contact.protocol.qun.RemoveMemberOfQunParam;
-import com.wgq.chat.contact.repository.ContactRepository;
 import com.wgq.chat.contact.repository.QunRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
+import java.util.Map;
 
 @Named
 public class QunRepositoryImpl implements QunRepository {
@@ -107,5 +105,16 @@ public class QunRepositoryImpl implements QunRepository {
     public List<QunBO> queryQunPlaza() {
         List<Qun> quns = this.qunDao.findEnabledQunList();
         return this.qunConverter.poList2BoList(quns);
+    }
+
+    @Override
+    public List<QunBO> getMyQunList() {
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        Map<Long, Long> myQunIds = this.qunMemberDao.getQunsByMemberId(loginUser.getUserId());
+        if (myQunIds == null || myQunIds.isEmpty()) {
+            return null;
+        }
+        List<Qun> myQuns = this.qunDao.getQuns(myQunIds.values());
+        return this.qunConverter.poList2BoList(myQuns);
     }
 }

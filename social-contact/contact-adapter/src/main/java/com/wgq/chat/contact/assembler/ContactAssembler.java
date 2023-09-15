@@ -2,18 +2,15 @@ package com.wgq.chat.contact.assembler;
 
 
 import com.sheep.protocol.enums.StatusRecord;
+import com.sheep.utils.BeanUtils;
+import com.sheep.utils.CollectionsUtils;
 import com.sheep.utils.EnumUtils;
-import com.wgq.chat.contact.bo.AuditBO;
-import com.wgq.chat.contact.bo.AuditWrapBO;
-import com.wgq.chat.contact.bo.ContactBO;
-import com.wgq.chat.contact.vo.FriendAuditVO;
-import com.wgq.chat.contact.vo.FriendAuditWrapVo;
-import com.wgq.chat.contact.vo.UserFriendApplyVO;
+import com.wgq.chat.contact.bo.*;
+import com.wgq.chat.contact.vo.*;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 
 import javax.inject.Named;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,5 +47,39 @@ public class ContactAssembler {
          */
         Map<String, String> auditStatusDict = EnumUtils.getOrdinalValueMap(StatusRecord.class);
         return new FriendAuditWrapVo(auditStatusDict,userFriendApplyList);
+    }
+
+    public ContactVO assembleVO(ContactsWrapBO contactsWrap) {
+        List<QunVO> qunVOS = this.assembleMyQun(contactsWrap);
+        List<UserVO> userVOS = this.assembleMyContact(contactsWrap);
+        return new ContactVO(qunVOS, userVOS);
+    }
+
+    private List<QunVO> assembleMyQun(ContactsWrapBO contactsWrap) {
+        if (CollectionsUtils.isNullOrEmpty(contactsWrap.getQuns())) {
+            return null;
+        }
+        List<QunVO> qunVOS = new ArrayList<>(contactsWrap.getQuns().size());
+        for (QunBO qunBO : contactsWrap.getQuns()) {
+            QunVO qunVO = new QunVO();
+            BeanUtils.copyProperties(qunBO, qunVO);
+            qunVO.setQunId(qunBO.getId());
+            qunVO.setQunName(qunBO.getName());
+            qunVOS.add(qunVO);
+        }
+        return qunVOS;
+    }
+
+    private List<UserVO> assembleMyContact(ContactsWrapBO contactsWrap) {
+        if (CollectionsUtils.isNullOrEmpty(contactsWrap.getUsers())) {
+            return null;
+        }
+        List<UserVO> userVOS = new ArrayList<>(contactsWrap.getUsers().size());
+        for (UserProfileDTO userProfileDTO : contactsWrap.getUsers()) {
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(userProfileDTO, userVO);
+            userVOS.add(userVO);
+        }
+        return userVOS;
     }
 }

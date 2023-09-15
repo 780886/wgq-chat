@@ -2,6 +2,7 @@ package com.wgq.chat.contact.dao;
 
 import com.wgq.chat.contact.po.Qun;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,4 +29,5 @@ public interface QunDao {
 
     List<Qun> findEnabledQunList();
 
+    List<Qun> getQuns(Collection<Long> qunIds);
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 引入配置文件 -->
+<mapper namespace="com.wgq.chat.dao.RoomFriendDao">
+    <insert id="insert">
+
+    </insert>
+    <update id="updateById">
+
+    </update>
+    <update id="disableRoom">
+        update room_friend set status = #{status} where room_key = #{roomKey}
+    </update>
+
+    <select id="getByRoomKey" resultType="com.wgq.chat.po.RoomFriend">
+        select * from room_friend where room_key = #{roomKey}
+    </select>
+</mapper>

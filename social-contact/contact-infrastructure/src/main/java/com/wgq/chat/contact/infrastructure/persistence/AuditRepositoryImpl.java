@@ -9,11 +9,13 @@ import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.protocol.audit.JoinQunParam;
 import com.wgq.chat.contact.protocol.audit.QunAuditParam;
 import com.wgq.chat.contact.repository.AuditRepository;
+import com.wgq.chat.protocol.enums.ReadStatusEnum;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @ClassName AuditRepositoryImpl
@@ -83,4 +85,21 @@ public class AuditRepositoryImpl  implements AuditRepository {
         Audit queryAudit = this.auditDao.getAudit(audit);
         return this.auditConverter.audit2AuditBo(queryAudit);
     }
+
+    /**
+     * 更新已读状态
+     * @param auditUserId
+     * @param ids
+     */
+    @Override
+    public void readAudits(Long auditUserId, Set<Long> ids) {
+        this.auditDao.updateReadStatus(ids,auditUserId, ReadStatusEnum.UNREAD.getCode(),ReadStatusEnum.READ.getCode());
+    }
+
+    @Override
+    public Integer applyUnread(Long userId) {
+        return this.auditDao.applyUnread(userId,ReadStatusEnum.UNREAD.getCode());
+    }
+
+
 }
