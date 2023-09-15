@@ -5,6 +5,9 @@ import com.wgq.passport.protocol.dto.UserProfileDTO;
 
 public class ContactBO {
 
+    public ContactBO() {
+    }
+
     public ContactBO(UserProfileDTO userDto, String secretIdentify) {
         this.userDto = userDto;
         this.secretIdentify = secretIdentify;

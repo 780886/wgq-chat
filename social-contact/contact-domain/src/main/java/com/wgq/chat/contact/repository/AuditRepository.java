@@ -8,6 +8,7 @@ import com.wgq.chat.contact.protocol.audit.JoinQunParam;
 import com.wgq.chat.contact.protocol.audit.QunAuditParam;
 
 import java.util.List;
+import java.util.Set;
 
 public interface AuditRepository {
 
@@ -26,4 +27,8 @@ public interface AuditRepository {
     Long joinQun(JoinQunParam joinQunParam);
 
     AuditBO getAudit(Long applyUserId, Long auditUserId);
+
+    void readAudits(Long userId, Set<Long> auditIds);
+
+    Integer applyUnread(Long userId);
 }

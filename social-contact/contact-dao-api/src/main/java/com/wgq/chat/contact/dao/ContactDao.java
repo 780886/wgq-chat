@@ -2,6 +2,8 @@ package com.wgq.chat.contact.dao;
 
 import com.wgq.chat.contact.po.Contact;
 
+import java.util.List;
+
 /**
  * @ClassName ContactDao
  * @Description TODO
@@ -13,5 +15,9 @@ public interface ContactDao {
 
     Long insert(Contact contact);
 
-    Contact getContactByUserIdAndFriendId(Long userId, Long friendId);
+    Contact findContact(Long userId, Long friendId);
+
+    Long removeById(Long id);
+
+    List<Contact> getMyContact(Long userId);
 }

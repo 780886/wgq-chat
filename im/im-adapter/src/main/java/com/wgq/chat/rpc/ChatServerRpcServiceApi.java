@@ -16,7 +16,7 @@ import javax.inject.Named;
  * @Version :1.0
  */
 @Named
-public class ChatServerRpcApi implements ChatServiceApi {
+public class ChatServerRpcServiceApi implements ChatServiceApi {
 
     @Inject
     private ChatService chatService;

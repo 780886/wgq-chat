@@ -122,6 +122,10 @@
         </if>
     </update>
 
+    <update id="updateReadStatus">
+        update audit set read_status = #{readCode} where audit_user_id = #{auditUserId} and read_status = #{unreadCode} and id in #{ids}
+    </update>
+
     <select id="getAudits" resultMap="auditResultMap">
         select * from audit where audit_user_id = #{auditUserId}
     </select>
@@ -166,5 +170,8 @@
                 </if>
             </trim>
         </if>
+    </select>
+    <select id="applyUnread" resultType="java.lang.Integer">
+        select count(*) from audit where audit_user_id = #{auditUserId} and read_status = #{code}
     </select>
 </mapper>

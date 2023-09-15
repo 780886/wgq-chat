@@ -29,4 +29,7 @@
     <select id="isMember" resultType="java.lang.Long">
 
     </select>
+    <select id="getQunsByMemberId" resultType="java.util.Map">
+            select * from qun_member where member_id = #{memberId}
+    </select>
 </mapper>

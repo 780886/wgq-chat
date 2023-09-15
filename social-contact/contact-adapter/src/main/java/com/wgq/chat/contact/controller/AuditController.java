@@ -2,7 +2,9 @@ package com.wgq.chat.contact.controller;
 
 import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.assembler.ContactAssembler;
+import com.wgq.chat.contact.assembler.FriendUnreadVO;
 import com.wgq.chat.contact.bo.AuditWrapBO;
+import com.wgq.chat.contact.bo.FriendUnreadBO;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.protocol.audit.JoinQunParam;
@@ -48,6 +50,14 @@ public class AuditController {
     public void auditFriendApply(@RequestBody FriendAuditParam friendAuditParam) throws BusinessException {
         this.auditService.auditFriendApply(friendAuditParam);
     }
+
+    @GetMapping("apply-unread")
+    @ApiOperation("申请未读数")
+    public FriendUnreadVO applyUnread() {
+        FriendUnreadBO friendUnreadBO = this.auditService.applyUnread();
+        return new FriendUnreadVO(friendUnreadBO.getUnReadCount());
+    }
+
 
     /**
      * 1. 从controller 获取loginUser 并放入joinQunParam

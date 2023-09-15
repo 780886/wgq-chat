@@ -7,7 +7,15 @@
     <insert id="insert">
 
     </insert>
-    <select id="getContactByUserIdAndFriendId" resultType="com.wgq.chat.contact.po.Contact">
+    <delete id="removeById">
+        delete from contact where id = #{id}
+    </delete>
+    <select id="findContact" resultType="com.wgq.chat.contact.po.Contact">
         select * from cotact where user_id = #{userId} and friend_id = #{friendId}
+--         select * from cotact where user_id = #{userId} and friend_id = #{friendId} or (user_id = #{friendId} and friend_id = #{userId})
+    </select>
+
+    <select id="getMyContact" resultType="com.wgq.chat.contact.po.Contact">
+        select * from contact where user_id = #{userId}
     </select>
 </mapper>

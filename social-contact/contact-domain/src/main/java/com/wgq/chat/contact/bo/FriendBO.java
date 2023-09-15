@@ -11,15 +11,25 @@ import com.sheep.protocol.BO;
  */
 public class FriendBO implements BO {
 
+    private Long contactId;
     private Long userId;
     private Long friendId;
 
     public FriendBO() {
     }
 
-    public FriendBO(Long userId, Long friendId) {
+    public FriendBO(Long contactId, Long userId, Long friendId) {
+        this.contactId = contactId;
         this.userId = userId;
         this.friendId = friendId;
+    }
+
+    public Long getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(Long contactId) {
+        this.contactId = contactId;
     }
 
     public Long getUserId() {

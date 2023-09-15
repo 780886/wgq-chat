@@ -30,6 +30,11 @@
         </dependency>
         <dependency>
             <groupId>com.wgq.chat</groupId>
+            <artifactId>contact-protocol</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.wgq.chat</groupId>
             <artifactId>im-client-api</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>

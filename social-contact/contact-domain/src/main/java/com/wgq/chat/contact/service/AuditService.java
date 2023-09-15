@@ -7,6 +7,7 @@ import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
 import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.api.ChatServiceApi;
+import com.wgq.chat.api.RoomServiceApi;
 import com.wgq.chat.contact.assemble.AuditAssemble;
 import com.wgq.chat.contact.bo.*;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
@@ -50,6 +51,9 @@ public class AuditService {
     private ChatServiceApi chatServiceApi;
 
     @Inject
+    private RoomServiceApi roomServiceApi;
+
+    @Inject
     private QunRepository qunRepository;
 
     @Inject
@@ -66,7 +70,7 @@ public class AuditService {
         //通过密码标识获取好友的id
         Long friendId = this.secretService.parseUserSecretIdentify(friendApplyParam.getFriendSecretIdentify());
         //查看是否是好友关系
-        FriendBO friendBO = this.contactRepository.findContact(loginUser.getUserId(),friendId);
+        FriendBO friendBO = this.contactRepository.findContact(friendId,loginUser.getUserId());
         Asserts.isTrue(Objects.isNull(friendBO), BusinessCodeEnum.EXIST_FRIEND_RELATIONSHIP);
         //是否有待审批的申请记录(自己的)
         AuditBO ownAuditBO = this.auditRepository.getAudit(loginUser.getUserId(),friendId);
@@ -97,7 +101,19 @@ public class AuditService {
         List<AuditBO> auditBOS = this.auditRepository.getFriendAuditList(currentUserId);
         Set<Long> fetchUserIds = this.fetchUserId(auditBOS);
         Map<Long, UserProfileDTO> userProfiles = this.userProfileAppService.getUserMap(fetchUserIds);
+        //将这些审核记录设为已读
+        Set<Long> auditIds = this.fetchAuditIds(auditBOS);
+        this.auditRepository.readAudits(loginUser.getUserId(),auditIds);
+        //返回
         return new AuditWrapBO(auditBOS,userProfiles);
+    }
+
+    private Set<Long> fetchAuditIds(List<AuditBO> auditBOS) {
+        HashSet<Long> auditIds = new HashSet<>();
+        for (AuditBO auditBO : auditBOS) {
+            auditIds.add(auditBO.getAuditId());
+        }
+        return auditIds;
     }
 
     private Set<Long> fetchUserId(List<AuditBO> auditBOS) {
@@ -117,13 +133,14 @@ public class AuditService {
         LoginUser loginUser = ThreadContext.getLoginToken();
         Asserts.isTrue(auditBO.getBusinessId().equals(loginUser.getUserId()),ContactError.AUDIT_USER_IS_NOT_MATCH);
         //审核用户申请
-        //TODO 分布式事务 MQ消息事务
         this.auditRepository.auditFriend(auditBO,friendAuditParam);
         if (friendAuditParam.getAgree()){
+            //添加联系人
             this.contactRepository.addContact(auditBO,friendAuditParam);
             //创建一个聊天房间
-            //TODO 发送一条同意消息。。我们已经是好友了，开始聊天吧 确实房间id
-            MessageSendDTO messageSendDTO = this.auditAssemble.assembleMessageSendDTO(2L);
+            Long roomId = this.roomServiceApi.createFriendRoom(Arrays.asList(loginUser.getUserId(), auditBO.getApplyUserId()));
+            //TODO 分布式事务 MQ消息事务发送一条同意消息。。我们已经是好友了，开始聊天吧 确实房间id
+            MessageSendDTO messageSendDTO = this.auditAssemble.assembleMessageSendDTO(roomId);
             this.chatServiceApi.sendMessage(messageSendDTO,loginUser.getUserId());
         }
     }
@@ -144,5 +161,11 @@ public class AuditService {
         QunBO qunBO = this.qunRepository.qunDetail(joinQunParam.getQunId());
         Asserts.isTrue(qunBO == null, ContactError.QUN_NOT_FOUND);
         this.auditRepository.joinQun(joinQunParam);
+    }
+
+    public FriendUnreadBO applyUnread() {
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        Integer unReadCount = this.auditRepository.applyUnread(loginUser.getUserId());
+        return new FriendUnreadBO(unReadCount);
     }
 }
