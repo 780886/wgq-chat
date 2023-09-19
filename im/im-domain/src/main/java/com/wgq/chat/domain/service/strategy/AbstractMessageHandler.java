@@ -33,7 +33,7 @@ public abstract class AbstractMessageHandler {
     /**
      * 保存消息
      */
-    public abstract void saveMessage(MessageBO message, MessageSendParam messageSendParam);
+    public abstract void saveMessage(MessageBO message, MessageSendParam messageSendParam) throws BusinessException;
 
     /**
      * 展示消息

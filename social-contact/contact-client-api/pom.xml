@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.wgq.chat</groupId>
-            <artifactId>contact-po</artifactId>
+            <artifactId>contact-protocol</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -37,13 +37,11 @@ public class AuditController {
         return this.contactAssembler.toUserFriendApplyVoList(auditWrapBO);
     }
 
-
     @ApiOperation("申请好友")
     @PostMapping("friend-apply")
     public void applyFriend(@RequestBody FriendApplyParam friendApplyParam) throws BusinessException {
         this.auditService.applyFriend(friendApplyParam);
     }
-
 
     @ApiOperation("对好友申请进行审核")
     @PostMapping("audit-friend-apply")
@@ -57,7 +55,6 @@ public class AuditController {
         FriendUnreadBO friendUnreadBO = this.auditService.applyUnread();
         return new FriendUnreadVO(friendUnreadBO.getUnReadCount());
     }
-
 
     /**
      * 1. 从controller 获取loginUser 并放入joinQunParam

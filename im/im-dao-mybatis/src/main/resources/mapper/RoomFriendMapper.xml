@@ -4,11 +4,76 @@
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.dao.RoomFriendDao">
     <insert id="insert">
-
+        <if test="roomFriend != null">
+            insert into room_friend
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="roomFriend.id != null">
+                    id,
+                </if>
+                <if test="roomFriend.roomId != null">
+                    room_id,
+                </if>
+                <if test="roomFriend.smallerUserId != null">
+                    smaller_user_id,
+                </if>
+                <if test="roomFriend.largerUserId != null">
+                    larger_user_id,
+                </if>
+                <if test="roomFriend.roomKey != null">
+                    room_key,
+                </if>
+                <if test="roomFriend.status != null">
+                    status,
+                </if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="roomFriend.id != null">
+                    #{roomFriend.id},
+                </if>
+                <if test="roomFriend.roomId != null">
+                    #{roomFriend.roomId},
+                </if>
+                <if test="roomFriend.smallerUserId != null">
+                    #{roomFriend.smallerUserId},
+                </if>
+                <if test="roomFriend.largerUserId != null">
+                    #{roomFriend.largerUserId},
+                </if>
+                <if test="roomFriend.roomKey != null">
+                    #{roomFriend.roomKey},
+                </if>
+                <if test="roomFriend.status != null">
+                    #{roomFriend.status},
+                </if>
+            </trim>
+        </if>
     </insert>
-    <update id="updateById">
 
+    <update id="updateById">
+        update room_friend set
+        <trim suffixOverrides=",">
+            <if test="roomFriend.id != null">
+                id = #{roomFriend.id},
+            </if>
+            <if test="roomFriend.roomId != null">
+                room_id = #{roomFriend.roomId},
+            </if>
+            <if test="roomFriend.smallerUserId != null">
+                smaller_user_id = #{roomFriend.smallerUserId},
+            </if>
+            <if test="roomFriend.largerUserId != null">
+                larger_user_id = #{roomFriend.largerUserId},
+            </if>
+            <if test="roomFriend.roomKey != null">
+                room_key =  #{roomFriend.roomKey},
+            </if>
+            <if test="roomFriend.status != null">
+                status = #{roomFriend.status},
+            </if>
+        </trim>
+        where id = #{roomFriend.id}
     </update>
+
     <update id="disableRoom">
         update room_friend set status = #{status} where room_key = #{roomKey}
     </update>
@@ -16,6 +81,7 @@
     <select id="getByRoomKey" resultType="com.wgq.chat.po.RoomFriend">
         select * from room_friend where room_key = #{roomKey}
     </select>
+
     <select id="getByRoomId" resultType="com.wgq.chat.po.RoomFriend">
         select * from room_friend where room_id = #{roomId}
     </select>

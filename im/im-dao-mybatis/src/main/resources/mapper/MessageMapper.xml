@@ -73,7 +73,31 @@
         </trim>
     </insert>
     <update id="updateById">
-
+        update message set
+        <trim suffixOverrides=",">
+<!--            <if test="message.roomId != null">-->
+<!--                -->
+<!--            </if>-->
+            <if test="message.senderUserId != null">
+                sender_user_id = #{message.senderUserId},
+            </if>
+            <if test="message.content != null">
+                content = #{message.content},
+            </if>
+            <if test="message.replyMessageId != null">
+                reply_message_id = #{message.replyMessageId},
+            </if>
+           <if test="message.gapCount != null">
+               gap_count = #{message.gapCount},
+           </if>
+           <if test="message.type != null">
+               `type` = #{message.type},
+           </if>
+           <if test="message.status != null">
+               status = #{message.status},
+           </if>
+        </trim>
+        where id = #{message.id}
     </update>
     <select id="getMessage" resultMap="messageMap">
         select * from message where id = #{messageId} and sender_user_id = #{senderUserId}
@@ -82,6 +106,6 @@
         select * from message where id = #{messageId}
     </select>
     <select id="getGapCount" resultType="java.lang.Integer">
-        select * from message where room_id = #{roomId} and sender_user_id > #{senderUserId} and reply_message_id &lt;= #{replyMessageId}
+        select * from message where room_id = #{roomId} and id &gt; #{replyMessageId} > and id &lt;= #{messageId}
     </select>
 </mapper>

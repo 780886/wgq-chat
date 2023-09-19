@@ -14,6 +14,7 @@ import com.wgq.chat.contact.repository.ContactRepository;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Named
@@ -55,6 +56,11 @@ public class ContactRepositoryImpl implements ContactRepository {
             contacIdList.add(contact.getFriendId());
         }
         return contacIdList;
+    }
+
+    @Override
+    public void refreshOrCreateActiveTime(Long roomId, List<Long> memberUserList, Long messageId, Date activeTime) {
+        this.contactDao.refreshOrCreateActiveTime(roomId,memberUserList, messageId, activeTime);
     }
 
 }

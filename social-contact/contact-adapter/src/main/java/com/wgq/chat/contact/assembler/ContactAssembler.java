@@ -44,6 +44,7 @@ public class ContactAssembler {
          * 1.枚举变的时候，这部分的逻辑不需要改
          * 2.枚举国际化自动支持
          * 3.支持任务枚举的map字典
+         * TODO StatusRecord可能需要拆分
          */
         Map<String, String> auditStatusDict = EnumUtils.getOrdinalValueMap(StatusRecord.class);
         return new FriendAuditWrapVo(auditStatusDict,userFriendApplyList);

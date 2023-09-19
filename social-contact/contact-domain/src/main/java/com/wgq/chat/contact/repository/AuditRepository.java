@@ -31,4 +31,6 @@ public interface AuditRepository {
     void readAudits(Long userId, Set<Long> auditIds);
 
     Integer applyUnread(Long userId);
+
+    Integer getUnReadCount(Long friendId);
 }

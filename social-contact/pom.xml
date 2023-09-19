@@ -22,6 +22,7 @@
         <module>contact-main-spring-boot</module>
         <module>contact-po</module>
         <module>contact-protocol</module>
+        <module>contact-client-api</module>
     </modules>
 
 </project>

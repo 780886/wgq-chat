@@ -15,6 +15,7 @@ import com.wgq.chat.bo.RoomFriendBO;
 import com.wgq.chat.domain.service.strategy.AbstractMessageHandler;
 import com.wgq.chat.domain.service.strategy.MessageHandlerFactory;
 import com.wgq.chat.protocol.dto.MessageSendDTO;
+import com.wgq.chat.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.protocol.param.MessageSendParam;
 import com.wgq.chat.repository.MessageRepository;
 import com.wgq.chat.repository.RoomFriendRepository;
@@ -22,6 +23,7 @@ import com.wgq.chat.repository.RoomRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Objects;
 
 /**
  * @ClassName: ChatService
@@ -94,17 +96,19 @@ public class ChatService {
 
     private void check(MessageSendParam messageSendParam, Long userId) throws BusinessException {
         RoomBO roomBO = this.roomRepository.getRoom(messageSendParam.getRoomId());
+        //TODO 后期开放群聊功能
         if (roomBO.isHotRoom()){//官方群聊，跳过校验
             return;
         }
+        //单聊
         if (roomBO.isRoomFriend()){
             RoomFriendBO roomFriendBO = this.roomFriendRepository.getRoomFriend(messageSendParam.getRoomId());
             // TODO "您已被对方拉黑"
-            Asserts.isTrue(NormalOrNoEnum.NOT_NORMAL.getStatus().equals(roomFriendBO.getStatus()), null);
-            // TODO "您已被对方拉黑"
-            Asserts.isTrue(!userId.equals(roomFriendBO.getLargerUserId()),null);
+            Asserts.isTrue(Objects.equals(NormalOrNoEnum.NOT_NORMAL.getStatus(),roomFriendBO.getStatus()), BusinessCodeEnum.USER_BLACK);
+            // TODO "您已被对方拉黑"!userId.equals(roomFriendBO.getLargerUserId())
+            Asserts.isTrue(!Objects.equals(userId,roomFriendBO.getSmallerUserId()) || !Objects.equals(userId,roomFriendBO.getLargerUserId()),BusinessCodeEnum.USER_BLACK);
         }
-        //TODO 群聊后面在写
+//        //群聊
 //        if (roomBO.isRoomGroup()){
 //
 //        }

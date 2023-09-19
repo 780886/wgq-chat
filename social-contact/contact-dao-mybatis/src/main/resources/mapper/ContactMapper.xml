@@ -5,8 +5,53 @@
 <mapper namespace="com.wgq.chat.contact.dao.ContactDao">
 
     <insert id="insert">
-
+        <if test="contact != null">
+            <trim suffix="(" prefix=")" suffixOverrides=",">
+                <if test="contact.id != null">
+                    id,
+                </if>
+                <if test="contact.userId != null">
+                    user_id,
+                </if>
+                <if test="contact.friendId != null">
+                    friend_id,
+                </if>
+                <if test="contact.applyTime != null">
+                    apply_time,
+                </if>
+                <if test="contact.auditTime != null">
+                    audit_time,
+                </if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="contact.id != null">
+                    #{contact.id},
+                </if>
+                <if test="contact.userId != null">
+                    #{contact.userId},
+                </if>
+                <if test="contact.friendId != null">
+                    #{contact.friendId},
+                </if>
+                <if test="contact.applyTime != null">
+                    #{contact.applyTime},
+                </if>
+                <if test="contact.auditTime != null">
+                    #{contact.auditTime},
+                </if>
+            </trim>
+        </if>
     </insert>
+    <update id="refreshOrCreateActiveTime">
+        insert into contact(`room_id`,`sender_user_id`,`reply_message_id`,`active_time`)
+        values
+        <foreach collection="memberUserList" item="userId" separator=",">
+            (#{roomId},#{userId},#{messageId},#{activeTime})
+        </foreach>
+        on DUPLICATE KEY UPDATE
+        `last_msg_id`=VALUES(last_msg_id),
+        `active_time`=VALUES(active_time)
+    </update>
     <delete id="removeById">
         delete from contact where id = #{id}
     </delete>

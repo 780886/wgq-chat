@@ -1,5 +1,7 @@
 package com.wgq.chat.bo;
 
+import java.util.Date;
+
 /**
  * @ClassName: MessageBO
  * @Author : wgq
@@ -47,10 +49,15 @@ public class MessageBO {
      */
     private Object body;
 
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
     public MessageBO() {
     }
 
-    public MessageBO(Long id,Long roomId, Long senderUserId, Long replyMessageId,Integer status, Integer type,Object body,Integer gapCount) {
+    public MessageBO(Long id,Long roomId, Long senderUserId, Long replyMessageId,Integer status, Integer type,Object body,Integer gapCount,Date createTime) {
         this.id = id;
         this.roomId = roomId;
         this.senderUserId = senderUserId;
@@ -59,6 +66,7 @@ public class MessageBO {
         this.type = type;
         this.body = body;
         this.gapCount = gapCount;
+        this.createTime = createTime;
     }
 
     public Long getReplyMessageId() {
@@ -123,5 +131,13 @@ public class MessageBO {
 
     public void setBody(Object body) {
         this.body = body;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

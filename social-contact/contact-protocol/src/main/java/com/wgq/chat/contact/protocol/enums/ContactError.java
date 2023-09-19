@@ -12,7 +12,7 @@ public enum ContactError implements ErrorSupport {
     AUDIT_BUSINESS_TYPE_NOT_MATCH(false,ContactModule.CONTACT,"03", "audit business type is not match"),
     AUDIT_USER_IS_NOT_MATCH(false,ContactModule.CONTACT,"04", "audit user id not match"),
     AUDIT_NOT_EXIST(false, ContactModule.CONTACT, "05", "audit record not exist"),
-    AGREE_FRIEND_APPLY(false, ContactModule.CONTACT, "06", "agree friend apply"),
+    AGREED_FRIEND_APPLY(false, ContactModule.CONTACT, "06", "agreed friend apply"),
 
 
     QUN_NAME_IS_EMPTY(false, ContactModule.QUN,"01","qun name is empty"),

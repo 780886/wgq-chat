@@ -33,7 +33,10 @@ import java.util.*;
 @Named
 public class AuditService {
 
+
     private static Logger logger = LoggerFactory.getLogger(AuditService.class);
+
+    private static final boolean AGREE = true;
 
     @Inject
     private SecretService secretService;
@@ -82,15 +85,17 @@ public class AuditService {
         AuditBO friendAuditBO = this.auditRepository.getAudit(friendId,loginUser.getUserId());
         if (Objects.nonNull(friendAuditBO)){
             //直接同意
-            this.auditFriendApply(new FriendAuditParam(friendAuditBO.getAuditId(),friendApplyParam.getReason(),true));
+            this.auditFriendApply(new FriendAuditParam(friendAuditBO.getAuditId(),friendApplyParam.getReason(), AGREE));
             return;
         }
         //构建好友申请的内部逻辑对象
         FriendApplyBo friendApplyBo = new FriendApplyBo(loginUser.getUserId(),friendId,friendApplyParam.getReason());
         //提交申请
         this.auditRepository.applyFriend(friendApplyBo);
-        // 用户申请消息
-        this.mqPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.APPLY.getType(),new WebsocketFriendApplyDTO(friendApplyBo.getFriendId(),1)),friendApplyBo.getFriendId());
+        //与回复的消息间隔多少条
+        Integer unReadCount = this.auditRepository.getUnReadCount(friendId);
+        // 发送用户申请消息
+        this.mqPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(AuditBusiness.FRIEND.getBusiness(),new WebsocketFriendApplyDTO(friendApplyBo.getFriendId(),unReadCount)),friendApplyBo.getFriendId());
 
     }
 
@@ -127,11 +132,11 @@ public class AuditService {
 
     public void auditFriendApply(FriendAuditParam friendAuditParam) throws BusinessException {
         AuditBO auditBO = this.auditRepository.getAudit(friendAuditParam.getId());
-        Asserts.isTrue(Objects.isNull(auditBO),ContactError.AUDIT_NOT_EXIST);
-        Asserts.isTrue(AuditBusiness.FRIEND != auditBO.getAuditBusiness(), ContactError.AUDIT_BUSINESS_TYPE_NOT_MATCH);
-        Asserts.isTrue(auditBO.getAuditStatus().equals(StatusRecord.ENABLE), ContactError.AGREE_FRIEND_APPLY);
+        Asserts.isTrue(Objects.isNull(auditBO),ContactError.AUDIT_NOT_EXIST);//不存在审核记录
+        Asserts.isTrue(AuditBusiness.FRIEND != auditBO.getAuditBusiness(), ContactError.AUDIT_BUSINESS_TYPE_NOT_MATCH);//不是好友申请
+        Asserts.isTrue(auditBO.getAuditStatus().equals(StatusRecord.ENABLE), ContactError.AGREED_FRIEND_APPLY);//已同意好友请求
         LoginUser loginUser = ThreadContext.getLoginToken();
-        Asserts.isTrue(auditBO.getBusinessId().equals(loginUser.getUserId()),ContactError.AUDIT_USER_IS_NOT_MATCH);
+        Asserts.isTrue(auditBO.getBusinessId().equals(loginUser.getUserId()),ContactError.AUDIT_USER_IS_NOT_MATCH);//审核用户不匹配
         //审核用户申请
         this.auditRepository.auditFriend(auditBO,friendAuditParam);
         if (friendAuditParam.getAgree()){

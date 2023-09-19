@@ -2,6 +2,7 @@ package com.wgq.chat.contact.dao;
 
 import com.wgq.chat.contact.po.Contact;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,4 +21,7 @@ public interface ContactDao {
     Long removeById(Long id);
 
     List<Contact> getMyContact(Long userId);
+
+    void refreshOrCreateActiveTime(Long roomId, List<Long> memberUserList, Long messageId, Date activeTime);
+
 }

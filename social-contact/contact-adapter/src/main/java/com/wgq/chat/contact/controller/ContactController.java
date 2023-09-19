@@ -32,7 +32,6 @@ public class ContactController {
 
     /**
      * 通过用户标识查找用户密文标识 和 用户基本信息
-     *
      * @param findUserSecretParam
      * @return
      */
@@ -42,7 +41,6 @@ public class ContactController {
         ContactBO contactBO = this.contactService.findFriend(findUserSecretParam.getUserIdentify());
         return this.contactAssembler.toUserFriendApplyVO(contactBO);
     }
-
 
     @PostMapping("/contacts")
     @ApiOperation("联系人接口")
@@ -54,9 +52,9 @@ public class ContactController {
     /**
      * 删除好友
      * @param removeFriendParam
-     * @return
+     * @throws BusinessException
      */
-    @ApiOperation("通过用户标识查找用户密文标识和用户基本信息")
+    @ApiOperation("删除好友")
     @PostMapping("remove-friend")
     public void removeFriend(@RequestBody RemoveFriendParam removeFriendParam) throws BusinessException {
         this.contactService.removeFriend(removeFriendParam);

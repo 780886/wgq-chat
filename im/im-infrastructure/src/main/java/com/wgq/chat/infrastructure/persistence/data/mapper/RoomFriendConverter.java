@@ -1,6 +1,7 @@
 package com.wgq.chat.infrastructure.persistence.data.mapper;
 
 import com.sheep.enums.NormalOrNoEnum;
+import com.sheep.protocol.constant.magic.Symbol;
 import com.sheep.utils.StringUtils;
 import com.wgq.chat.bo.RoomFriendBO;
 import com.wgq.chat.po.RoomFriend;
@@ -39,7 +40,7 @@ public class RoomFriendConverter {
         roomFriend.setRoomId(roomId);
         roomFriend.setSmallerUserId(userIds.get(0));
         roomFriend.setLargerUserId(userIds.get(1));
-        roomFriend.setRoomKey(StringUtils.join(userIds, ","));
+        roomFriend.setRoomKey(StringUtils.join(userIds, Symbol.COMMA));
         roomFriend.setStatus(NormalOrNoEnum.NORMAL.getStatus());
         return roomFriend;
     }

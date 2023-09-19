@@ -101,5 +101,10 @@ public class AuditRepositoryImpl  implements AuditRepository {
         return this.auditDao.applyUnread(userId,ReadStatusEnum.UNREAD.getCode());
     }
 
+    @Override
+    public Integer getUnReadCount(Long friendId) {
+        return this.applyUnread(friendId);
+    }
+
 
 }

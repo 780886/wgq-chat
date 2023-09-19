@@ -118,7 +118,7 @@ public class WebSocketServiceImpl implements WebSocketService {
 
 
     @Override
-    public void sendToUid(PushBashDTO<?> pushBashDTO, Long userId) {
+    public void sendToUser(PushBashDTO<?> pushBashDTO, Long userId) {
         CopyOnWriteArrayList<Channel> channels = container.getOnlineUserIdMap().get(userId);
         if (CollectionsUtils.isNullOrEmpty(channels)) {
             logger.info("用户：{}不在线", userId);

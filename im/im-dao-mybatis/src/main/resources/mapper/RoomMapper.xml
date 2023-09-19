@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 引入配置文件 -->
+<mapper namespace="com.wgq.chat.dao.RoomDao">
+
+    <insert id="insert">
+        <if test="room != null">
+            insert into room
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="room.id != null">
+                    id,
+                </if>
+                <if test="room.type != null">
+                    `type`,
+                </if>
+                <if test="room.hotFlag != null">
+                    hot_flag,
+                </if>
+                <if test="room.activeTime != null">
+                    active_time,
+                </if>
+                <if test="room.lastMsgId != null">
+                    last_msg_id,
+                </if>
+                <if test="room.extJson != null">
+                    ext_json,
+                </if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="room.id != null">
+                    #{room.id},
+                </if>
+                <if test="room.type != null">
+                    #{room.type},
+                </if>
+                <if test="room.hotFlag != null">
+                    #{room.hotFlag},
+                </if>
+                <if test="room.activeTime != null">
+                    #{room.activeTime},
+                </if>
+                <if test="room.lastMsgId != null">
+                    #{room.lastMsgId},
+                </if>
+                <if test="room.extJson != null">
+                    #{room.extJson},
+                </if>
+            </trim>
+        </if>
+    </insert>
+    <select id="getById" resultType="com.wgq.chat.po.Room">
+        select * from room where id = #{id}
+    </select>
+</mapper>

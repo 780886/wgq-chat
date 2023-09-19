@@ -3,9 +3,11 @@ package com.wgq.chat.domain.service;
 import com.sheep.enums.NormalOrNoEnum;
 import com.sheep.exception.Asserts;
 import com.sheep.protocol.BusinessException;
+import com.sheep.protocol.constant.magic.Symbol;
 import com.sheep.utils.CollectionsUtils;
 import com.sheep.utils.StringUtils;
 import com.wgq.chat.bo.RoomFriendBO;
+import com.wgq.chat.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.protocol.enums.RoomTypeEnum;
 import com.wgq.chat.repository.RoomFriendRepository;
 import com.wgq.chat.repository.RoomRepository;
@@ -25,6 +27,7 @@ import java.util.Objects;
 @Named
 public class RoomService {
 
+
     @Inject
     private RoomFriendRepository roomFriendRepository;
 
@@ -33,10 +36,12 @@ public class RoomService {
 
     public Long createFriendRoom(List<Long> userList) throws BusinessException {
         //"房间创建失败，好友数量不对"
-        Asserts.isTrue(CollectionsUtils.isNullOrEmpty(userList), null);
+        Asserts.isTrue(CollectionsUtils.isNullOrEmpty(userList), BusinessCodeEnum.FRIEND_NUMBER_NOT_MATCH);
         //"房间创建失败，好友数量不对"
-        Asserts.isTrue(userList.size() != 2, null);
-        String roomKey = StringUtils.join(userList, ",");
+        Asserts.isTrue(userList.size() != 2, BusinessCodeEnum.FRIEND_NUMBER_NOT_MATCH);
+        //生产房间key 房间key由两个uid拼接，先做排序userId1_userId2
+        String roomKey = StringUtils.join(userList, Symbol.COMMA);
+
         RoomFriendBO roomFriendBO = this.roomFriendRepository.getByRoomKey(roomKey);
         if (Objects.nonNull(roomFriendBO)){//如果存在房间就恢复，适用于恢复好友场景
             this.restoreRoomIfNeed(roomFriendBO);
@@ -56,10 +61,10 @@ public class RoomService {
 
     public void disableFriendRoom(List<Long> userList) throws BusinessException {
         //"房间创建失败，好友数量不对"
-        Asserts.isTrue(CollectionsUtils.isNullOrEmpty(userList), null);
+        Asserts.isTrue(CollectionsUtils.isNullOrEmpty(userList), BusinessCodeEnum.FRIEND_NUMBER_NOT_MATCH);
         //"房间创建失败，好友数量不对"
-        Asserts.isTrue(userList.size() != 2, null);
-        String roomKey = StringUtils.join(userList, ",");
+        Asserts.isTrue(!Objects.equals(userList.size(),2) , BusinessCodeEnum.FRIEND_NUMBER_NOT_MATCH);
+        String roomKey = StringUtils.join(userList, Symbol.COMMA);
         this.roomFriendRepository.disableRoom(roomKey);
     }
 

@@ -45,6 +45,6 @@ public interface WebSocketService {
      */
 //    void sendToAllOnline(WSBaseResp<?> wsBaseResp);
 
-    void sendToUid(PushBashDTO<?> pushBashDTO, Long userId);
+    void sendToUser(PushBashDTO<?> pushBashDTO, Long userId);
 
 }

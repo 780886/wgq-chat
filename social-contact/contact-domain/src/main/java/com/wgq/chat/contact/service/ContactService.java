@@ -58,7 +58,7 @@ public class ContactService {
 
     public void removeFriend(RemoveFriendParam removeFriendParam) throws BusinessException {
         LoginUser loginUser = ThreadContext.getLoginToken();
-        FriendBO contact = this.contactRepository.findContact(removeFriendParam.getFriendId(),loginUser.getUserId());
+        FriendBO contact = this.contactRepository.findContact(loginUser.getUserId(),removeFriendParam.getFriendId());
         Asserts.isTrue(Objects.isNull(contact), BusinessCodeEnum.FRIEND_NOT_EXIST);
         this.contactRepository.removeById(contact.getContactId());
         //禁用房间
@@ -86,5 +86,9 @@ public class ContactService {
         Map<Long, UserProfileDTO> userProfileMap = this.userProfileAppService.getUserMap(contactUserIds);
         List<QunBO> myQuns = this.qunRepository.getMyQunList();
         return new ContactsWrapBO(userProfileMap.values(), myQuns);
+    }
+
+    public void refreshOrCreateActiveTime(Long roomId, List<Long> memberUserList, Long messageId, Date activeTime) {
+        this.contactRepository.refreshOrCreateActiveTime(roomId, memberUserList, messageId, activeTime);
     }
 }

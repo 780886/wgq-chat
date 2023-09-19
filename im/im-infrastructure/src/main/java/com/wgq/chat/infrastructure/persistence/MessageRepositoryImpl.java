@@ -46,8 +46,8 @@ public class MessageRepositoryImpl implements MessageRepository {
     }
 
     @Override
-    public Integer getGapCount(Long roomId, Long replyMessageId, Long sendUserId) {
-        return this.messageDao.getGapCount(roomId,replyMessageId,sendUserId);
+    public Integer getGapCount(Long roomId, Long replyMessageId, Long messageId) {
+        return this.messageDao.getGapCount(roomId,replyMessageId,messageId);
     }
 
     @Override

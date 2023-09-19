@@ -10,8 +10,6 @@ import java.util.Date;
  */
 public class Message implements POJO {
 
-
-
     /**
      * id
      */

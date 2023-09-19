@@ -4,6 +4,7 @@ import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.FriendBO;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ContactRepository {
@@ -16,4 +17,5 @@ public interface ContactRepository {
 
     List<Long> getContacts();
 
+    void refreshOrCreateActiveTime(Long roomId, List<Long> memberUserList, Long messageId, Date activeTime);
 }
