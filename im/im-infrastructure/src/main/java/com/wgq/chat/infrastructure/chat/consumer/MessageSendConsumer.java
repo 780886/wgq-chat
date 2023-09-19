@@ -7,7 +7,7 @@ import com.sheep.mq.WebsocketResponseTypeEnum;
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.RoomBO;
 import com.wgq.chat.bo.RoomFriendBO;
-import com.wgq.chat.domain.service.ContactService;
+import com.wgq.chat.cpntact.ContactServiceApi;
 import com.wgq.chat.protocol.dto.MessageSendDTO;
 import com.wgq.chat.protocol.enums.RoomTypeEnum;
 import com.wgq.chat.repository.MessageRepository;
@@ -47,7 +47,7 @@ public class MessageSendConsumer implements RocketMQListener<MessageSendDTO> {
     private RoomFriendRepository roomFriendRepository;
 
     @Inject
-    private ContactService contactService;
+    private ContactServiceApi contactServiceApi;
 
     @Override
     public void onMessage(MessageSendDTO messageSendDTO) {
@@ -65,7 +65,7 @@ public class MessageSendConsumer implements RocketMQListener<MessageSendDTO> {
                 memberUserList = Arrays.asList(roomFriend.getSmallerUserId(),roomFriend.getLargerUserId());
             }
             //TODO 更新所有群成员的会话时间
-//            this.contactService.refreshOrCreateActiveTime(roomBO.getId(), memberUserList, messageBO.getId(), messageBO.getCreateTime());
+            this.contactServiceApi.refreshOrCreateActiveTime(roomBO.getId(), memberUserList, messageBO.getId(), messageBO.getCreateTime());
             //推送给用户
             this.mqPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.MESSAGE.getType(),messageBO),memberUserList);
         }

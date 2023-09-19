@@ -50,6 +50,13 @@ public class ChatService {
     @Inject
     private ChatAssemble chatAssemble;
 
+//    @Inject
+//    private ContactServiceApi contactServiceApi;
+//
+//    public void refreshOrCreateActiveTime(Long roomId, List<Long> memberUserList, Long messageId, Date activeTime) {
+//        this.contactServiceApi.refreshOrCreateActiveTime(roomId,memberUserList, messageId, activeTime);
+//    }
+
 
     /**
      * 发送消息

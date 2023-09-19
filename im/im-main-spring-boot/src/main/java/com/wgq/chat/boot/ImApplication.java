@@ -13,7 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @Version 1.0
  **/
 @SpringBootApplication(scanBasePackages = {"com.wgq.*","com.sheep.*"})
-@MapperScan(basePackages = {"com.wgq.chat.dao","com.wgq.passport.dao"})
+@MapperScan(basePackages = {"com.wgq.chat.dao","com.wgq.chat.contact.dao","com.wgq.passport.dao"})
 public class ImApplication {
 
     public static void main(String[] args) {
