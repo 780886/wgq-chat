@@ -72,10 +72,16 @@
             </if>
         </trim>
     </insert>
+    <update id="updateById">
+
+    </update>
     <select id="getMessage" resultMap="messageMap">
         select * from message where id = #{messageId} and sender_user_id = #{senderUserId}
     </select>
     <select id="getMessageById" resultMap="messageMap">
         select * from message where id = #{messageId}
+    </select>
+    <select id="getGapCount" resultType="java.lang.Integer">
+        select * from message where room_id = #{roomId} and sender_user_id > #{senderUserId} and reply_message_id &lt;= #{replyMessageId}
     </select>
 </mapper>

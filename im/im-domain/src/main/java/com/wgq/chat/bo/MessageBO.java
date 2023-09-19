@@ -9,7 +9,7 @@ package com.wgq.chat.bo;
  */
 public class MessageBO {
 
-
+    private Long id;
     /**
      * 会话表id
      */
@@ -19,6 +19,10 @@ public class MessageBO {
      * 消息发送者uid
      */
     private Long senderUserId;
+    /**
+     * 回复的消息内容
+     */
+    private Long replyMessageId;
 
 
     /**
@@ -34,7 +38,9 @@ public class MessageBO {
      *
      * @see com.abin.mallchat.common.chat.domain.enums.MessageTypeEnum
      */
-    private Integer messageType;
+    private Integer type;
+
+    private Integer gapCount;
 
     /**
      * 消息内容不同的消息类型
@@ -44,12 +50,39 @@ public class MessageBO {
     public MessageBO() {
     }
 
-    public MessageBO(Long roomId, Long senderUserId, Integer status, Integer messageType,Object body) {
+    public MessageBO(Long id,Long roomId, Long senderUserId, Long replyMessageId,Integer status, Integer type,Object body,Integer gapCount) {
+        this.id = id;
         this.roomId = roomId;
         this.senderUserId = senderUserId;
+        this.replyMessageId = replyMessageId;
         this.status = status;
-        this.messageType = messageType;
+        this.type = type;
         this.body = body;
+        this.gapCount = gapCount;
+    }
+
+    public Long getReplyMessageId() {
+        return replyMessageId;
+    }
+
+    public void setReplyMessageId(Long replyMessageId) {
+        this.replyMessageId = replyMessageId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getGapCount() {
+        return gapCount;
+    }
+
+    public void setGapCount(Integer gapCount) {
+        this.gapCount = gapCount;
     }
 
     public Long getRoomId() {
@@ -64,12 +97,12 @@ public class MessageBO {
         return status;
     }
 
-    public Integer getMessageType() {
-        return messageType;
+    public Integer getType() {
+        return type;
     }
 
-    public void setMessageType(Integer messageType) {
-        this.messageType = messageType;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public void setRoomId(Long roomId) {

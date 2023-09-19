@@ -12,4 +12,8 @@ public interface RoomFriendDao {
     Long insert(@Param("roomFriend") RoomFriend roomFriend);
 
     void disableRoom(@Param("roomKey") String roomKey, @Param("status") Integer status);
+
+    RoomFriend getByRoomId(@Param("roomId") Long roomId);
+
+
 }

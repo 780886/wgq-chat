@@ -16,9 +16,10 @@ import javax.inject.Named;
 public class MessageConverter {
     public Message convert2po(MessageBO messageBO) {
         Message message = new Message();
+        message.setId(messageBO.getId());
         message.setSenderUserId(messageBO.getSenderUserId());
         message.setRoomId(messageBO.getRoomId());
-        message.setType(messageBO.getMessageType());
+        message.setType(messageBO.getType());
         message.setStatus(messageBO.getStatus());
         message.setContent(String.valueOf(messageBO.getBody()));
         return message;
@@ -40,7 +41,7 @@ public class MessageConverter {
         MessageBO messageBO = new MessageBO();
         messageBO.setSenderUserId(message.getSenderUserId());
         messageBO.setRoomId(message.getRoomId());
-        messageBO.setMessageType(message.getType());
+        messageBO.setType(message.getType());
         messageBO.setStatus(message.getStatus());
         messageBO.setBody(message.getContent());
         return messageBO;

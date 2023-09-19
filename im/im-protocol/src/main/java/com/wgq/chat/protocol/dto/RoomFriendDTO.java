@@ -5,12 +5,7 @@ import com.sheep.protocol.DTO;
 import java.util.Date;
 
 /**
- * <p>
  * 单聊房间表
- * </p>
- *
- * @author <a href="https://github.com/zongzibinbin">abin</a>
- * @since 2023-07-22
  */
 public class RoomFriendDTO implements DTO {
     

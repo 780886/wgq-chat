@@ -13,4 +13,7 @@ public interface RoomFriendRepository {
     Long createRoomFriend(Long roomId, List<Long> userList);
 
     void disableRoom(String roomKey);
+
+    RoomFriendBO getRoomFriend(Long roomId);
+
 }

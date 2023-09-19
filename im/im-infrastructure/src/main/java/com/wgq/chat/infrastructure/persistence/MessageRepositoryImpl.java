@@ -44,4 +44,15 @@ public class MessageRepositoryImpl implements MessageRepository {
         Message message = this.messageDao.getMessageById(messageId);
         return this.messageConverter.convert2BO(message);
     }
+
+    @Override
+    public Integer getGapCount(Long roomId, Long replyMessageId, Long sendUserId) {
+        return this.messageDao.getGapCount(roomId,replyMessageId,sendUserId);
+    }
+
+    @Override
+    public void updateById(MessageBO messageBO) {
+        Message message = this.messageConverter.convert2po(messageBO);
+        this.messageDao.updateById(message);
+    }
 }

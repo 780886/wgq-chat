@@ -16,4 +16,7 @@
     <select id="getByRoomKey" resultType="com.wgq.chat.po.RoomFriend">
         select * from room_friend where room_key = #{roomKey}
     </select>
+    <select id="getByRoomId" resultType="com.wgq.chat.po.RoomFriend">
+        select * from room_friend where room_id = #{roomId}
+    </select>
 </mapper>

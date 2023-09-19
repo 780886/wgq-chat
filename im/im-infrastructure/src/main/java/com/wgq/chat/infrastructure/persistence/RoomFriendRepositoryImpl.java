@@ -49,4 +49,10 @@ public class RoomFriendRepositoryImpl implements RoomFriendRepository {
     public void disableRoom(String roomKey) {
         this.roomFriendDao.disableRoom(roomKey, NormalOrNoEnum.NOT_NORMAL.getStatus());
     }
+
+    @Override
+    public RoomFriendBO getRoomFriend(Long roomId) {
+        RoomFriend roomFriend = this.roomFriendDao.getByRoomId(roomId);
+        return this.roomFriendConverter.convert2RoomFriendBO(roomFriend);
+    }
 }

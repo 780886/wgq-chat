@@ -11,4 +11,7 @@ public interface MessageDao {
 
     Message getMessageById(@Param("messageId") Long messageId);
 
+    Integer getGapCount(Long roomId, Long replyMessageId,Long sendUserId);
+
+    Long updateById(Message message);
 }

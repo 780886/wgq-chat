@@ -17,4 +17,8 @@ public interface MessageRepository {
     MessageReturnBO getMessage(Long messageId, Long userId);
 
     MessageBO getMessage(Long messageId);
+
+    Integer getGapCount(Long roomId, Long replyMessageId, Long sendUserId);
+
+    void updateById(MessageBO messageBO);
 }

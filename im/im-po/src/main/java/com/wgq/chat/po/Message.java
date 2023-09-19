@@ -7,10 +7,6 @@ import java.util.Date;
 /**
  * <p>
  * 消息表
- * </p>
- *
- * @author <a href="https://github.com/zongzibinbin">abin</a>
- * @since 2023-03-25
  */
 public class Message implements POJO {
 
@@ -60,9 +56,9 @@ public class Message implements POJO {
      */
     private Integer type;
 
-    /**
-     * 消息扩展字段
-     */
+//    /**
+//     * 消息扩展字段
+//     */
 //    private MessageExtra extra;
 
     /**

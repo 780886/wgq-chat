@@ -1,5 +1,6 @@
 package com.wgq.chat.domain.service.strategy;
 
+import com.sheep.protocol.BusinessException;
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.protocol.enums.MessageTypeEnum;
 import com.wgq.chat.protocol.param.MessageSendParam;
@@ -27,25 +28,25 @@ public abstract class AbstractMessageHandler {
     /**
      * 校验消息——保存前校验
      */
-    public abstract void checkMsg(MessageSendParam messageSendParam, Long uid);
+    public abstract void checkMessage(MessageSendParam messageSendParam, Long uid) throws BusinessException;
 
     /**
      * 保存消息
      */
-    public abstract void saveMsg(MessageBO message, MessageSendParam messageSendParam);
+    public abstract void saveMessage(MessageBO message, MessageSendParam messageSendParam);
 
     /**
      * 展示消息
      */
-    public abstract Object showMsg(MessageBO message);
+    public abstract Object showMessage(MessageBO message);
 
     /**
      * 被回复时——展示的消息
      */
-    public abstract Object showReplyMsg(MessageBO message);
+    public abstract Object showReplyMessage(MessageBO message);
 
     /**
      * 会话列表——展示的消息
      */
-    public abstract String showContactMsg(MessageBO message);
+    public abstract String showContactMessage(MessageBO message);
 }

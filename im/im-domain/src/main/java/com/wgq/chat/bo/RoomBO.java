@@ -11,9 +11,6 @@ import java.util.Date;
  * <p>
  * 房间表
  * </p>
- *
- * @author <a href="https://github.com/zongzibinbin">abin</a>
- * @since 2023-07-16
  */
 public class RoomBO implements BO {
 

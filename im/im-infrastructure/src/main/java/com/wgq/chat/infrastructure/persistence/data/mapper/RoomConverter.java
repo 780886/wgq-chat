@@ -1,10 +1,10 @@
 package com.wgq.chat.infrastructure.persistence.data.mapper;
 
+import com.sheep.utils.BeanUtils;
 import com.wgq.chat.bo.RoomBO;
 import com.wgq.chat.po.Room;
 import com.wgq.chat.protocol.enums.HotFlagEnum;
 import com.wgq.chat.protocol.enums.RoomTypeEnum;
-import org.springframework.beans.BeanUtils;
 
 import javax.inject.Named;
 
@@ -24,4 +24,9 @@ public class RoomConverter {
         return room;
     }
 
+    public RoomBO convert2RoomBO(Room room) {
+        RoomBO roomBO = new RoomBO();
+        BeanUtils.copyProperties(room,roomBO);
+        return roomBO;
+    }
 }
