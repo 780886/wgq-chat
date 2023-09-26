@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.sheep</groupId>
-            <artifactId>sheep-rocketmq</artifactId>
+            <artifactId>sheep-rocketmq-client</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
