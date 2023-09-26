@@ -1,15 +1,15 @@
 package com.wgq.chat.infrastructure.chat.consumer;
 
-import com.sheep.mq.MQConstant;
-import com.sheep.mq.MQPublisher;
-import com.sheep.mq.PushBashDTO;
-import com.sheep.mq.WebsocketResponseTypeEnum;
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.RoomBO;
 import com.wgq.chat.bo.RoomFriendBO;
 import com.wgq.chat.cpntact.ContactServiceApi;
-import com.wgq.chat.protocol.dto.MessageSendDTO;
+import com.wgq.chat.mq.ImMQPublisher;
+import com.wgq.chat.protocol.constant.MQConstant;
+import com.wgq.chat.protocol.dto.PushBashDTO;
 import com.wgq.chat.protocol.enums.RoomTypeEnum;
+import com.wgq.chat.protocol.enums.WebsocketResponseTypeEnum;
+import com.wgq.chat.protocol.event.MessageSendEvent;
 import com.wgq.chat.repository.MessageRepository;
 import com.wgq.chat.repository.RoomFriendRepository;
 import com.wgq.chat.repository.RoomRepository;
@@ -32,10 +32,10 @@ import java.util.Objects;
  */
 @RocketMQMessageListener(consumerGroup = MQConstant.SEND_MSG_GROUP, topic = MQConstant.SEND_MSG_TOPIC)
 @Named
-public class MessageSendConsumer implements RocketMQListener<MessageSendDTO> {
+public class MessageSendEventConsumer implements RocketMQListener<MessageSendEvent> {
 
     @Inject
-    private MQPublisher mqPublisher;
+    private ImMQPublisher imMQPublisher;
 
     @Inject
     private MessageRepository messageRepository;
@@ -50,8 +50,8 @@ public class MessageSendConsumer implements RocketMQListener<MessageSendDTO> {
     private ContactServiceApi contactServiceApi;
 
     @Override
-    public void onMessage(MessageSendDTO messageSendDTO) {
-        MessageBO messageBO = this.messageRepository.getMessage(messageSendDTO.getMessageId());
+    public void onMessage(MessageSendEvent messageSendEvent) {
+        MessageBO messageBO = this.messageRepository.getMessage(messageSendEvent.getMessageId());
         RoomBO roomBO = this.repository.getRoom(messageBO.getRoomId());
         if (roomBO.isHotRoom()){
             //TODO 推送所有人
@@ -67,7 +67,7 @@ public class MessageSendConsumer implements RocketMQListener<MessageSendDTO> {
             //TODO 更新所有群成员的会话时间
 //            this.contactServiceApi.refreshOrCreateActiveTime(roomBO.getId(), memberUserList, messageBO.getId(), messageBO.getCreateTime());
             //推送给用户
-            this.mqPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.MESSAGE.getType(),messageBO),memberUserList);
+            this.imMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.MESSAGE.getType(),messageBO),memberUserList);
         }
     }
 }

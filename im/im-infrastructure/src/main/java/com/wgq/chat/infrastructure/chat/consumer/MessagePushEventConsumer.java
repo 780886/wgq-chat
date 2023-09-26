@@ -1,9 +1,9 @@
 package com.wgq.chat.infrastructure.chat.consumer;
 
-import com.sheep.mq.MQConstant;
-import com.sheep.mq.PushMessageDTO;
 import com.wgq.chat.domain.service.WebSocketService;
+import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.enums.PushTypeEnum;
+import com.wgq.chat.protocol.event.PushMessageEvent;
 import org.apache.rocketmq.spring.annotation.MessageModel;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -22,19 +22,19 @@ import javax.inject.Named;
  */
 @RocketMQMessageListener(topic = MQConstant.PUSH_TOPIC, consumerGroup = MQConstant.PUSH_GROUP, messageModel = MessageModel.BROADCASTING)
 @Named
-public class MessagePushConsumer implements RocketMQListener<PushMessageDTO> {
+public class MessagePushEventConsumer implements RocketMQListener<PushMessageEvent> {
 
-    private static Logger logger = LoggerFactory.getLogger(MessagePushConsumer.class);
+    private static Logger logger = LoggerFactory.getLogger(MessagePushEventConsumer.class);
 
     @Inject
     private WebSocketService webSocketService;
 
     @Override
-    public void onMessage(PushMessageDTO pushMessageDTO) {
-        PushTypeEnum pushTypeEnum = PushTypeEnum.of(pushMessageDTO.getPushType());
+    public void onMessage(PushMessageEvent pushMessageEvent) {
+        PushTypeEnum pushTypeEnum = PushTypeEnum.of(pushMessageEvent.getPushType());
         switch (pushTypeEnum) {
             case USER:
-                webSocketService.sendToUser(pushMessageDTO.getPushBashDTO(), pushMessageDTO.getUserId());
+                webSocketService.sendToUser(pushMessageEvent.getPushBashDTO(), pushMessageEvent.getUserId());
                 break;
             case ALL:
 //                webSocketService.sendToAllOnline(message.getWsBaseMsg(), null);

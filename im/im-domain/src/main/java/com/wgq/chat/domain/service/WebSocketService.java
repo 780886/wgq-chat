@@ -1,8 +1,8 @@
 package com.wgq.chat.domain.service;
 
-import com.sheep.mq.PushBashDTO;
 import com.sheep.protocol.BusinessException;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
+import com.wgq.chat.protocol.dto.PushBashDTO;
 import io.netty.channel.Channel;
 
 public interface WebSocketService {

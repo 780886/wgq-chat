@@ -1,7 +1,6 @@
 package com.wgq.chat.contact.service;
 
 import com.sheep.exception.Asserts;
-import com.sheep.mq.*;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
@@ -10,6 +9,7 @@ import com.wgq.chat.api.ChatServiceApi;
 import com.wgq.chat.api.RoomServiceApi;
 import com.wgq.chat.contact.assemble.AuditAssemble;
 import com.wgq.chat.contact.bo.*;
+import com.wgq.chat.contact.mq.ContactMQPublisher;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.protocol.audit.JoinQunParam;
@@ -20,7 +20,10 @@ import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.contact.repository.ContactRepository;
 import com.wgq.chat.contact.repository.QunRepository;
+import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.MessageSendDTO;
+import com.wgq.chat.protocol.dto.PushBashDTO;
+import com.wgq.chat.protocol.dto.WebsocketFriendApplyDTO;
 import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 import org.slf4j.Logger;
@@ -61,7 +64,7 @@ public class AuditService {
     private QunRepository qunRepository;
 
     @Inject
-    private MQPublisher mqPublisher;
+    private ContactMQPublisher contactMQPublisher;
 
     @Inject
     private AuditAssemble auditAssemble;
@@ -96,7 +99,7 @@ public class AuditService {
         //与回复的消息间隔多少条
         Integer unReadCount = this.auditRepository.getUnReadCount(friendId);
         // 发送用户申请消息
-        this.mqPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(AuditBusiness.FRIEND.getBusiness(),new WebsocketFriendApplyDTO(friendApplyBo.getFriendId(),unReadCount)),friendApplyBo.getFriendId());
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(AuditBusiness.FRIEND.getBusiness(),new WebsocketFriendApplyDTO(friendApplyBo.getFriendId(),unReadCount)),friendApplyBo.getFriendId());
 
     }
 
