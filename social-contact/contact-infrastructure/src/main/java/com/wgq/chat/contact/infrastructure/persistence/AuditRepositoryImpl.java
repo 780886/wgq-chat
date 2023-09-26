@@ -36,7 +36,7 @@ public class AuditRepositoryImpl  implements AuditRepository {
     @Override
     public Long applyFriend(FriendApplyBo friendApplyBo) {
         Audit audit = this.auditConverter.convert2po(friendApplyBo);
-        Audit oldAudit = this.auditDao.exist(audit);
+        Audit oldAudit = this.auditDao.getAudit(audit);
         if (Objects.nonNull(oldAudit)){
             audit.setId(oldAudit.getId());
             return  this.auditDao.update(audit);
@@ -71,7 +71,7 @@ public class AuditRepositoryImpl  implements AuditRepository {
     @Override
     public Long joinQun(JoinQunParam joinQunParam) {
         Audit audit = this.auditConverter.joinQun2AuditPo(joinQunParam);
-        Audit oldAudit = this.auditDao.exist(audit);
+        Audit oldAudit = this.auditDao.getAudit(audit);
         if (oldAudit != null) {
             audit.setId(oldAudit.getId());
             return this.auditDao.update(audit);

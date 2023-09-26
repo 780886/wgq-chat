@@ -30,7 +30,8 @@ public class RoomRepositoryImpl implements RoomRepository {
     @Override
     public Long createRoom(RoomTypeEnum roomTypeEnum) {
         Room room = this.roomConverter.convert2po(roomTypeEnum);
-        return this.roomDao.insert(room);
+        this.roomDao.insert(room);
+        return room.getId();
     }
 
     @Override

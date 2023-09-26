@@ -4,9 +4,19 @@
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.contact.dao.ContactDao">
 
+
+    <resultMap id="contactResultMap" type="com.wgq.chat.contact.po.Contact">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="friend_id" property="friendId"/>
+        <result column="apply_time" property="applyTime"/>
+        <result column="audit_time" property="auditTime"/>
+    </resultMap>
+
     <insert id="insert">
         <if test="contact != null">
-            <trim suffix="(" prefix=")" suffixOverrides=",">
+            insert into contact
+            <trim prefix="(" suffix=")"  suffixOverrides=",">
                 <if test="contact.id != null">
                     id,
                 </if>
@@ -55,12 +65,11 @@
     <delete id="removeById">
         delete from contact where id = #{id}
     </delete>
-    <select id="findContact" resultType="com.wgq.chat.contact.po.Contact">
-        select * from cotact where user_id = #{userId} and friend_id = #{friendId}
---         select * from cotact where user_id = #{userId} and friend_id = #{friendId} or (user_id = #{friendId} and friend_id = #{userId})
+    <select id="findContact" resultMap="contactResultMap">
+        select * from contact where user_id = #{userId} and friend_id = #{friendId}
     </select>
 
-    <select id="getMyContact" resultType="com.wgq.chat.contact.po.Contact">
+    <select id="getMyContact" resultMap="contactResultMap">
         select * from contact where user_id = #{userId}
     </select>
 </mapper>

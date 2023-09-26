@@ -50,18 +50,18 @@ public class TextMessageHandler extends AbstractMessageHandler {
     }
 
     @Override
-    public void saveMessage(MessageBO message, MessageSendParam messageSendParam) throws BusinessException {//保存文本消息
+    public void saveMessage(Long messageId, MessageSendParam messageSendParam) throws BusinessException {//保存文本消息
         //TODO
         TextMessageDTO textMessageDTO = BeanUtils.copyBean(messageSendParam.getBody(), TextMessageDTO.class);
         //TODO 扩展消息
         //构造业务消息
         MessageBO messageBO = new MessageBO();
-        messageBO.setId(message.getId());
+        messageBO.setId(messageId);
         messageBO.setBody(textMessageDTO.getContent());
         //如果有回复消息
         if (Objects.nonNull(textMessageDTO.getReplyMessageId())){
             //message.getId() 当前保存后的id
-            Integer gapCount = this.messageRepository.getGapCount(messageSendParam.getRoomId(),textMessageDTO.getReplyMessageId(),message.getId());
+            Integer gapCount = this.messageRepository.getGapCount(messageSendParam.getRoomId(),textMessageDTO.getReplyMessageId(),messageId);
             messageBO.setGapCount(gapCount);
             messageBO.setReplyMessageId(textMessageDTO.getReplyMessageId());
         }

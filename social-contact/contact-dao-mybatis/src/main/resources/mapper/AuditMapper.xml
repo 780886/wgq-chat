@@ -123,7 +123,11 @@
     </update>
 
     <update id="updateReadStatus">
-        update audit set read_status = #{readCode} where audit_user_id = #{auditUserId} and read_status = #{unreadCode} and id in #{ids}
+        update audit set read_status = #{readCode} where audit_user_id = #{auditUserId} and read_status = #{unreadCode}
+        and id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
     </update>
 
     <select id="getAudits" resultMap="auditResultMap">
@@ -134,12 +138,9 @@
         select * from audit where id = #{id}
     </select>
 
-    <select id="exist" resultType="com.wgq.chat.contact.po.Audit">
-
-    </select>
-    <select id="getAudit" resultType="com.wgq.chat.contact.po.Audit">
-        select * from audit
+    <select id="getAudit" resultMap="auditResultMap">
         <if test="audit != null">
+            select * from audit
             <trim prefix="where" prefixOverrides="and">
                 <if test="audit.applyUserId != null">
                     and apply_user_id = #{audit.applyUserId}
@@ -173,5 +174,11 @@
     </select>
     <select id="applyUnread" resultType="java.lang.Integer">
         select count(*) from audit where audit_user_id = #{auditUserId} and read_status = #{code}
+    </select>
+    <select id="exist" resultMap="auditResultMap">
+        <if test="audit != null">
+            select * from
+        </if>
+
     </select>
 </mapper>

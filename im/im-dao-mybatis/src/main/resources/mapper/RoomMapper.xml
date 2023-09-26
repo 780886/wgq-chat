@@ -4,7 +4,7 @@
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.dao.RoomDao">
 
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         <if test="room != null">
             insert into room
             <trim prefix="(" suffix=")" suffixOverrides=",">

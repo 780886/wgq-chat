@@ -3,7 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.dao.RoomFriendDao">
-    <insert id="insert">
+
+    <resultMap id="roomFriendResultMap" type="com.wgq.chat.po.RoomFriend">
+        <result column="id" property="id"/>
+        <result column="room_id" property="roomId"/>
+        <result column="smaller_user_id" property="smallerUserId"/>
+        <result column="larger_user_id" property="largerUserId"/>
+        <result column="room_key" property="roomKey"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         <if test="roomFriend != null">
             insert into room_friend
             <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -78,11 +90,11 @@
         update room_friend set status = #{status} where room_key = #{roomKey}
     </update>
 
-    <select id="getByRoomKey" resultType="com.wgq.chat.po.RoomFriend">
+    <select id="getByRoomKey" resultMap="roomFriendResultMap">
         select * from room_friend where room_key = #{roomKey}
     </select>
 
-    <select id="getByRoomId" resultType="com.wgq.chat.po.RoomFriend">
+    <select id="getByRoomId" resultMap="roomFriendResultMap">
         select * from room_friend where room_id = #{roomId}
     </select>
 </mapper>

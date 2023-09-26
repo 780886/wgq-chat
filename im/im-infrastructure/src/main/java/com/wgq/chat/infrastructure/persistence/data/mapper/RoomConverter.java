@@ -17,6 +17,7 @@ import javax.inject.Named;
  */
 @Named
 public class RoomConverter {
+
     public Room convert2po(RoomTypeEnum roomTypeEnum) {
         Room room = new Room();
         room.setType(roomTypeEnum.getType());

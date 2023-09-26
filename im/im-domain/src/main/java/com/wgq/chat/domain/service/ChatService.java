@@ -7,7 +7,7 @@ import com.sheep.mq.MQPublisher;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
-import com.wgq.chat.assemble.ChatAssemble;
+import com.wgq.chat.assemble.MessageAssemble;
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.bo.RoomBO;
@@ -48,7 +48,7 @@ public class ChatService {
     private RoomFriendRepository roomFriendRepository;
 
     @Inject
-    private ChatAssemble chatAssemble;
+    private MessageAssemble messageAssemble;
 
     /**
      * 发送消息
@@ -85,9 +85,9 @@ public class ChatService {
         //校验消息
         messageHandler.checkMessage(messageSendParam,userId);
         //构造消息业务数据
-        MessageBO messageBO = this.chatAssemble.assembleMessageBO(messageSendParam,userId);
+        MessageBO messageBO = this.messageAssemble.assembleMessageBO(messageSendParam,userId);
         Long messageId = this.messageRepository.save(messageBO);
-        messageHandler.saveMessage(messageBO,messageSendParam);
+        messageHandler.saveMessage(messageId,messageSendParam);
         //推送消息
         this.mqPublisher.publish(MQConstant.SEND_MSG_TOPIC,new MessageSendDTO(messageId),messageId);
         return messageId;
@@ -105,7 +105,7 @@ public class ChatService {
             // TODO "您已被对方拉黑"
             Asserts.isTrue(Objects.equals(NormalOrNoEnum.NOT_NORMAL.getStatus(),roomFriendBO.getStatus()), BusinessCodeEnum.USER_BLACK);
             // TODO "您已被对方拉黑"!userId.equals(roomFriendBO.getLargerUserId())
-            Asserts.isTrue(!Objects.equals(userId,roomFriendBO.getSmallerUserId()) || !Objects.equals(userId,roomFriendBO.getLargerUserId()),BusinessCodeEnum.USER_BLACK);
+//            Asserts.isTrue(!Objects.equals(userId,roomFriendBO.getSmallerUserId()) || !Objects.equals(userId,roomFriendBO.getLargerUserId()),BusinessCodeEnum.USER_BLACK);
         }
 //        //群聊
 //        if (roomBO.isRoomGroup()){

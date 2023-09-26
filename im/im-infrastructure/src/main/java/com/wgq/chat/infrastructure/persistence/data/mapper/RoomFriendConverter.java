@@ -9,6 +9,7 @@ import org.springframework.beans.BeanUtils;
 
 import javax.inject.Named;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +23,9 @@ import java.util.stream.Collectors;
 public class RoomFriendConverter {
 
     public RoomFriendBO convert2RoomFriendBO(RoomFriend roomFriend) {
+        if (Objects.isNull(roomFriend)){
+            return null;
+        }
         RoomFriendBO roomFriendBO = new RoomFriendBO();
         BeanUtils.copyProperties(roomFriend, roomFriendBO);
         return roomFriendBO;

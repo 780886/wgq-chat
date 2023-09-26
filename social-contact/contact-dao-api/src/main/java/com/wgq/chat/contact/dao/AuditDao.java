@@ -23,11 +23,10 @@ public interface AuditDao {
 
     Long insert(@Param("audit") Audit audit);
 
-    Audit exist(Audit audit);
-
     Audit getAudit(@Param("audit") Audit audit);
 
     void updateReadStatus(@Param("ids") Set<Long> ids, @Param("auditUserId") Long auditUserId, @Param("readCode") Integer readCode, @Param("unreadCode") Integer unreadCode);
 
     Integer applyUnread(@Param("auditUserId") Long auditUserId, @Param("code") Integer code);
+
 }

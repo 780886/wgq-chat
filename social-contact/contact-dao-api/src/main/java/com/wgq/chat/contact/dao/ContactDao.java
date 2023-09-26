@@ -1,6 +1,7 @@
 package com.wgq.chat.contact.dao;
 
 import com.wgq.chat.contact.po.Contact;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  **/
 public interface ContactDao {
 
-    Long insert(Contact contact);
+    Long insert(@Param("contact") Contact contact);
 
     Contact findContact(Long userId, Long friendId);
 

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 
 
-@Api(value = "contact", tags = "IM 联系人审核")
+@Api(value = "audit", tags = "IM 联系人审核")
 @RestController
 @RequestMapping("/audit")
 public class AuditController {

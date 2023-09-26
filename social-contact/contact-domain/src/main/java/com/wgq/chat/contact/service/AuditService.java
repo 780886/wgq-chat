@@ -25,6 +25,7 @@ import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -74,7 +75,7 @@ public class AuditService {
         Long friendId = this.secretService.parseUserSecretIdentify(friendApplyParam.getFriendSecretIdentify());
         //查看是否是好友关系
         FriendBO friendBO = this.contactRepository.findContact(friendId,loginUser.getUserId());
-        Asserts.isTrue(Objects.isNull(friendBO), BusinessCodeEnum.EXIST_FRIEND_RELATIONSHIP);
+        Asserts.isTrue(Objects.nonNull(friendBO), BusinessCodeEnum.EXIST_FRIEND_RELATIONSHIP);
         //是否有待审批的申请记录(自己的)
         AuditBO ownAuditBO = this.auditRepository.getAudit(loginUser.getUserId(),friendId);
         if (Objects.nonNull(ownAuditBO)){
@@ -85,7 +86,7 @@ public class AuditService {
         AuditBO friendAuditBO = this.auditRepository.getAudit(friendId,loginUser.getUserId());
         if (Objects.nonNull(friendAuditBO)){
             //直接同意
-            this.auditFriendApply(new FriendAuditParam(friendAuditBO.getAuditId(),friendApplyParam.getReason(), AGREE));
+            this.auditFriendApply(new FriendAuditParam(friendAuditBO.getId(),friendApplyParam.getReason(), AGREE));
             return;
         }
         //构建好友申请的内部逻辑对象
@@ -116,7 +117,7 @@ public class AuditService {
     private Set<Long> fetchAuditIds(List<AuditBO> auditBOS) {
         HashSet<Long> auditIds = new HashSet<>();
         for (AuditBO auditBO : auditBOS) {
-            auditIds.add(auditBO.getAuditId());
+            auditIds.add(auditBO.getId());
         }
         return auditIds;
     }
@@ -130,16 +131,18 @@ public class AuditService {
         return userIds;
     }
 
+    @Transactional
     public void auditFriendApply(FriendAuditParam friendAuditParam) throws BusinessException {
         AuditBO auditBO = this.auditRepository.getAudit(friendAuditParam.getId());
         Asserts.isTrue(Objects.isNull(auditBO),ContactError.AUDIT_NOT_EXIST);//不存在审核记录
         Asserts.isTrue(AuditBusiness.FRIEND != auditBO.getAuditBusiness(), ContactError.AUDIT_BUSINESS_TYPE_NOT_MATCH);//不是好友申请
         Asserts.isTrue(auditBO.getAuditStatus().equals(StatusRecord.ENABLE), ContactError.AGREED_FRIEND_APPLY);//已同意好友请求
         LoginUser loginUser = ThreadContext.getLoginToken();
-        Asserts.isTrue(auditBO.getBusinessId().equals(loginUser.getUserId()),ContactError.AUDIT_USER_IS_NOT_MATCH);//审核用户不匹配
-        //审核用户申请
-        this.auditRepository.auditFriend(auditBO,friendAuditParam);
+        Asserts.isTrue(!Objects.equals(auditBO.getBusinessId(),loginUser.getUserId()),ContactError.AUDIT_USER_IS_NOT_MATCH);//审核用户不匹配
+
         if (friendAuditParam.getAgree()){
+            //审核用户申请
+            this.auditRepository.auditFriend(auditBO,friendAuditParam);
             //添加联系人
             this.contactRepository.addContact(auditBO,friendAuditParam);
             //创建一个聊天房间

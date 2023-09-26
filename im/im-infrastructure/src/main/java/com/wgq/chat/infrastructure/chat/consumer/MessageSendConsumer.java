@@ -65,7 +65,7 @@ public class MessageSendConsumer implements RocketMQListener<MessageSendDTO> {
                 memberUserList = Arrays.asList(roomFriend.getSmallerUserId(),roomFriend.getLargerUserId());
             }
             //TODO 更新所有群成员的会话时间
-            this.contactServiceApi.refreshOrCreateActiveTime(roomBO.getId(), memberUserList, messageBO.getId(), messageBO.getCreateTime());
+//            this.contactServiceApi.refreshOrCreateActiveTime(roomBO.getId(), memberUserList, messageBO.getId(), messageBO.getCreateTime());
             //推送给用户
             this.mqPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.MESSAGE.getType(),messageBO),memberUserList);
         }

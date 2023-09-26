@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @ClassName AuditConverter
@@ -48,9 +49,13 @@ public class AuditConverter {
     }
 
     public AuditBO audit2AuditBo(Audit audit) {
+        if (Objects.isNull(audit)){
+            return null;
+        }
         AuditBO auditBO = new AuditBO();
-        auditBO.setAuditId(audit.getId());
+        auditBO.setId(audit.getId());
         auditBO.setAuditUserId(audit.getAuditUserId());
+        auditBO.setAuditBusiness(AuditBusiness.of(audit.getBusinessType()));
         auditBO.setBusinessId(audit.getBusinessId());
         auditBO.setApplyUserId(audit.getApplyUserId());
         auditBO.setAuditStatus(audit.getStatus());
@@ -79,7 +84,7 @@ public class AuditConverter {
         audit.setBusinessId(friendApplyBo.getFriendId());
         audit.setAuditUserId(friendApplyBo.getFriendId());
         audit.setApplyReason(friendApplyBo.getReason());
-        audit.setStatus(StatusRecord.ENABLE);
+        audit.setStatus(StatusRecord.DISABLE);
         audit.setBusinessType(AuditBusiness.FRIEND.getBusiness());
         audit.setApplyTime(System.currentTimeMillis());
         return audit;
@@ -88,7 +93,7 @@ public class AuditConverter {
     public Audit convert2po(AuditBO auditBO, QunAuditParam qunAuditParam){
         LoginUser loginUser = ThreadContext.getLoginToken();
         Audit audit = new Audit();
-        audit.setId(auditBO.getAuditId());
+        audit.setId(auditBO.getId());
         audit.setApplyUserId(auditBO.getApplyUserId());
         audit.setBusinessId(auditBO.getBusinessId());
         audit.setAuditUserId(loginUser.getUserId());

@@ -42,7 +42,8 @@ public class RoomFriendRepositoryImpl implements RoomFriendRepository {
     @Override
     public Long createRoomFriend(Long roomId, List<Long> userList) {
         RoomFriend roomFriend = this.roomFriendConverter.convert2po(roomId, userList);
-        return this.roomFriendDao.insert(roomFriend);
+        this.roomFriendDao.insert(roomFriend);
+        return roomFriend.getId();
     }
 
     @Override

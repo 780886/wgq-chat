@@ -14,7 +14,7 @@ import javax.inject.Named;
  * @Version 1.0
  **/
 @Named
-public class ChatAssemble {
+public class MessageAssemble {
 
     public MessageBO assembleMessageBO(MessageSendParam messageSendParam, Long userId) {
         MessageBO messageBO = new MessageBO();
