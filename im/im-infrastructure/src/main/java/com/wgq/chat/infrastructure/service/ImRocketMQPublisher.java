@@ -41,6 +41,11 @@ public class ImRocketMQPublisher implements ImMQPublisher {
     }
 
     @Override
+    public void publish(String topic, MQEvent body) {
+        this.mqPublisher.publish(topic, body);
+    }
+
+    @Override
     public void publish(String topic, MQEvent body, Object key) {
         this.mqPublisher.publish(topic, body,key);
     }

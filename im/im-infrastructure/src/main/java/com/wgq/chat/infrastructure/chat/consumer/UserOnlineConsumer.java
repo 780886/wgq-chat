@@ -4,6 +4,7 @@ import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.domain.netty.UserContainer;
 import com.wgq.chat.protocol.constant.MQConstant;
+import com.wgq.chat.protocol.event.PushMessageEvent;
 import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 import com.wgq.passport.protocol.param.UserModifyParam;
@@ -24,7 +25,7 @@ import javax.inject.Named;
  **/
 @RocketMQMessageListener(topic = MQConstant.USER_ONLINE_TOPIC,consumerGroup = MQConstant.USER_ONLINE_GROUP)
 @Named
-public class UserOnlineConsumer implements RocketMQListener<UserProfileDTO> {
+public class UserOnlineConsumer implements RocketMQListener<PushMessageEvent> {
 
     private Logger logger = LoggerFactory.getLogger(UserOnlineConsumer.class);
 
@@ -34,7 +35,8 @@ public class UserOnlineConsumer implements RocketMQListener<UserProfileDTO> {
     private UserProfileAppService userProfileAppService;
 
     @Override
-    public void onMessage(UserProfileDTO userProfileDTO) {
+    public void onMessage(PushMessageEvent pushMessageEvent) {
+        UserProfileDTO userProfileDTO = (UserProfileDTO) pushMessageEvent.getPushBashDTO().getData();
         //上线
         logger.info("用户上线:{}",userProfileDTO.getUserId());
         userProfileDTO.setGmtModified(System.currentTimeMillis());

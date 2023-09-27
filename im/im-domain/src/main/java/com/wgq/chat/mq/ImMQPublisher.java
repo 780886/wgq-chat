@@ -20,5 +20,9 @@ public interface ImMQPublisher {
 
     void publish(String topic, PushBashDTO<?> message);
 
+    void publish(String topic, MQEvent body);
+
     void publish(String topic, MQEvent body, Object key);
+
+
 }

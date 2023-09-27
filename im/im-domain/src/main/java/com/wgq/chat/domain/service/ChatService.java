@@ -2,7 +2,6 @@ package com.wgq.chat.domain.service;
 
 import com.sheep.enums.NormalOrNoEnum;
 import com.sheep.exception.Asserts;
-import com.sheep.mq.MQPublisher;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
@@ -13,6 +12,7 @@ import com.wgq.chat.bo.RoomBO;
 import com.wgq.chat.bo.RoomFriendBO;
 import com.wgq.chat.domain.service.strategy.AbstractMessageHandler;
 import com.wgq.chat.domain.service.strategy.MessageHandlerFactory;
+import com.wgq.chat.mq.ImMQPublisher;
 import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.protocol.event.MessageSendEvent;
@@ -39,7 +39,7 @@ public class ChatService {
     private MessageRepository messageRepository;
 
     @Inject
-    private MQPublisher mqPublisher;
+    private ImMQPublisher imMQPublisher;
 
     @Inject
     private RoomRepository roomRepository;
@@ -90,7 +90,7 @@ public class ChatService {
         messageHandler.saveMessage(messageId,messageSendParam);
         //推送消息
 //        this.mqPublisher.publish(MQConstant.SEND_MSG_TOPIC,new MessageSendDTO(messageId),messageId);
-        this.mqPublisher.publish(MQConstant.SEND_MSG_TOPIC,new MessageSendEvent(messageId));
+        this.imMQPublisher.publish(MQConstant.SEND_MSG_TOPIC,new MessageSendEvent(messageId));
         return messageId;
     }
 
