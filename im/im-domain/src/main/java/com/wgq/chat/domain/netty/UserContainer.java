@@ -98,13 +98,13 @@ public class UserContainer {
     }
 
     //用户下线
-    public void offline(Long uid, Date optTime) {
+    public void offline(Long uid, Long optTime) {
         String onlineKey = RedisKey.getKey(RedisKey.ONLINE_UID_ZET);
         String offlineKey = RedisKey.getKey(RedisKey.OFFLINE_UID_ZET);
         //移除上线线表
         RedisUtils.zRemove(onlineKey, uid);
         //更新上线表
-        RedisUtils.zAdd(offlineKey, uid, optTime.getTime());
+        RedisUtils.zAdd(offlineKey, uid, optTime);
     }
 
 

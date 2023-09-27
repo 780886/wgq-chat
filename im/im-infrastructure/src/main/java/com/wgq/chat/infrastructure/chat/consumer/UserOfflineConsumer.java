@@ -40,14 +40,12 @@ public class UserOfflineConsumer implements RocketMQListener<PushMessageEvent> {
         UserProfileDTO userProfileDTO = (UserProfileDTO) pushMessageEvent.getPushBashDTO().getData();
         logger.info("用户下线:{}",userProfileDTO.getUserId());
         userProfileDTO.setGmtModified(System.currentTimeMillis());
-        container.online(userProfileDTO.getUserId(), userProfileDTO.getGmtModified());
-        //推送给所有在线用户，该用户登录成功
-//        pushService.sendPushMsg(new PushBashDTO<>(5,2),memberUidList);
+        container.offline(userProfileDTO.getUserId(), userProfileDTO.getGmtModified());
         UserModifyParam userModifyParam = new UserModifyParam(userProfileDTO.getUserId(), userProfileDTO.getGmtModified(), userProfileDTO.getIp(), StatusRecord.OFFLINE);
         try {
             this.userProfileAppService.modify(userModifyParam);
         } catch (BusinessException e) {
-            logger.error("用户下线:{},状态修改失败!",userProfileDTO.getUserId(),e);
+            logger.error("用户下线:{},下线状态修改失败!",userProfileDTO.getUserId(),e);
         }
     }
 }
