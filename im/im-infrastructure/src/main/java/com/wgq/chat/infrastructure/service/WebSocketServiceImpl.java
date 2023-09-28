@@ -4,6 +4,7 @@ import com.sheep.core.spi.JsonFactory;
 import com.sheep.json.Json;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
+import com.sheep.protocol.enums.StatusRecord;
 import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.domain.netty.NettyUtil;
 import com.wgq.chat.domain.netty.UserContainer;
@@ -13,7 +14,10 @@ import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
 import com.wgq.chat.protocol.dto.ChannelExtraDTO;
 import com.wgq.chat.protocol.dto.PushBashDTO;
+import com.wgq.chat.protocol.enums.PushTypeEnum;
 import com.wgq.chat.protocol.enums.WebsocketResponseTypeEnum;
+import com.wgq.chat.protocol.event.UserOnlineEvent;
+import com.wgq.chat.protocol.event.UserProfileEvent;
 import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.api.UserSecurityService;
 import com.wgq.passport.protocol.dto.LoginDTO;
@@ -110,9 +114,11 @@ public class WebSocketServiceImpl implements WebSocketService {
         //发送用户上线事件
         boolean online = container.isOnline(userProfileDTO.getUserId());
         if (!online) {
-            userProfileDTO.setGmtModified(System.currentTimeMillis());
-            userProfileDTO.setIp(NettyUtil.getAttr(channel, NettyUtil.IP));
-            this.imMQPublisher.publish(MQConstant.USER_ONLINE_TOPIC,new PushBashDTO<UserProfileDTO>(WebsocketResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileDTO),userProfileDTO.getUserId());
+//            userProfileDTO.setGmtModified(System.currentTimeMillis());
+//            userProfileDTO.setIp(NettyUtil.getAttr(channel, NettyUtil.IP));
+            UserProfileEvent userProfileEvent = new UserProfileEvent(userProfileDTO.getUserId(), userProfileDTO.getLastLoginTime(), NettyUtil.getAttr(channel, NettyUtil.IP), StatusRecord.ONLINE,System.currentTimeMillis());
+            UserOnlineEvent userOnlineEvent = new UserOnlineEvent(userProfileDTO.getUserId(), PushTypeEnum.USER.getType(), WebsocketResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(), userProfileEvent);
+            this.imMQPublisher.publish(MQConstant.USER_ONLINE_TOPIC,userOnlineEvent);
         }
     }
 
