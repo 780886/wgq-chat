@@ -36,14 +36,13 @@ public class UserOnlineConsumer implements RocketMQListener<PushMessageEvent> {
 
     @Override
     public void onMessage(PushMessageEvent pushMessageEvent) {
-        UserProfileDTO userProfileDTO = null;
+        UserProfileDTO userProfileDTO = (UserProfileDTO) pushMessageEvent.getPushBashDTO().getData();
+        //上线
+        logger.info("用户上线:{}",userProfileDTO.getUserId());
+        userProfileDTO.setGmtModified(System.currentTimeMillis());
+        this.container.online(userProfileDTO.getUserId(), userProfileDTO.getGmtModified());
+        UserModifyParam userModifyParam = new UserModifyParam(userProfileDTO.getUserId(), userProfileDTO.getGmtModified(), userProfileDTO.getIp(), StatusRecord.ONLINE);
         try {
-            userProfileDTO = (UserProfileDTO) pushMessageEvent.getPushBashDTO().getData();
-            //上线
-            logger.info("用户上线:{}",userProfileDTO.getUserId());
-            userProfileDTO.setGmtModified(System.currentTimeMillis());
-            this.container.online(userProfileDTO.getUserId(), userProfileDTO.getGmtModified());
-            UserModifyParam userModifyParam = new UserModifyParam(userProfileDTO.getUserId(), userProfileDTO.getGmtModified(), userProfileDTO.getIp(), StatusRecord.ONLINE);
             this.userProfileAppService.modify(userModifyParam);
         } catch (BusinessException e) {
             logger.error("用户上线:{},状态修改失败!",userProfileDTO.getUserId(),e);
