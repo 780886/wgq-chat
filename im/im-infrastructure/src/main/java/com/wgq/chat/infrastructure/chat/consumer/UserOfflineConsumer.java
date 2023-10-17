@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.Objects;
 
 /**
  * @ClassName UserOfflineConsumer
@@ -37,15 +38,17 @@ public class UserOfflineConsumer implements RocketMQListener<PushMessageEvent> {
 
     @Override
     public void onMessage(PushMessageEvent pushMessageEvent) {
-        UserProfileDTO userProfileDTO = (UserProfileDTO) pushMessageEvent.getPushBashDTO().getData();
-        logger.info("用户下线:{}",userProfileDTO.getUserId());
-        userProfileDTO.setGmtModified(System.currentTimeMillis());
-        container.offline(userProfileDTO.getUserId(), userProfileDTO.getGmtModified());
-        UserModifyParam userModifyParam = new UserModifyParam(userProfileDTO.getUserId(), userProfileDTO.getGmtModified(), userProfileDTO.getIp(), StatusRecord.OFFLINE);
-        try {
-            this.userProfileAppService.modify(userModifyParam);
-        } catch (BusinessException e) {
-            logger.error("用户下线:{},下线状态修改失败!",userProfileDTO.getUserId(),e);
+        if (Objects.nonNull(pushMessageEvent.getPushBashDTO().getData()) && pushMessageEvent.getPushBashDTO().getData() instanceof UserProfileDTO){
+            UserProfileDTO userProfileDTO = (UserProfileDTO) pushMessageEvent.getPushBashDTO().getData();
+            logger.info("用户下线:{}",userProfileDTO.getUserId());
+            userProfileDTO.setGmtModified(System.currentTimeMillis());
+            container.offline(userProfileDTO.getUserId(), userProfileDTO.getGmtModified());
+            UserModifyParam userModifyParam = new UserModifyParam(userProfileDTO.getUserId(), userProfileDTO.getGmtModified(), userProfileDTO.getIp(), StatusRecord.OFFLINE);
+            try {
+                this.userProfileAppService.modify(userModifyParam);
+            } catch (BusinessException e) {
+                logger.error("用户下线:{},下线状态修改失败!",userProfileDTO.getUserId(),e);
+            }
         }
     }
 }

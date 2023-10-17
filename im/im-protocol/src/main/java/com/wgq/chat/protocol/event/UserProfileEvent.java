@@ -16,15 +16,17 @@ public class UserProfileEvent implements MQEvent {
     private Long lastLoginTime;
     private Long ip;
     private StatusRecord status;
+    private Long gmtModified;
 
     public UserProfileEvent() {
     }
 
-    public UserProfileEvent(Long userId, Long lastLoginTime, Long ip, StatusRecord status) {
+    public UserProfileEvent(Long userId, Long lastLoginTime, Long ip, StatusRecord status, Long gmtModified) {
         this.userId = userId;
         this.lastLoginTime = lastLoginTime;
         this.ip = ip;
         this.status = status;
+        this.gmtModified = gmtModified;
     }
 
     public Long getUserId() {
@@ -57,5 +59,13 @@ public class UserProfileEvent implements MQEvent {
 
     public void setStatus(StatusRecord status) {
         this.status = status;
+    }
+
+    public Long getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Long gmtModified) {
+        this.gmtModified = gmtModified;
     }
 }
