@@ -23,7 +23,7 @@
         </dependency>
         <dependency>
             <groupId>com.sheep</groupId>
-            <artifactId>sheep-redis</artifactId>
+            <artifactId>sheep-redisson</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>

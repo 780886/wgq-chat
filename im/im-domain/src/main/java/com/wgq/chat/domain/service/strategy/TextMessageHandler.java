@@ -57,7 +57,10 @@ public class TextMessageHandler extends AbstractMessageHandler {
         //构造业务消息
         MessageBO messageBO = new MessageBO();
         messageBO.setId(messageId);
-        messageBO.setBody(textMessageDTO.getContent());
+        // TODO 敏感词过滤
+//        messageBO.setBody();
+        // TODO 扩展消息   textMessageDTO.getContent()
+
         //如果有回复消息
         if (Objects.nonNull(textMessageDTO.getReplyMessageId())){
             //message.getId() 当前保存后的id
@@ -67,7 +70,7 @@ public class TextMessageHandler extends AbstractMessageHandler {
         }
         // TODO @功能
         if (!CollectionsUtils.isNullOrEmpty(textMessageDTO.getAtUserIdList())){
-            //存扩展字段里面
+            //设置@用户
         }
         this.messageRepository.updateById(messageBO);
     }

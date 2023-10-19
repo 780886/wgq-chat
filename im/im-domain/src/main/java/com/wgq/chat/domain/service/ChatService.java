@@ -10,12 +10,15 @@ import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.bo.RoomBO;
 import com.wgq.chat.bo.RoomFriendBO;
+import com.wgq.chat.contact.protocol.contact.dto.ContactDTO;
+import com.wgq.chat.cpntact.ContactServiceApi;
 import com.wgq.chat.domain.service.strategy.AbstractMessageHandler;
 import com.wgq.chat.domain.service.strategy.MessageHandlerFactory;
 import com.wgq.chat.mq.ImMQPublisher;
 import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.protocol.event.MessageSendEvent;
+import com.wgq.chat.protocol.param.MessageReadParam;
 import com.wgq.chat.protocol.param.MessageSendParam;
 import com.wgq.chat.repository.MessageRepository;
 import com.wgq.chat.repository.RoomFriendRepository;
@@ -23,6 +26,7 @@ import com.wgq.chat.repository.RoomRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -49,6 +53,9 @@ public class ChatService {
 
     @Inject
     private MessageAssemble messageAssemble;
+
+    @Inject
+    private ContactServiceApi contactServiceApi;
 
     /**
      * 发送消息
@@ -112,5 +119,21 @@ public class ChatService {
 //        if (roomBO.isRoomGroup()){
 //
 //        }
+    }
+
+    public List<MessageReturnBO> getMessageList(MessageReadParam messageReadParam) throws BusinessException {
+        // TODO"房间不能为空!"
+        Asserts.isTrue(Objects.isNull(messageReadParam.getRoomId()),null);
+        LoginUser loginToken = ThreadContext.getLoginToken();
+        RoomBO room = this.roomRepository.getRoom(messageReadParam.getRoomId());
+        // 房间有误
+        Asserts.isTrue(Objects.isNull(room),null);
+        if (room.isHotRoom()){
+            return null;
+        }
+        //请先登录
+        Asserts.isTrue(Objects.isNull(loginToken) || Objects.isNull(loginToken.getUserId()),null);
+        ContactDTO contactBO = this.contactServiceApi.getContact(loginToken.getUserId(),messageReadParam.getRoomId());
+        return null;
     }
 }

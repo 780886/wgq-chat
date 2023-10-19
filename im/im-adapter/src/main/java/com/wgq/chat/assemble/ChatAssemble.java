@@ -5,6 +5,7 @@ import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.vo.MessageReturnVO;
 
 import javax.inject.Named;
+import java.util.List;
 
 /**
  * @ClassName: ChatAssemble
@@ -19,5 +20,9 @@ public class ChatAssemble {
         MessageReturnVO messageReturnVO = new MessageReturnVO();
         BeanUtils.copyProperties(messageReturnBO,messageReturnVO);
         return messageReturnVO;
+    }
+
+    public List<MessageReturnVO> assemble2VOList(List<MessageReturnBO> messageReturnBOList) {
+        return null;
     }
 }

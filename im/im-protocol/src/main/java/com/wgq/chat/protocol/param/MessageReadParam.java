@@ -1,23 +1,18 @@
 package com.wgq.chat.protocol.param;
 
-public class MessageReadParam {
-    private Integer userId;
-    private String sessionKey;
+import com.sheep.protocol.Param;
 
-    public Integer getUserId() {
-        return userId;
+public class MessageReadParam implements Param {
+    /**
+     * 房间id
+     */
+    private Long roomId;
+
+    public Long getRoomId() {
+        return roomId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
-
-    public String getSessionKey() {
-        return sessionKey;
-    }
-
-    public void setSessionKey(String sessionKey) {
-        this.sessionKey = sessionKey;
-    }
-
 }

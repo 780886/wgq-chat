@@ -15,6 +15,8 @@ import com.wgq.chat.repository.RoomFriendRepository;
 import com.wgq.chat.repository.RoomRepository;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,6 +36,8 @@ import java.util.Objects;
 @Named
 public class MessageSendEventConsumer implements RocketMQListener<MessageSendEvent> {
 
+    private final static Logger logger = LoggerFactory.getLogger(MessageSendEventConsumer.class);
+
     @Inject
     private ImMQPublisher imMQPublisher;
 
@@ -51,8 +55,15 @@ public class MessageSendEventConsumer implements RocketMQListener<MessageSendEve
 
     @Override
     public void onMessage(MessageSendEvent messageSendEvent) {
-        MessageBO messageBO = this.messageRepository.getMessage(messageSendEvent.getMessageId());
-        RoomBO roomBO = this.repository.getRoom(messageBO.getRoomId());
+        MessageBO messageBO = null;
+        RoomBO roomBO = null;
+        try {
+            messageBO = this.messageRepository.getMessage(messageSendEvent.getMessageId());
+            roomBO = this.repository.getRoom(messageBO.getRoomId());
+        }catch (Exception e){
+            logger.error("未找到消息记录:{},房间:{}...",messageBO,roomBO);
+            return;
+        }
         if (roomBO.isHotRoom()){
             //TODO 推送所有人
         }else {

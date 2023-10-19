@@ -16,6 +16,7 @@ import com.wgq.chat.protocol.dto.ChannelExtraDTO;
 import com.wgq.chat.protocol.dto.PushBashDTO;
 import com.wgq.chat.protocol.enums.PushTypeEnum;
 import com.wgq.chat.protocol.enums.WebsocketResponseTypeEnum;
+import com.wgq.chat.protocol.event.UserOfflineEvent;
 import com.wgq.chat.protocol.event.UserOnlineEvent;
 import com.wgq.chat.protocol.event.UserProfileEvent;
 import com.wgq.passport.api.UserProfileAppService;
@@ -77,10 +78,14 @@ public class WebSocketServiceImpl implements WebSocketService {
         boolean offlineAll = container.offline(channel, uidOptional);
         if (uidOptional.isPresent() && offlineAll) {//已登录用户断连,并且全下线成功
             //发送给对应的用户
-            UserProfileDTO userProfileDTO = new UserProfileDTO();
-            userProfileDTO.setUserId(uidOptional.get());
-            userProfileDTO.setGmtModified(System.currentTimeMillis());
-            this.imMQPublisher.publish(MQConstant.USER_OFFLINE_TOPIC,new PushBashDTO<UserProfileDTO>(WebsocketResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileDTO),userProfileDTO.getUserId());
+//            UserProfileDTO userProfileDTO = new UserProfileDTO();
+//            userProfileDTO.setUserId(uidOptional.get());
+//            userProfileDTO.setGmtModified(System.currentTimeMillis());
+//            this.imMQPublisher.publish(MQConstant.USER_OFFLINE_TOPIC,new PushBashDTO<UserProfileDTO>(WebsocketResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileDTO),userProfileDTO.getUserId());
+
+            UserProfileEvent userProfileEvent = new UserProfileEvent(uidOptional.get(), null, NettyUtil.getAttr(channel, NettyUtil.IP), StatusRecord.OFFLINE, System.currentTimeMillis());
+            UserOfflineEvent userOfflineEvent = new UserOfflineEvent(null,WebsocketResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileEvent);
+            this.imMQPublisher.publish(MQConstant.USER_OFFLINE_TOPIC,userOfflineEvent);
         }
     }
 
@@ -114,8 +119,6 @@ public class WebSocketServiceImpl implements WebSocketService {
         //发送用户上线事件
         boolean online = container.isOnline(userProfileDTO.getUserId());
         if (!online) {
-//            userProfileDTO.setGmtModified(System.currentTimeMillis());
-//            userProfileDTO.setIp(NettyUtil.getAttr(channel, NettyUtil.IP));
             UserProfileEvent userProfileEvent = new UserProfileEvent(userProfileDTO.getUserId(), userProfileDTO.getLastLoginTime(), NettyUtil.getAttr(channel, NettyUtil.IP), StatusRecord.ONLINE,System.currentTimeMillis());
             UserOnlineEvent userOnlineEvent = new UserOnlineEvent(userProfileDTO.getUserId(), PushTypeEnum.USER.getType(), WebsocketResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(), userProfileEvent);
             this.imMQPublisher.publish(MQConstant.USER_ONLINE_TOPIC,userOnlineEvent);

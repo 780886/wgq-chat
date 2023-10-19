@@ -4,15 +4,14 @@ import com.sheep.protocol.BusinessException;
 import com.wgq.chat.assemble.ChatAssemble;
 import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.domain.service.ChatService;
+import com.wgq.chat.protocol.param.MessageReadParam;
 import com.wgq.chat.protocol.param.MessageSendParam;
 import com.wgq.chat.vo.MessageReturnVO;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.List;
 
 /**
  * @ClassName: MsgController
@@ -38,6 +37,14 @@ public class ChatController {
         MessageReturnBO messageReturnBO = this.chatService.getMessage(messageId);
         //返回完整消息格式，方便前端展示
         return this.chatAssemble.assemble2vo(messageReturnBO);
+    }
+
+    @GetMapping("/getMessageList")
+    @ApiOperation("发送消息")
+    public List<MessageReturnVO> getMessageList(@RequestBody MessageReadParam messageReadParam) throws BusinessException {
+        List<MessageReturnBO> messageReturnBOList = this.chatService.getMessageList(messageReadParam);
+        //返回完整消息格式，方便前端展示
+        return this.chatAssemble.assemble2VOList(messageReturnBOList);
     }
 
 }
