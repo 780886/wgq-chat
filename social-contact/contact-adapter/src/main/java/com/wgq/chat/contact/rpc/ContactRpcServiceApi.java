@@ -1,6 +1,5 @@
 package com.wgq.chat.contact.rpc;
 
-import com.wgq.chat.contact.protocol.contact.dto.ContactDTO;
 import com.wgq.chat.contact.service.ContactService;
 import com.wgq.chat.cpntact.ContactServiceApi;
 
@@ -27,9 +26,4 @@ public class ContactRpcServiceApi implements ContactServiceApi {
         this.contactService.refreshOrCreateActiveTime(roomId, memberUserList, messageId, activeTime);
     }
 
-    @Override
-    public ContactDTO getContact(Long friendId, Long roomId) {
-//        ContactBO contactBO = this.contactService.findFriend(findUserSecretParam.getUserIdentify());
-        return null;
-    }
 }

@@ -49,4 +49,5 @@ public abstract class AbstractMessageHandler {
      * 会话列表——展示的消息
      */
     public abstract String showContactMessage(MessageBO message);
+
 }

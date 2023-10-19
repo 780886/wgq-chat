@@ -108,4 +108,7 @@
     <select id="getGapCount" resultType="java.lang.Integer">
         select * from message where room_id = #{roomId} and id &gt; #{replyMessageId} > and id &lt;= #{messageId}
     </select>
+    <select id="getMessageList" resultMap="messageMap">
+        select * from message where room_id = #{roomId} and status = #{status} and  id &lt;= #{lastMsgId}
+    </select>
 </mapper>

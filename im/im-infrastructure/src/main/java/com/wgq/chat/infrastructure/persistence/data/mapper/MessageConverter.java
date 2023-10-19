@@ -1,9 +1,13 @@
 package com.wgq.chat.infrastructure.persistence.data.mapper;
+import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.po.Message;
 
 import javax.inject.Named;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName: MessageConverter
@@ -45,5 +49,21 @@ public class MessageConverter {
         messageBO.setStatus(message.getStatus());
         messageBO.setBody(message.getContent());
         return messageBO;
+    }
+
+    public List<MessageReturnBO> convert2MessageReturnBOList(List<Message> messageList) {
+        if (CollectionsUtils.isNullOrEmpty(messageList)){
+            return Collections.emptyList();
+        }
+        return messageList.stream().map(message->{
+            MessageReturnBO messageReturnBO = new MessageReturnBO();
+            messageReturnBO.setSenderUserId(message.getSenderUserId());
+            messageReturnBO.setMessageId(message.getId());
+            messageReturnBO.setRoomId(message.getRoomId());
+            messageReturnBO.setSendTime(message.getCreateTime());
+            messageReturnBO.setMessageType(message.getType());
+            messageReturnBO.setBody(message.getContent());
+            return messageReturnBO;
+        }).collect(Collectors.toList());
     }
 }

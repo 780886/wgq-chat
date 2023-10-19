@@ -5,10 +5,12 @@ import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.dao.MessageDao;
 import com.wgq.chat.infrastructure.persistence.data.mapper.MessageConverter;
 import com.wgq.chat.po.Message;
+import com.wgq.chat.protocol.enums.MessageStatusEnum;
 import com.wgq.chat.repository.MessageRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.List;
 
 /**
  * @ClassName: MessageRepositoryImpl
@@ -54,5 +56,11 @@ public class MessageRepositoryImpl implements MessageRepository {
     public void updateById(MessageBO messageBO) {
         Message message = this.messageConverter.convert2po(messageBO);
         this.messageDao.updateById(message);
+    }
+
+    @Override
+    public List<MessageReturnBO> getMessageList(Long roomId, Long lastMsgId) {
+        List<Message> messageList = this.messageDao.getMessageList(roomId, MessageStatusEnum.NORMAL.getStatus(),lastMsgId);
+        return this.messageConverter.convert2MessageReturnBOList(messageList);
     }
 }

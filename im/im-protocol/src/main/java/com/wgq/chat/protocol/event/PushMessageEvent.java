@@ -16,7 +16,6 @@ public class PushMessageEvent implements MQEvent {
      */
     private Long userId;
 
-
     private Integer pushType;
 
     public PushMessageEvent() {

@@ -1,5 +1,7 @@
 package com.wgq.chat.protocol.param;
 
+import com.sheep.protocol.Param;
+
 /**
  * @ClassName: MessageSendParam
  * @Author : wgq
@@ -7,7 +9,7 @@ package com.wgq.chat.protocol.param;
  * @Description:
  * @Version :1.0
  */
-public class MessageSendParam {
+public class MessageSendParam implements Param {
 
 
     /**

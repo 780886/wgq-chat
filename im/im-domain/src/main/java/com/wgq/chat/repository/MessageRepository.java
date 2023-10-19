@@ -3,6 +3,8 @@ package com.wgq.chat.repository;
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.MessageReturnBO;
 
+import java.util.List;
+
 /**
  * @ClassName: MessageRepository
  * @Author : wgq
@@ -21,4 +23,6 @@ public interface MessageRepository {
     Integer getGapCount(Long roomId, Long replyMessageId, Long currentSaveMessageId);
 
     void updateById(MessageBO messageBO);
+
+    List<MessageReturnBO> getMessageList(Long roomId, Long lastMsgId);
 }
