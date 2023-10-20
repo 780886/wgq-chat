@@ -27,6 +27,11 @@
 			<artifactId>sheep-protocol-mq</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.wgq.chat</groupId>
+			<artifactId>contact-protocol</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 

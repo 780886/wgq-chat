@@ -4,9 +4,7 @@ import com.sheep.protocol.BusinessException;
 import com.wgq.chat.assemble.ChatAssemble;
 import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.domain.service.ChatService;
-import com.wgq.chat.protocol.param.MessageReadParam;
-import com.wgq.chat.protocol.param.MessageRecallParam;
-import com.wgq.chat.protocol.param.MessageSendParam;
+import com.wgq.chat.protocol.param.*;
 import com.wgq.chat.vo.MessageReturnVO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -42,8 +40,8 @@ public class ChatController {
 
     @GetMapping("/getMessageList")
     @ApiOperation("消息列表")
-    public List<MessageReturnVO> getMessageList(@RequestBody MessageReadParam messageReadParam) throws BusinessException {
-        List<MessageReturnBO> messageReturnBOList = this.chatService.getMessageList(messageReadParam);
+    public List<MessageReturnVO> getMessageList(@RequestBody MessageGetParam messageGetParam) throws BusinessException {
+        List<MessageReturnBO> messageReturnBOList = this.chatService.getMessageList(messageGetParam);
         return this.chatAssemble.assemble2VOList(messageReturnBOList);
     }
 
@@ -52,6 +50,20 @@ public class ChatController {
 //    @FrequencyControl(time = 20, count = 3, target = FrequencyControl.Target.UID)
     public void recallMsg(@RequestBody MessageRecallParam messageRecallParam) throws BusinessException {
         this.chatService.recallMessage(messageRecallParam);
+    }
+
+    @Deprecated
+    @GetMapping("/read")
+    @ApiOperation("消息的已读未读列表")
+    public List<MessageReturnVO> getReadList(MessageReadParam messageReadParam) throws BusinessException {
+        List<MessageReturnBO> messageReturnBOList = this.chatService.getReadList(messageReadParam);
+        return this.chatAssemble.assemble2VOList(messageReturnBOList);
+    }
+
+    @PutMapping("/message-read")
+    @ApiOperation("消息阅读")
+    public void messageRead(@RequestBody MessageRoomParam messageRoomParam) {
+        this.chatService.messageRead(messageRoomParam);
     }
 
 }

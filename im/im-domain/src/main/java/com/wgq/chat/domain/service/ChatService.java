@@ -13,6 +13,8 @@ import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.bo.RoomBO;
 import com.wgq.chat.bo.RoomFriendBO;
+import com.wgq.chat.contact.protocol.contact.dto.ContactDTO;
+import com.wgq.chat.cpntact.ContactServiceApi;
 import com.wgq.chat.domain.service.strategy.AbstractMessageHandler;
 import com.wgq.chat.domain.service.strategy.MessageHandlerFactory;
 import com.wgq.chat.domain.service.strategy.RecallMessageHandler;
@@ -21,9 +23,7 @@ import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.protocol.enums.MessageTypeEnum;
 import com.wgq.chat.protocol.event.MessageSendEvent;
-import com.wgq.chat.protocol.param.MessageReadParam;
-import com.wgq.chat.protocol.param.MessageRecallParam;
-import com.wgq.chat.protocol.param.MessageSendParam;
+import com.wgq.chat.protocol.param.*;
 import com.wgq.chat.repository.MessageRepository;
 import com.wgq.chat.repository.RoomFriendRepository;
 import com.wgq.chat.repository.RoomRepository;
@@ -62,6 +62,9 @@ public class ChatService {
 
     @Inject
     private RecallMessageHandler recallMessageHandler;
+
+    @Inject
+    private ContactServiceApi contactServiceApi;
 
     /**
      * 发送消息
@@ -127,18 +130,18 @@ public class ChatService {
 //        }
     }
 
-    public List<MessageReturnBO> getMessageList(MessageReadParam messageReadParam) throws BusinessException {
+    public List<MessageReturnBO> getMessageList(MessageGetParam messageGetParam) throws BusinessException {
         // TODO"房间不能为空!"
-        Asserts.isTrue(Objects.isNull(messageReadParam.getRoomId()),null);
+        Asserts.isTrue(Objects.isNull(messageGetParam.getRoomId()),null);
         LoginUser loginToken = ThreadContext.getLoginToken();
         //获取当前房间最后一条消息id,来限制被踢出的人能看见的最大一条消息
-        RoomBO room = this.roomRepository.getRoom(messageReadParam.getRoomId());
+        RoomBO room = this.roomRepository.getRoom(messageGetParam.getRoomId());
         // 房间有误
         Asserts.isTrue(Objects.isNull(room),null);
         if (room.isHotRoom()){
             return null;
         }
-        return this.messageRepository.getMessageList(messageReadParam.getRoomId(),room.getLastMsgId());
+        return this.messageRepository.getMessageList(messageGetParam.getRoomId(),room.getLastMsgId());
     }
 
     public void recallMessage(MessageRecallParam messageRecallParam) throws BusinessException {
@@ -167,5 +170,32 @@ public class ChatService {
         //超过两分钟的消息不能撤回哦~~
         Asserts.isTrue(between <= 2,null);
 
+    }
+
+    public List<MessageReturnBO> getReadList(MessageReadParam messageReadParam) throws BusinessException {
+        //参数不能为可能
+        Asserts.isTrue(Objects.isNull(messageReadParam),null);
+        //消息id不能为空
+        Asserts.isTrue(Objects.isNull(messageReadParam.getMessageId()),null);
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        MessageReturnBO message = this.getMessage(messageReadParam.getMessageId());
+        //不存在此消息
+        Asserts.isTrue(Objects.isNull(message),null);
+        //只能查看自己的消息
+        Asserts.isTrue(!Objects.equals(loginUser.getUserId(),message.getSenderUserId()),null);
+//
+//        if (ReadStatusEnum.READ.getCode().equals(messageReadParam.getReadStatus())){
+//            this.messageRepository.getReadList(m)
+//        }
+        return null;
+    }
+
+    // TODO 分布式锁
+    public void messageRead(MessageRoomParam messageRoomParam) throws BusinessException {
+        //房间id不能为空
+        Asserts.isTrue(Objects.isNull(messageRoomParam.getRoomId()),null);
+
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        ContactDTO contactDTO = this.contactServiceApi.getContact(loginUser.getUserId(),messageRoomParam.getRoomId());
     }
 }
