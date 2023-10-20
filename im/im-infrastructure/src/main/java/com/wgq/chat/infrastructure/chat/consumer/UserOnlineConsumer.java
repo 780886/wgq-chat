@@ -1,12 +1,10 @@
 package com.wgq.chat.infrastructure.chat.consumer;
 
-import com.sheep.protocol.BusinessException;
 import com.wgq.chat.domain.netty.UserContainer;
 import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.event.UserOnlineEvent;
 import com.wgq.chat.protocol.event.UserProfileEvent;
 import com.wgq.passport.api.UserProfileAppService;
-import com.wgq.passport.protocol.param.UserModifyParam;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.slf4j.Logger;
@@ -40,9 +38,9 @@ public class UserOnlineConsumer implements RocketMQListener<UserOnlineEvent> {
             //上线
             logger.info("用户上线:{} 上线时间:{}",userOnlineEvent.getUserId(),userProfileEvent.getLastLoginTime());
             this.container.online(userOnlineEvent.getUserId(), userProfileEvent.getLastLoginTime());
-            UserModifyParam userModifyParam = new UserModifyParam(userProfileEvent.getUserId(), userProfileEvent.getLastLoginTime(), userProfileEvent.getIp(), userProfileEvent.getStatus());
-            this.userProfileAppService.modify(userModifyParam);
-        } catch (BusinessException e) {
+//            UserModifyParam userModifyParam = new UserModifyParam(userProfileEvent.getUserId(), userProfileEvent.getLastLoginTime(), userProfileEvent.getIp(), userProfileEvent.getStatus());
+//            this.userProfileAppService.modify(userModifyParam);
+        } catch (Exception e) {
             logger.error("用户上线:{},状态修改失败!",userOnlineEvent.getUserId(),e);
         }
     }

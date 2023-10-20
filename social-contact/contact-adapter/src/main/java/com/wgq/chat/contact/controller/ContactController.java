@@ -43,7 +43,7 @@ public class ContactController {
     }
 
     @PostMapping("/contacts")
-    @ApiOperation("联系人接口")
+    @ApiOperation("获取所有联系人")
     public ContactVO getContacts() throws BusinessException {
         ContactsWrapBO contactsWrapBO = this.contactService.getContacts();
         return this.contactAssembler.assembleVO(contactsWrapBO);

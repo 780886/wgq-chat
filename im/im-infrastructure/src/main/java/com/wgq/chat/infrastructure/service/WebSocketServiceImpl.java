@@ -4,7 +4,6 @@ import com.sheep.core.spi.JsonFactory;
 import com.sheep.json.Json;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
-import com.sheep.protocol.enums.StatusRecord;
 import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.domain.netty.NettyUtil;
 import com.wgq.chat.domain.netty.UserContainer;
@@ -83,7 +82,7 @@ public class WebSocketServiceImpl implements WebSocketService {
 //            userProfileDTO.setGmtModified(System.currentTimeMillis());
 //            this.imMQPublisher.publish(MQConstant.USER_OFFLINE_TOPIC,new PushBashDTO<UserProfileDTO>(WebsocketResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileDTO),userProfileDTO.getUserId());
 
-            UserProfileEvent userProfileEvent = new UserProfileEvent(uidOptional.get(), null, NettyUtil.getAttr(channel, NettyUtil.IP), StatusRecord.OFFLINE, System.currentTimeMillis());
+            UserProfileEvent userProfileEvent = new UserProfileEvent(uidOptional.get(), null, NettyUtil.getAttr(channel, NettyUtil.IP),  System.currentTimeMillis());
             UserOfflineEvent userOfflineEvent = new UserOfflineEvent(null,WebsocketResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(),userProfileEvent);
             this.imMQPublisher.publish(MQConstant.USER_OFFLINE_TOPIC,userOfflineEvent);
         }
@@ -119,7 +118,7 @@ public class WebSocketServiceImpl implements WebSocketService {
         //发送用户上线事件
         boolean online = container.isOnline(userProfileDTO.getUserId());
         if (!online) {
-            UserProfileEvent userProfileEvent = new UserProfileEvent(userProfileDTO.getUserId(), userProfileDTO.getLastLoginTime(), NettyUtil.getAttr(channel, NettyUtil.IP), StatusRecord.ONLINE,System.currentTimeMillis());
+            UserProfileEvent userProfileEvent = new UserProfileEvent(userProfileDTO.getUserId(), userProfileDTO.getLastLoginTime(), NettyUtil.getAttr(channel, NettyUtil.IP), System.currentTimeMillis());
             UserOnlineEvent userOnlineEvent = new UserOnlineEvent(userProfileDTO.getUserId(), PushTypeEnum.USER.getType(), WebsocketResponseTypeEnum.ONLINE_OFFLINE_NOTIFY.getType(), userProfileEvent);
             this.imMQPublisher.publish(MQConstant.USER_ONLINE_TOPIC,userOnlineEvent);
         }

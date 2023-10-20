@@ -1,7 +1,6 @@
 package com.wgq.chat.protocol.event;
 
 import com.sheep.mq.MQEvent;
-import com.sheep.protocol.enums.StatusRecord;
 
 /**
  * @ClassName: UserProfileEvent
@@ -15,17 +14,15 @@ public class UserProfileEvent implements MQEvent {
     private Long userId;
     private Long lastLoginTime;
     private Long ip;
-    private StatusRecord status;
     private Long gmtModified;
 
     public UserProfileEvent() {
     }
 
-    public UserProfileEvent(Long userId, Long lastLoginTime, Long ip, StatusRecord status, Long gmtModified) {
+    public UserProfileEvent(Long userId, Long lastLoginTime, Long ip, Long gmtModified) {
         this.userId = userId;
         this.lastLoginTime = lastLoginTime;
         this.ip = ip;
-        this.status = status;
         this.gmtModified = gmtModified;
     }
 
@@ -51,14 +48,6 @@ public class UserProfileEvent implements MQEvent {
 
     public void setIp(Long ip) {
         this.ip = ip;
-    }
-
-    public StatusRecord getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusRecord status) {
-        this.status = status;
     }
 
     public Long getGmtModified() {

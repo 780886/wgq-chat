@@ -115,7 +115,7 @@ public class AuditConverter {
         audit.setBusinessId(joinQunParam.getQunId());
         audit.setApplyReason(joinQunParam.getReason());
         audit.setAuditReason(Symbol.EMPTY);
-        audit.setStatus(StatusRecord.INIT);
+        audit.setStatus(StatusRecord.DISABLE);
         audit.setAuditUserId(0L);
         audit.setAuditTime(0L);
         audit.setApplyTime(System.currentTimeMillis());
