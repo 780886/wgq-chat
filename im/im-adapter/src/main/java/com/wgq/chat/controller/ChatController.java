@@ -62,7 +62,7 @@ public class ChatController {
 
     @PutMapping("/message-read")
     @ApiOperation("消息阅读")
-    public void messageRead(@RequestBody MessageRoomParam messageRoomParam) {
+    public void messageRead(@RequestBody MessageRoomParam messageRoomParam) throws BusinessException {
         this.chatService.messageRead(messageRoomParam);
     }
 

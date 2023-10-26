@@ -12,6 +12,8 @@ public class Contact implements POJO {
     private Long id;
     private Long userId;
     private Long friendId;
+    private Long lastMessageId;
+    private Long lastSendTime;
     private Long applyTime;
     private Long auditTime;
 
@@ -59,6 +61,36 @@ public class Contact implements POJO {
 
     @MethodOrder(order = 4)
     @Column(
+            name = "last_message_id",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '会话中的最后一条消息id'",
+            nullable = false,
+            updatable = false
+    )
+    public Long getLastMessageId() {
+        return lastMessageId;
+    }
+
+    public void setLastMessageId(Long lastMessageId) {
+        this.lastMessageId = lastMessageId;
+    }
+
+    @MethodOrder(order = 5)
+    @Column(
+            name = "last_send_time",
+            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '最后消息发送时间(只有普通会话需要维护，全员会话不需要维护)'",
+            nullable = false,
+            updatable = false
+    )
+    public Long getLastSendTime() {
+        return lastSendTime;
+    }
+
+    public void setLastSendTime(Long lastSendTime) {
+        this.lastSendTime = lastSendTime;
+    }
+
+    @MethodOrder(order = 6)
+    @Column(
             name = "apply_time",
             columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '申请时间'",
             nullable = false,
@@ -72,7 +104,7 @@ public class Contact implements POJO {
         this.applyTime = applyTime;
     }
 
-    @MethodOrder(order = 5)
+    @MethodOrder(order = 7)
     @Column(
             name = "audit_time",
             columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '审核时间'",

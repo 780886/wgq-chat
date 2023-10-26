@@ -1,8 +1,12 @@
 package com.wgq.chat.po;
 
 import com.sheep.protocol.POJO;
+import com.sheep.protocol.dao.MethodOrder;
 
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * <p>
@@ -54,21 +58,20 @@ public class Message implements POJO {
      */
     private Integer type;
 
-//    /**
-//     * 消息扩展字段
-//     */
-//    private MessageExtra extra;
+    /**
+     * 消息扩展字段
+     */
+    private String extra;
 
     /**
-     * 创建时间
+     * 消息发送时间
      */
-    private Date createTime;
+    private Long send_time;
 
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "int(11) UNSIGNED AUTO_INCREMENT")
+    @MethodOrder(order = 1)
     public Long getId() {
         return id;
     }
@@ -77,6 +80,13 @@ public class Message implements POJO {
         this.id = id;
     }
 
+    @MethodOrder(order = 2)
+    @Column(
+            name = "room_id",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '会话表id'",
+            nullable = false,
+            updatable = false
+    )
     public Long getRoomId() {
         return roomId;
     }
@@ -85,6 +95,13 @@ public class Message implements POJO {
         this.roomId = roomId;
     }
 
+    @MethodOrder(order = 3)
+    @Column(
+            name = "sender_user_id",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '消息发送者用户id'",
+            nullable = false,
+            updatable = false
+    )
     public Long getSenderUserId() {
         return senderUserId;
     }
@@ -93,6 +110,13 @@ public class Message implements POJO {
         this.senderUserId = senderUserId;
     }
 
+    @MethodOrder(order = 4)
+    @Column(
+            name = "content",
+            columnDefinition = "varchar(1024) DEFAULT '' COMMENT '消息内容'",
+            nullable = false,
+            updatable = false
+    )
     public String getContent() {
         return content;
     }
@@ -101,6 +125,13 @@ public class Message implements POJO {
         this.content = content;
     }
 
+    @MethodOrder(order = 5)
+    @Column(
+            name = "reply_message_id",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '回复的消息id'",
+            nullable = false,
+            updatable = false
+    )
     public Long getReplyMessageId() {
         return replyMessageId;
     }
@@ -109,6 +140,13 @@ public class Message implements POJO {
         this.replyMessageId = replyMessageId;
     }
 
+    @MethodOrder(order = 6)
+    @Column(
+            name = "status",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '消息状态 0正常 1删除'",
+            nullable = false,
+            updatable = false
+    )
     public Integer getStatus() {
         return status;
     }
@@ -117,6 +155,13 @@ public class Message implements POJO {
         this.status = status;
     }
 
+    @MethodOrder(order = 7)
+    @Column(
+            name = "status",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '与回复的消息间隔多少条'",
+            nullable = false,
+            updatable = false
+    )
     public Integer getGapCount() {
         return gapCount;
     }
@@ -125,6 +170,13 @@ public class Message implements POJO {
         this.gapCount = gapCount;
     }
 
+    @MethodOrder(order = 8)
+    @Column(
+            name = "gap_count",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '与回复的消息间隔多少条'",
+            nullable = false,
+            updatable = false
+    )
     public Integer getType() {
         return type;
     }
@@ -133,19 +185,33 @@ public class Message implements POJO {
         this.type = type;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    @MethodOrder(order = 9)
+    @Column(
+            name = "extra",
+            columnDefinition = "json COMMENT '扩展信息'",
+            nullable = false,
+            updatable = false
+    )
+    public String getExtra() {
+        return extra;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setExtra(String extra) {
+        this.extra = extra;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    @MethodOrder(order = 10)
+    @Column(
+            name = "send_time",
+            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '消息发送时间'",
+            nullable = false,
+            updatable = false
+    )
+    public Long getSend_time() {
+        return send_time;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setSend_time(Long send_time) {
+        this.send_time = send_time;
     }
 }

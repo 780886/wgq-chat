@@ -1,8 +1,12 @@
 package com.wgq.chat.po;
 
 import com.sheep.protocol.POJO;
+import com.sheep.protocol.dao.MethodOrder;
 
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * @ClassName: Room
@@ -20,26 +24,26 @@ public class Room implements POJO {
     /**
      * 房间类型 1群聊 2单聊
      *
-     * @see com.abin.mallchat.common.chat.domain.enums.RoomTypeEnum
+     * @see com.wgq.chat.protocol.enums.RoomTypeEnum
      */
     private Integer type;
 
     /**
      * 是否全员展示 0否 1是
      *
-     * @see com.abin.mallchat.common.chat.domain.enums.HotFlagEnum
+     * @see com.wgq.chat.protocol.enums.HotFlagEnum
      */
     private Integer hotFlag;
 
     /**
      * 群最后消息的更新时间（热点群不需要写扩散，更新这里就行）
      */
-    private Date activeTime;
+    private Long lastSendTime;
 
     /**
-     * 最后一条消息id
+     * 最后消息发送时间(只有普通会话需要维护，全员会话不需要维护)
      */
-    private Long lastMsgId;
+    private Long lastMessageId;
 
     /**
      * 额外信息（根据不同类型房间有不同存储的东西）
@@ -49,13 +53,18 @@ public class Room implements POJO {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Long gmtCreate;
 
     /**
      * 修改时间
      */
-    private Date updateTime;
+    private Long gmtModified;
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "int(11) UNSIGNED AUTO_INCREMENT")
+    @MethodOrder(order = 1)
     public Long getId() {
         return id;
     }
@@ -64,6 +73,13 @@ public class Room implements POJO {
         this.id = id;
     }
 
+    @MethodOrder(order = 2)
+    @Column(
+            name = "type",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 2 COMMENT '房间类型 1群聊 2单聊'",
+            nullable = false,
+            updatable = false
+    )
     public Integer getType() {
         return type;
     }
@@ -72,6 +88,13 @@ public class Room implements POJO {
         this.type = type;
     }
 
+    @MethodOrder(order = 3)
+    @Column(
+            name = "hot_flag",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '房间类型 1群聊 2单聊'",
+            nullable = false,
+            updatable = false
+    )
     public Integer getHotFlag() {
         return hotFlag;
     }
@@ -80,22 +103,42 @@ public class Room implements POJO {
         this.hotFlag = hotFlag;
     }
 
-    public Date getActiveTime() {
-        return activeTime;
+    @MethodOrder(order = 4)
+    @Column(
+            name = "last_send_time",
+            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '最后消息发送时间(只有普通会话需要维护，全员会话不需要维护)'",
+            nullable = false
+    )
+    public Long getLastSendTime() {
+        return lastSendTime;
     }
 
-    public void setActiveTime(Date activeTime) {
-        this.activeTime = activeTime;
+    public void setLastSendTime(Long lastSendTime) {
+        this.lastSendTime = lastSendTime;
     }
 
-    public Long getLastMsgId() {
-        return lastMsgId;
+    @MethodOrder(order = 5)
+    @Column(
+            name = "last_message_id",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '会话中的最后一条消息id'",
+            nullable = false,
+            updatable = false
+    )
+    public Long getLastMessageId() {
+        return lastMessageId;
     }
 
-    public void setLastMsgId(Long lastMsgId) {
-        this.lastMsgId = lastMsgId;
+    public void setLastMessageId(Long lastMessageId) {
+        this.lastMessageId = lastMessageId;
     }
 
+    @MethodOrder(order = 6)
+    @Column(
+            name = "ext_json",
+            columnDefinition = "json COMMENT '额外信息（根据不同类型房间有不同存储的东西）'",
+            nullable = false,
+            updatable = false
+    )
     public String getExtJson() {
         return extJson;
     }
@@ -104,20 +147,32 @@ public class Room implements POJO {
         this.extJson = extJson;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    @MethodOrder(order = 7)
+    @Column(
+            name = "gmt_create",
+            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '创建时间'",
+            nullable = false,
+            updatable = false
+    )
+    public Long getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setGmtCreate(Long gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    @MethodOrder(order = 8)
+    @Column(
+            name = "gmt_modified",
+            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '更新时间'",
+            nullable = false
+    )
+    public Long getGmtModified() {
+        return gmtModified;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setGmtModified(Long gmtModified) {
+        this.gmtModified = gmtModified;
     }
-
 }
