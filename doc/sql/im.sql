@@ -37,11 +37,6 @@ CREATE TABLE `audit`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'audit' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of audit
--- ----------------------------
-INSERT INTO `audit` VALUES (13, 1, 1, 2, 2, '添加好友', '', 'ENABLE', 1697619402711, 1697619349144, 1);
-
--- ----------------------------
 -- Table structure for contact
 -- ----------------------------
 DROP TABLE IF EXISTS `contact`;
