@@ -1,6 +1,6 @@
 package com.wgq.chat.boot;
 
-import com.wgq.chat.po.Room;
+import com.wgq.chat.po.Message;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -24,7 +24,7 @@ public class ImApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(ImApplication.class, args);
         try {
-            generaCreateDDL(Room.class);
+            generaCreateDDL(Message.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

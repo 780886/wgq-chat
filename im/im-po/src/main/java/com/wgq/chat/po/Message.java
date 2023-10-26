@@ -66,7 +66,7 @@ public class Message implements POJO {
     /**
      * 消息发送时间
      */
-    private Long send_time;
+    private Long sendTime;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -157,7 +157,7 @@ public class Message implements POJO {
 
     @MethodOrder(order = 7)
     @Column(
-            name = "status",
+            name = "gap_count",
             columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '与回复的消息间隔多少条'",
             nullable = false,
             updatable = false
@@ -172,8 +172,8 @@ public class Message implements POJO {
 
     @MethodOrder(order = 8)
     @Column(
-            name = "gap_count",
-            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '与回复的消息间隔多少条'",
+            name = "type",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '消息类型 1正常文本 2.撤回消息'",
             nullable = false,
             updatable = false
     )
@@ -207,11 +207,12 @@ public class Message implements POJO {
             nullable = false,
             updatable = false
     )
-    public Long getSend_time() {
-        return send_time;
+    public Long getSendTime() {
+        return sendTime;
     }
 
-    public void setSend_time(Long send_time) {
-        this.send_time = send_time;
+    public void setSendTime(Long sendTime) {
+        this.sendTime = sendTime;
     }
+
 }

@@ -1,7 +1,5 @@
 package com.wgq.chat.bo;
 
-import java.util.Date;
-
 /**
  * @ClassName: MessageVO
  * @Author : wgq
@@ -26,7 +24,7 @@ public class MessageReturnBO {
     /**
      * 发送时间
      */
-    private Date sendTime;
+    private Long sendTime;
     /**
      * 消息类型
      */
@@ -60,11 +58,11 @@ public class MessageReturnBO {
         this.roomId = roomId;
     }
 
-    public Date getSendTime() {
+    public Long getSendTime() {
         return sendTime;
     }
 
-    public void setSendTime(Date sendTime) {
+    public void setSendTime(Long sendTime) {
         this.sendTime = sendTime;
     }
 

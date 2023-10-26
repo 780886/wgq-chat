@@ -91,7 +91,7 @@ public class Room implements POJO {
     @MethodOrder(order = 3)
     @Column(
             name = "hot_flag",
-            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '房间类型 1群聊 2单聊'",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '是否全员展示 0否 1是'",
             nullable = false,
             updatable = false
     )
@@ -135,7 +135,7 @@ public class Room implements POJO {
     @MethodOrder(order = 6)
     @Column(
             name = "ext_json",
-            columnDefinition = "json COMMENT '额外信息（根据不同类型房间有不同存储的东西）'",
+            columnDefinition = "json DEFAULT COMMENT '额外信息（根据不同类型房间有不同存储的东西）'",
             nullable = false,
             updatable = false
     )

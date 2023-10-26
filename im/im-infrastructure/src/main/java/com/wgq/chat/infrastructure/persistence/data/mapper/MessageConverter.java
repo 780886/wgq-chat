@@ -35,7 +35,7 @@ public class MessageConverter {
         messageReturnBO.setSenderUserId(message.getSenderUserId());
         messageReturnBO.setMessageId(message.getId());
         messageReturnBO.setRoomId(message.getRoomId());
-        messageReturnBO.setSendTime(message.getCreateTime());
+        messageReturnBO.setSendTime(message.getSendTime());
         messageReturnBO.setMessageType(message.getType());
         messageReturnBO.setBody(message.getContent());
         return messageReturnBO;
@@ -60,7 +60,7 @@ public class MessageConverter {
             messageReturnBO.setSenderUserId(message.getSenderUserId());
             messageReturnBO.setMessageId(message.getId());
             messageReturnBO.setRoomId(message.getRoomId());
-            messageReturnBO.setSendTime(message.getCreateTime());
+            messageReturnBO.setSendTime(message.getSendTime());
             messageReturnBO.setMessageType(message.getType());
             messageReturnBO.setBody(message.getContent());
             return messageReturnBO;
