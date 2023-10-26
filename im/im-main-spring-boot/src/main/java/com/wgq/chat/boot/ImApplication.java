@@ -1,14 +1,9 @@
 package com.wgq.chat.boot;
 
-import com.wgq.chat.po.Message;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import java.io.IOException;
-
-import static com.wgq.sql.generator.CodeGenerator.generaCreateDDL;
 
 /**
  * @ClassName ImApplication
@@ -23,10 +18,10 @@ public class ImApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(ImApplication.class, args);
-        try {
-            generaCreateDDL(Message.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            generaCreateDDL(Message.class);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }
