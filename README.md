@@ -6,7 +6,8 @@
 例如通过AOP实现日志，分布锁注解，频控注解，ip解析归属地等，持续更新中。。。
 
 #### 开源地址
-码云仓库：https://gitee.com/wang-guoqingyy/wgq-chat
+码云仓库：https://gitee.com/wang-guoqingyy/wgq-chat.git
+Github: https://github.com/780886/wgq-chat.git
 
 #### 整洁架构落地
 ![img.png](整洁架构参考图.png)
