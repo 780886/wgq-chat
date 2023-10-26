@@ -27,6 +27,6 @@ public interface AuditDao {
 
     void updateReadStatus(@Param("ids") Set<Long> ids, @Param("auditUserId") Long auditUserId, @Param("readCode") Integer readCode, @Param("unreadCode") Integer unreadCode);
 
-    Integer applyUnread(@Param("auditUserId") Long auditUserId, @Param("code") Integer code);
+    Integer applyUnread(@Param("auditUserId") Long auditUserId, @Param("readStatus") Integer readStatus);
 
 }

@@ -30,7 +30,6 @@ import com.wgq.chat.repository.RoomRepository;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -105,7 +104,6 @@ public class ChatService {
         Long messageId = this.messageRepository.save(messageBO);
         messageHandler.saveMessage(messageId,messageSendParam);
         //推送消息
-//        this.mqPublisher.publish(MQConstant.SEND_MSG_TOPIC,new MessageSendDTO(messageId),messageId);
         this.imMQPublisher.publish(MQConstant.SEND_MSG_TOPIC,new MessageSendEvent(messageId));
         return messageId;
     }
@@ -121,13 +119,16 @@ public class ChatService {
             RoomFriendBO roomFriendBO = this.roomFriendRepository.getRoomFriend(messageSendParam.getRoomId());
             // TODO "您已被对方拉黑"
             Asserts.isTrue(Objects.equals(NormalOrNoEnum.NOT_NORMAL.getStatus(),roomFriendBO.getStatus()), BusinessCodeEnum.USER_BLACK);
-            // TODO "您已被对方拉黑"!userId.equals(roomFriendBO.getLargerUserId())
-//            Asserts.isTrue(!Objects.equals(userId,roomFriendBO.getSmallerUserId()) || !Objects.equals(userId,roomFriendBO.getLargerUserId()),BusinessCodeEnum.USER_BLACK);
         }
-//        //群聊
-//        if (roomBO.isRoomGroup()){
-//
-//        }
+        //群聊
+        if (roomBO.isRoomGroup()){
+            /**
+             * TODO
+             * 获取群id
+             * 查询成员
+             * 校验是否在群聊中
+             */
+        }
     }
 
     public List<MessageReturnBO> getMessageList(MessageGetParam messageGetParam) throws BusinessException {
@@ -166,7 +167,7 @@ public class ChatService {
          */
         //抱歉，您没有权限!
         Asserts.isTrue(Objects.equals(userId,message.getSenderUserId()),null);
-        long between = DateUtils.between(message.getCreateTime(), new Date(), DateTime.MILLISECOND_UNIT.get(DateTimeUnit.MINUTE));
+        long between = DateUtils.between(message.getSendTime(), System.currentTimeMillis(), DateTime.MILLISECOND_UNIT.get(DateTimeUnit.MINUTE));
         //超过两分钟的消息不能撤回哦~~
         Asserts.isTrue(between <= 2,null);
 

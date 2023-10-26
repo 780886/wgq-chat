@@ -6,7 +6,6 @@ import com.wgq.chat.cpntact.ContactServiceApi;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,8 +22,8 @@ public class ContactRpcServiceApi implements ContactServiceApi {
     private ContactService contactService;
 
     @Override
-    public void refreshOrCreateActiveTime(Long roomId, List<Long> memberUserList, Long messageId, Date activeTime) {
-        this.contactService.refreshOrCreateActiveTime(roomId, memberUserList, messageId, activeTime);
+    public void refreshOrCreateLastTime(Long roomId, List<Long> memberUserList, Long messageId, Long lastTime) {
+        this.contactService.refreshOrCreateLastTime(roomId, memberUserList, messageId, lastTime);
     }
 
     @Override

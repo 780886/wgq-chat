@@ -2,8 +2,6 @@ package com.wgq.chat.po;
 
 import com.sheep.protocol.POJO;
 
-import java.util.Date;
-
 /**
  * @ClassName: RoomFriendBO
  * @Author : wgq
@@ -45,12 +43,12 @@ public class RoomFriend implements POJO {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Long gmtCreate;
 
     /**
      * 修改时间
      */
-    private Date updateTime;
+    private Long gmtModified;
 
     public Long getId() {
         return id;
@@ -100,20 +98,19 @@ public class RoomFriend implements POJO {
         this.status = status;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Long getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setGmtCreate(Long gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Long getGmtModified() {
+        return gmtModified;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setGmtModified(Long gmtModified) {
+        this.gmtModified = gmtModified;
     }
-
 }

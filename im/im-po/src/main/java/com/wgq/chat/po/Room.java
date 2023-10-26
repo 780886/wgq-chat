@@ -106,7 +106,7 @@ public class Room implements POJO {
     @MethodOrder(order = 4)
     @Column(
             name = "last_send_time",
-            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '最后消息发送时间(只有普通会话需要维护，全员会话不需要维护)'",
+            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '群最后消息的更新时间（热点群不需要写扩散，只更新这里）'",
             nullable = false
     )
     public Long getLastSendTime() {

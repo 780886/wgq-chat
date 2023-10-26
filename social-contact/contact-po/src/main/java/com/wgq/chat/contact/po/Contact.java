@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class Contact implements POJO {
 
     private Long id;
+    private Long roomId;
     private Long userId;
     private Long friendId;
     private Long lastMessageId;
@@ -31,6 +32,21 @@ public class Contact implements POJO {
 
     @MethodOrder(order = 2)
     @Column(
+            name = "room_id",
+            columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '会话表id'",
+            nullable = false,
+            updatable = false
+    )
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
+    }
+
+    @MethodOrder(order = 3)
+    @Column(
             name = "user_id",
             columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '用户ID'",
             nullable = false,
@@ -44,7 +60,7 @@ public class Contact implements POJO {
         this.userId = userId;
     }
 
-    @MethodOrder(order = 3)
+    @MethodOrder(order =4)
     @Column(
             name = "friend_id",
             columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '好友ID'",
@@ -59,7 +75,7 @@ public class Contact implements POJO {
         this.friendId = friendId;
     }
 
-    @MethodOrder(order = 4)
+    @MethodOrder(order = 5)
     @Column(
             name = "last_message_id",
             columnDefinition = "int(11) UNSIGNED  DEFAULT 0 COMMENT '会话中的最后一条消息id'",
@@ -74,7 +90,7 @@ public class Contact implements POJO {
         this.lastMessageId = lastMessageId;
     }
 
-    @MethodOrder(order = 5)
+    @MethodOrder(order = 6)
     @Column(
             name = "last_send_time",
             columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '最后消息发送时间(只有普通会话需要维护，全员会话不需要维护)'",
@@ -89,7 +105,7 @@ public class Contact implements POJO {
         this.lastSendTime = lastSendTime;
     }
 
-    @MethodOrder(order = 6)
+    @MethodOrder(order = 7)
     @Column(
             name = "apply_time",
             columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '申请时间'",
@@ -104,7 +120,7 @@ public class Contact implements POJO {
         this.applyTime = applyTime;
     }
 
-    @MethodOrder(order = 7)
+    @MethodOrder(order = 8)
     @Column(
             name = "audit_time",
             columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '审核时间'",

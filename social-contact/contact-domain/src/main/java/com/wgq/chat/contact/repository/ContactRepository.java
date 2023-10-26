@@ -17,5 +17,5 @@ public interface ContactRepository {
 
     List<Long> getContacts();
 
-    void refreshOrCreateActiveTime(Long roomId, List<Long> memberUserList, Long messageId, Date activeTime);
+    void refreshOrCreateLastTime(Long roomId, List<Long> memberUserList, Long messageId, Long lastTime);
 }

@@ -16,10 +16,8 @@ public interface AuditRepository {
 
     List<AuditBO> getFriendAuditList(Long auditUserId);
 
-//    Long applyQun(Long currentUserId, QunApplyParam qunApplyParam);
-//
     Long auditFriend(AuditBO auditBO,FriendAuditParam friendAuditParam);
-//
+
     AuditBO getAudit(Long id);
 
     Long auditQun(AuditBO auditBO, QunAuditParam qunAuditParam);

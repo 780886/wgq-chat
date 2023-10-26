@@ -173,7 +173,7 @@
         </if>
     </select>
     <select id="applyUnread" resultType="java.lang.Integer">
-        select count(*) from audit where audit_user_id = #{auditUserId} and read_status = #{code}
+        select count(*) from audit where audit_user_id = #{auditUserId} and read_status = #{readStatus}
     </select>
     <select id="exist" resultMap="auditResultMap">
         <if test="audit != null">

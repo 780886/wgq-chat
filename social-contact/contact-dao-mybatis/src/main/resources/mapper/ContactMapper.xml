@@ -52,20 +52,20 @@
             </trim>
         </if>
     </insert>
-    <update id="refreshOrCreateActiveTime">
-        insert into contact(`room_id`,`sender_user_id`,`reply_message_id`,`active_time`)
+    <update id="refreshOrCreateLastTime">
+        insert into contact(`room_id`,`user_id`,`last_message_id`,`last_time`)
         values
         <foreach collection="memberUserList" item="userId" separator=",">
-            (#{roomId},#{userId},#{messageId},#{activeTime})
+            (#{roomId},#{userId},#{messageId},#{lastTime})
         </foreach>
         on DUPLICATE KEY UPDATE
-        `last_msg_id`=VALUES(last_msg_id),
-        `active_time`=VALUES(active_time)
+        `last_message_id`=VALUES(last_message_id),
+        `last_time`=VALUES(last_time)
     </update>
     <delete id="removeById">
         delete from contact where id = #{id}
     </delete>
-    <select id="findContact" resultMap="contactResultMap">
+    <select id="getContact" resultMap="contactResultMap">
         select * from contact where user_id = #{userId} and friend_id = #{friendId}
     </select>
 

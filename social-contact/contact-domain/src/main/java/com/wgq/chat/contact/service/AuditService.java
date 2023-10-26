@@ -15,7 +15,6 @@ import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.protocol.audit.JoinQunParam;
 import com.wgq.chat.contact.protocol.audit.QunAuditParam;
 import com.wgq.chat.contact.protocol.enums.AuditBusiness;
-import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.contact.repository.ContactRepository;
@@ -28,6 +27,7 @@ import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -78,7 +78,10 @@ public class AuditService {
         Long friendId = this.secretService.parseUserSecretIdentify(friendApplyParam.getFriendSecretIdentify());
         //查看是否是好友关系
         FriendBO friendBO = this.contactRepository.findContact(friendId,loginUser.getUserId());
-        Asserts.isTrue(Objects.nonNull(friendBO), BusinessCodeEnum.EXIST_FRIEND_RELATIONSHIP);
+        if (Objects.nonNull(friendBO)){
+            logger.info("已有好友申请记录,userId:{}, friendId:{}", loginUser, friendId);
+            return;
+        }
         //是否有待审批的申请记录(自己的)
         AuditBO ownAuditBO = this.auditRepository.getAudit(loginUser.getUserId(),friendId);
         if (Objects.nonNull(ownAuditBO)){
@@ -88,8 +91,11 @@ public class AuditService {
         //是否有待审批的申请记录(别人请求自己的)
         AuditBO friendAuditBO = this.auditRepository.getAudit(friendId,loginUser.getUserId());
         if (Objects.nonNull(friendAuditBO)){
-            //直接同意
-            this.auditFriendApply(new FriendAuditParam(friendAuditBO.getId(),friendApplyParam.getReason(), AGREE));
+            /**
+             * 直接同意
+             * 在同一个类中，非事务方法A调用事务方法B，事务失效，可以采用AopContext.currentProxy().xx()来进行调用，事务才能生效。
+             */
+            ((AuditService)AopContext.currentProxy()).auditFriendApply(new FriendAuditParam(friendAuditBO.getId(),friendApplyParam.getReason(), AGREE));
             return;
         }
         //构建好友申请的内部逻辑对象
@@ -134,7 +140,7 @@ public class AuditService {
         return userIds;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void auditFriendApply(FriendAuditParam friendAuditParam) throws BusinessException {
         AuditBO auditBO = this.auditRepository.getAudit(friendAuditParam.getId());
         Asserts.isTrue(Objects.isNull(auditBO),ContactError.AUDIT_NOT_EXIST);//不存在审核记录
@@ -143,16 +149,18 @@ public class AuditService {
         LoginUser loginUser = ThreadContext.getLoginToken();
         Asserts.isTrue(!Objects.equals(auditBO.getBusinessId(),loginUser.getUserId()),ContactError.AUDIT_USER_IS_NOT_MATCH);//审核用户不匹配
 
-        if (friendAuditParam.getAgree()){
-            //审核用户申请
-            this.auditRepository.auditFriend(auditBO,friendAuditParam);
+        /**
+         * 不管同意或拒绝都要审核用户申请
+         */
+        this.auditRepository.auditFriend(auditBO,friendAuditParam);
+        if (friendAuditParam.getAgree()) {
             //添加联系人
-            this.contactRepository.addContact(auditBO,friendAuditParam);
+            this.contactRepository.addContact(auditBO, friendAuditParam);
             //创建一个聊天房间
             Long roomId = this.roomServiceApi.createFriendRoom(Arrays.asList(loginUser.getUserId(), auditBO.getApplyUserId()));
             //TODO 分布式事务 MQ消息事务发送一条同意消息。。我们已经是好友了，开始聊天吧 确实房间id
             MessageSendDTO messageSendDTO = this.auditAssemble.assembleMessageSendDTO(roomId);
-            this.chatServiceApi.sendMessage(messageSendDTO,loginUser.getUserId());
+            this.chatServiceApi.sendMessage(messageSendDTO, loginUser.getUserId());
         }
     }
 

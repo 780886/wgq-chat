@@ -88,7 +88,7 @@ public class ContactService {
         return new ContactsWrapBO(userProfileMap.values(), myQuns);
     }
 
-    public void refreshOrCreateActiveTime(Long roomId, List<Long> memberUserList, Long messageId, Date activeTime) {
-        this.contactRepository.refreshOrCreateActiveTime(roomId, memberUserList, messageId, activeTime);
+    public void refreshOrCreateLastTime(Long roomId, List<Long> memberUserList, Long messageId, Long lastTime) {
+        this.contactRepository.refreshOrCreateLastTime(roomId, memberUserList, messageId, lastTime);
     }
 }

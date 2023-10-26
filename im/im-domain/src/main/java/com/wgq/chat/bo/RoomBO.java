@@ -47,16 +47,15 @@ public class RoomBO implements BO {
      * 额外信息（根据不同类型房间有不同存储的东西）
      */
     private String extJson;
-
     /**
      * 创建时间
      */
-    private Date createTime;
+    private Long gmtCreate;
 
     /**
      * 修改时间
      */
-    private Date updateTime;
+    private Long gmtModified;
 
     public Long getId() {
         return id;
@@ -106,20 +105,20 @@ public class RoomBO implements BO {
         this.extJson = extJson;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public Long getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setGmtCreate(Long gmtCreate) {
+        this.gmtCreate = gmtCreate;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Long getGmtModified() {
+        return gmtModified;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setGmtModified(Long gmtModified) {
+        this.gmtModified = gmtModified;
     }
 
     @JsonIgnore

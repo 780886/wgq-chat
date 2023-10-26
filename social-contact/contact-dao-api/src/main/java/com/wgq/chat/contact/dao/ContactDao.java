@@ -3,7 +3,6 @@ package com.wgq.chat.contact.dao;
 import com.wgq.chat.contact.po.Contact;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,12 +16,12 @@ public interface ContactDao {
 
     Long insert(@Param("contact") Contact contact);
 
-    Contact findContact(Long userId, Long friendId);
+    Contact getContact(@Param("userId") Long userId, @Param("friendId") Long friendId);
 
-    Long removeById(Long id);
+    Long removeById(@Param("id") Long id);
 
-    List<Contact> getMyContact(Long userId);
+    List<Contact> getMyContact(@Param("userId") Long userId);
 
-    void refreshOrCreateActiveTime(Long roomId, List<Long> memberUserList, Long messageId, Date activeTime);
+    void refreshOrCreateLastTime(@Param("roomId") Long roomId, @Param("memberUserList") List<Long> memberUserList, @Param("messageId") Long messageId, @Param("lastTime") Long lastTime);
 
 }
