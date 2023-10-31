@@ -8,7 +8,6 @@ import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
 import com.sheep.utils.DateUtils;
-import com.wgq.chat.assemble.MessageAssemble;
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.MessageReturnBO;
 import com.wgq.chat.bo.RoomBO;
@@ -56,10 +55,6 @@ public class ChatService {
     private RoomFriendRepository roomFriendRepository;
 
     @Inject
-    private MessageAssemble messageAssemble;
-
-
-    @Inject
     private RecallMessageHandler recallMessageHandler;
 
     @Inject
@@ -96,13 +91,8 @@ public class ChatService {
      */
     public Long sendMessage(MessageSendParam messageSendParam, Long userId) throws BusinessException {
         this.check(messageSendParam,userId);
-        AbstractMessageHandler messageHandler = MessageHandlerFactory.getStrategyNoNull(messageSendParam.getMessageType());
-        //校验消息
-        messageHandler.checkMessage(messageSendParam,userId);
-        //构造消息业务数据
-        MessageBO messageBO = this.messageAssemble.assembleMessageBO(messageSendParam,userId);
-        Long messageId = this.messageRepository.save(messageBO);
-        messageHandler.saveMessage(messageId,messageSendParam);
+        AbstractMessageHandler<?> messageHandler = MessageHandlerFactory.getStrategyNoNull(messageSendParam.getMessageType());
+        Long messageId =  messageHandler.checkAndSaveMessage(messageSendParam,userId);
         //推送消息
         this.imMQPublisher.publish(MQConstant.SEND_MSG_TOPIC,new MessageSendEvent(messageId));
         return messageId;

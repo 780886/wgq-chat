@@ -13,8 +13,8 @@
         <result property="gapCount" column="gap_count"/>
         <result property="type" column="type"/>
         <result property="status" column="status"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModified" column="gmt_modified"/>
     </resultMap>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
@@ -44,6 +44,12 @@
             <if test="message.status != null">
                 status,
             </if>
+            <if test="message.gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="message.gmtModified != null">
+                gmt_modified,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="message.id != null">
@@ -70,44 +76,54 @@
             <if test="message.status != null">
                 #{message.status},
             </if>
+            <if test="message.gmtCreate != null">
+                #{message.gmtCreate},
+            </if>
+            <if test="message.gmtModified != null">
+                #{message.gmtModified},
+            </if>
         </trim>
     </insert>
     <update id="updateById">
-        update message set
-        <trim suffixOverrides=",">
-<!--            <if test="message.roomId != null">-->
-<!--                -->
-<!--            </if>-->
-            <if test="message.senderUserId != null">
-                sender_user_id = #{message.senderUserId},
-            </if>
-            <if test="message.content != null">
-                content = #{message.content},
-            </if>
-            <if test="message.replyMessageId != null">
-                reply_message_id = #{message.replyMessageId},
-            </if>
-           <if test="message.gapCount != null">
-               gap_count = #{message.gapCount},
-           </if>
-           <if test="message.type != null">
-               `type` = #{message.type},
-           </if>
-           <if test="message.status != null">
-               status = #{message.status},
-           </if>
-        </trim>
-        where id = #{message.id}
+        <if test="message != null and message.id != null and message.gmtModified != null">
+            update message
+            <trim prefix="set" suffixOverrides=",">
+                <if test="message.senderUserId != null">
+                    sender_user_id = #{message.senderUserId},
+                </if>
+                <if test="message.content != null and message.content != ''">
+                    content = #{message.content},
+                </if>
+                <if test="message.replyMessageId != null">
+                    reply_message_id = #{message.replyMessageId},
+                </if>
+                <if test="message.gapCount != null">
+                    gap_count = #{message.gapCount},
+                </if>
+                <if test="message.type != null">
+                    `type` = #{message.type},
+                </if>
+                <if test="message.status != null">
+                    status = #{message.status},
+                </if>
+                gmt_modified = #{message.gmtModified},
+            </trim>
+            where id = #{message.id}
+        </if>
     </update>
+
     <select id="getMessage" resultMap="messageMap">
         select * from message where id = #{messageId} and sender_user_id = #{senderUserId}
     </select>
+
     <select id="getMessageById" resultMap="messageMap">
         select * from message where id = #{messageId}
     </select>
+
     <select id="getGapCount" resultType="java.lang.Integer">
         select * from message where room_id = #{roomId} and id &gt; #{replyMessageId} > and id &lt;= #{messageId}
     </select>
+
     <select id="getMessageList" resultMap="messageMap">
         select * from message where room_id = #{roomId} and status = #{status} and  id &lt;= #{lastMsgId}
     </select>

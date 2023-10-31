@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
  */
 @Named
 public class MessageConverter {
+
     public Message convert2po(MessageBO messageBO) {
         Message message = new Message();
         message.setId(messageBO.getId());
@@ -25,7 +26,9 @@ public class MessageConverter {
         message.setRoomId(messageBO.getRoomId());
         message.setType(messageBO.getType());
         message.setStatus(messageBO.getStatus());
-        message.setContent(String.valueOf(messageBO.getBody()));
+        message.setContent(messageBO.getContent());
+        message.setGmtCreate(System.currentTimeMillis());
+        message.setGmtModified(message.getGmtCreate());
         return message;
     }
 
@@ -35,7 +38,7 @@ public class MessageConverter {
         messageReturnBO.setSenderUserId(message.getSenderUserId());
         messageReturnBO.setMessageId(message.getId());
         messageReturnBO.setRoomId(message.getRoomId());
-        messageReturnBO.setSendTime(message.getSendTime());
+        messageReturnBO.setSendTime(message.getGmtCreate());
         messageReturnBO.setMessageType(message.getType());
         messageReturnBO.setBody(message.getContent());
         return messageReturnBO;
@@ -43,11 +46,13 @@ public class MessageConverter {
 
     public MessageBO convert2BO(Message message) {
         MessageBO messageBO = new MessageBO();
+        messageBO.setId(message.getId());
         messageBO.setSenderUserId(message.getSenderUserId());
         messageBO.setRoomId(message.getRoomId());
         messageBO.setType(message.getType());
         messageBO.setStatus(message.getStatus());
-        messageBO.setBody(message.getContent());
+        messageBO.setContent(message.getContent());
+        messageBO.setSendTime(message.getGmtCreate());
         return messageBO;
     }
 
@@ -60,7 +65,7 @@ public class MessageConverter {
             messageReturnBO.setSenderUserId(message.getSenderUserId());
             messageReturnBO.setMessageId(message.getId());
             messageReturnBO.setRoomId(message.getRoomId());
-            messageReturnBO.setSendTime(message.getSendTime());
+            messageReturnBO.setSendTime(message.getGmtCreate());
             messageReturnBO.setMessageType(message.getType());
             messageReturnBO.setBody(message.getContent());
             return messageReturnBO;

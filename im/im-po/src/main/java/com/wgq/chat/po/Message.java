@@ -64,9 +64,14 @@ public class Message implements POJO {
     private String extra;
 
     /**
-     * 消息发送时间
+     * 创建时间
      */
-    private Long sendTime;
+    private Long gmtCreate;
+
+    /**
+     * 修改时间
+     */
+    private Long gmtModified;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -202,17 +207,31 @@ public class Message implements POJO {
 
     @MethodOrder(order = 10)
     @Column(
-            name = "send_time",
-            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '消息发送时间'",
+            name = "gmt_create",
+            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '创建时间'",
             nullable = false,
             updatable = false
     )
-    public Long getSendTime() {
-        return sendTime;
+    public Long getGmtCreate() {
+        return gmtCreate;
     }
 
-    public void setSendTime(Long sendTime) {
-        this.sendTime = sendTime;
+    public void setGmtCreate(Long gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    @MethodOrder(order = 11)
+    @Column(
+            name = "gmt_modified",
+            columnDefinition = "bigint(11)  DEFAULT 0 COMMENT '更新时间'",
+            nullable = false
+    )
+    public Long getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Long gmtModified) {
+        this.gmtModified = gmtModified;
     }
 
 }

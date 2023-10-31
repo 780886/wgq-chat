@@ -35,11 +35,8 @@ public class UserOnlineConsumer implements RocketMQListener<UserOnlineEvent> {
     public void onMessage(UserOnlineEvent userOnlineEvent) {
         try {
             UserProfileEvent userProfileEvent = userOnlineEvent.getUserProfileEvent();
-            //上线
             logger.info("用户上线:{} 上线时间:{}",userOnlineEvent.getUserId(),userProfileEvent.getLastLoginTime());
             this.container.online(userOnlineEvent.getUserId(), userProfileEvent.getLastLoginTime());
-//            UserModifyParam userModifyParam = new UserModifyParam(userProfileEvent.getUserId(), userProfileEvent.getLastLoginTime(), userProfileEvent.getIp(), userProfileEvent.getStatus());
-//            this.userProfileAppService.modify(userModifyParam);
         } catch (Exception e) {
             logger.error("用户上线:{},状态修改失败!",userOnlineEvent.getUserId(),e);
         }

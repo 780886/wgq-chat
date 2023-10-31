@@ -59,10 +59,13 @@ public class AuditConverter {
         auditBO.setBusinessId(audit.getBusinessId());
         auditBO.setApplyUserId(audit.getApplyUserId());
         auditBO.setAuditStatus(audit.getStatus());
+        auditBO.setApplyTime(audit.getApplyTime());
+        auditBO.setAuditTime(audit.getAuditTime());
         return auditBO;
     }
 
     public Audit convert2po(AuditBO auditBO, FriendAuditParam friendAuditParam){
+        auditBO.setAuditTime(System.currentTimeMillis());
         LoginUser loginUser = ThreadContext.getLoginToken();
         Audit audit = new Audit();
         audit.setId(auditBO.getId());
@@ -70,7 +73,7 @@ public class AuditConverter {
         audit.setApplyUserId(auditBO.getApplyUserId());
         audit.setBusinessId(auditBO.getBusinessId());
         audit.setApplyTime(auditBO.getApplyTime());
-        audit.setAuditTime(System.currentTimeMillis());
+        audit.setAuditTime(auditBO.getAuditTime());
         audit.setAuditUserId(loginUser.getUserId());
         audit.setApplyReason(auditBO.getApplyReason());
         audit.setAuditReason(auditBO.getAuditReason());

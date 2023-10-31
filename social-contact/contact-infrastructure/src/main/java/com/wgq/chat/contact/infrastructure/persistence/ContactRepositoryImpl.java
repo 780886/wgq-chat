@@ -8,7 +8,6 @@ import com.wgq.chat.contact.bo.FriendBO;
 import com.wgq.chat.contact.dao.ContactDao;
 import com.wgq.chat.contact.infrastructure.persistence.data.mapper.ContactConverter;
 import com.wgq.chat.contact.po.Contact;
-import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.repository.ContactRepository;
 
 import javax.inject.Inject;
@@ -26,10 +25,11 @@ public class ContactRepositoryImpl implements ContactRepository {
     private ContactDao contactDao;
 
     @Override
-    public Long addContact(AuditBO auditBO,FriendAuditParam friendAuditParam) {
-        Contact contact = this.contactConverter.convert2po(auditBO);
-        this.contactDao.insert(contact);
-        return contact.getId();
+    public void addContact(Long roomId,AuditBO auditBO) {
+        Contact myContact = this.contactConverter.convert2MyPO(roomId,auditBO);
+        this.contactDao.insert(myContact);
+        Contact friendContact = this.contactConverter.convert2FriendPO(roomId,auditBO);
+        this.contactDao.insert(friendContact);
     }
 
     @Override
@@ -58,8 +58,8 @@ public class ContactRepositoryImpl implements ContactRepository {
     }
 
     @Override
-    public void refreshOrCreateLastTime(Long roomId, List<Long> memberUserList, Long messageId, Long lastTime) {
-        this.contactDao.refreshOrCreateLastTime(roomId,memberUserList, messageId, lastTime);
+    public void refreshOrCreateLastTime(Long roomId, List<Long> memberUserList, Long messageId, Long lastSendTime) {
+        this.contactDao.refreshOrCreateLastTime(roomId,memberUserList, messageId, lastSendTime);
     }
 
 }

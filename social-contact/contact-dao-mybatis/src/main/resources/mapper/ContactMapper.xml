@@ -20,6 +20,9 @@
                 <if test="contact.id != null">
                     id,
                 </if>
+                <if test="contact.roomId != null">
+                    room_id,
+                </if>
                 <if test="contact.userId != null">
                     user_id,
                 </if>
@@ -37,6 +40,9 @@
                 <if test="contact.id != null">
                     #{contact.id},
                 </if>
+                <if test="contact.roomId != null">
+                    #{contact.roomId},
+                </if>
                 <if test="contact.userId != null">
                     #{contact.userId},
                 </if>
@@ -53,14 +59,13 @@
         </if>
     </insert>
     <update id="refreshOrCreateLastTime">
-        insert into contact(`room_id`,`user_id`,`last_message_id`,`last_time`)
+        insert into contact(`room_id`,`user_id`,`last_message_id`,`last_send_time`)
         values
         <foreach collection="memberUserList" item="userId" separator=",">
-            (#{roomId},#{userId},#{messageId},#{lastTime})
+            (#{roomId},#{userId},#{messageId},#{lastSendTime})
         </foreach>
-        on DUPLICATE KEY UPDATE
         `last_message_id`=VALUES(last_message_id),
-        `last_time`=VALUES(last_time)
+        `last_send_time`=VALUES(last_send_time)
     </update>
     <delete id="removeById">
         delete from contact where id = #{id}

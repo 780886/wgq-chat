@@ -40,8 +40,6 @@ public class UserOfflineConsumer implements RocketMQListener<UserOfflineEvent> {
             userProfileEvent = userOfflineEvent.getUserProfileEvent();
             logger.info("用户下线:{}",userProfileEvent.getUserId());
             container.offline(userProfileEvent.getUserId(), userProfileEvent.getGmtModified());
-//            UserModifyParam userModifyParam = new UserModifyParam(userProfileEvent.getUserId(), userProfileEvent.getGmtModified(), userProfileEvent.getIp(), userProfileEvent.getStatus());
-//            this.userProfileAppService.modify(userModifyParam);
         }catch (Exception e){
             logger.error("用户下线:{},下线状态修改失败!", Objects.isNull(userProfileEvent)?null:userProfileEvent.getUserId(),e);
         }

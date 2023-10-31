@@ -22,8 +22,8 @@ public class ContactRpcServiceApi implements ContactServiceApi {
     private ContactService contactService;
 
     @Override
-    public void refreshOrCreateLastTime(Long roomId, List<Long> memberUserList, Long messageId, Long lastTime) {
-        this.contactService.refreshOrCreateLastTime(roomId, memberUserList, messageId, lastTime);
+    public void refreshOrCreateLastTime(Long roomId, List<Long> memberUserList, Long messageId, Long lastSendTime) {
+        this.contactService.refreshOrCreateLastTime(roomId, memberUserList, messageId, lastSendTime);
     }
 
     @Override

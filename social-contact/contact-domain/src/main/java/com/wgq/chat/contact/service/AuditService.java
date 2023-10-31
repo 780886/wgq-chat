@@ -153,11 +153,12 @@ public class AuditService {
          * 不管同意或拒绝都要审核用户申请
          */
         this.auditRepository.auditFriend(auditBO,friendAuditParam);
+
         if (friendAuditParam.getAgree()) {
-            //添加联系人
-            this.contactRepository.addContact(auditBO, friendAuditParam);
             //创建一个聊天房间
             Long roomId = this.roomServiceApi.createFriendRoom(Arrays.asList(loginUser.getUserId(), auditBO.getApplyUserId()));
+            //添加联系人
+            this.contactRepository.addContact(roomId,auditBO);
             //TODO 分布式事务 MQ消息事务发送一条同意消息。。我们已经是好友了，开始聊天吧 确实房间id
             MessageSendDTO messageSendDTO = this.auditAssemble.assembleMessageSendDTO(roomId);
             this.chatServiceApi.sendMessage(messageSendDTO, loginUser.getUserId());

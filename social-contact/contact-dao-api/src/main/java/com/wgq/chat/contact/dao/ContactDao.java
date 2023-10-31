@@ -22,6 +22,6 @@ public interface ContactDao {
 
     List<Contact> getMyContact(@Param("userId") Long userId);
 
-    void refreshOrCreateLastTime(@Param("roomId") Long roomId, @Param("memberUserList") List<Long> memberUserList, @Param("messageId") Long messageId, @Param("lastTime") Long lastTime);
+    void refreshOrCreateLastTime(@Param("roomId") Long roomId, @Param("memberUserList") List<Long> memberUserList, @Param("messageId") Long messageId, @Param("lastSendTime") Long lastSendTime);
 
 }
