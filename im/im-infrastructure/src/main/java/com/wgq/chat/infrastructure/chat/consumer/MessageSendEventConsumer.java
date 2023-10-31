@@ -61,7 +61,7 @@ public class MessageSendEventConsumer implements RocketMQListener<MessageSendEve
             messageBO = this.messageRepository.getMessage(messageSendEvent.getMessageId());
             roomBO = this.repository.getRoom(messageBO.getRoomId());
         }catch (Exception e){
-            logger.error("未找到消息记录:{},房间:{}...",messageBO,roomBO);
+            logger.error("未找到消息记录,房间id:{}...",messageBO.getRoomId());
             return;
         }
         if (roomBO.isHotRoom()){
