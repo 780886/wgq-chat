@@ -13,12 +13,13 @@ import java.util.stream.Collectors;
 public class ContactConverter {
 
 
-    public Contact convert2po(AuditBO auditBO) {
+    public Contact convert2MyPO(Long roomId,AuditBO auditBO) {
         Contact contact = new Contact();
+        contact.setRoomId(roomId);
         contact.setUserId(auditBO.getApplyUserId());
         contact.setFriendId(auditBO.getAuditUserId());
         contact.setApplyTime(auditBO.getApplyTime());
-        contact.setAuditTime(System.currentTimeMillis());
+        contact.setAuditTime(auditBO.getAuditTime());
         return contact;
     }
 
@@ -41,5 +42,15 @@ public class ContactConverter {
             friendBO.setFriendId(contact.getFriendId());
             return friendBO;
         }).collect(Collectors.toList());
+    }
+
+    public Contact convert2FriendPO(Long roomId, AuditBO auditBO) {
+        Contact contact = new Contact();
+        contact.setRoomId(roomId);
+        contact.setUserId(auditBO.getAuditUserId());
+        contact.setFriendId(auditBO.getApplyUserId());
+        contact.setApplyTime(auditBO.getApplyTime());
+        contact.setAuditTime(auditBO.getAuditTime());
+        return contact;
     }
 }

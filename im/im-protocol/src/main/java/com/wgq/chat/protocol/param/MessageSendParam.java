@@ -11,7 +11,6 @@ import com.sheep.protocol.Param;
  */
 public class MessageSendParam implements Param {
 
-
     /**
      * 房间id
      */

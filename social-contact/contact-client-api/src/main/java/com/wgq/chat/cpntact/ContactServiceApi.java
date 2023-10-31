@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ContactServiceApi {
 
-    void refreshOrCreateLastTime(Long roomId, List<Long> memberUserList, Long messageId, Long lastTime);
+    void refreshOrCreateLastTime(Long roomId, List<Long> memberUserList, Long messageId, Long lastSendTime);
 
     ContactDTO getContact(Long userId, Long roomId);
 }

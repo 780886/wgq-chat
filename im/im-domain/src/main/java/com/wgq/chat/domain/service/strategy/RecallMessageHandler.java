@@ -7,7 +7,6 @@ import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.enums.MessageTypeEnum;
 import com.wgq.chat.protocol.enums.WebsocketResponseTypeEnum;
 import com.wgq.chat.protocol.event.MessageRecallEvent;
-import com.wgq.chat.protocol.param.MessageSendParam;
 import com.wgq.chat.repository.MessageRepository;
 
 import javax.inject.Inject;
@@ -21,7 +20,7 @@ import javax.inject.Named;
  * @Version :1.0
  */
 @Named
-public class RecallMessageHandler extends AbstractMessageHandler{
+public class RecallMessageHandler extends AbstractMessageHandler<Object>{
 
 
     @Inject
@@ -37,12 +36,12 @@ public class RecallMessageHandler extends AbstractMessageHandler{
     }
 
     @Override
-    public void checkMessage(MessageSendParam messageSendParam, Long uid) throws BusinessException {
+    public void checkMessage(Object body, Long roomId, Long uid) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void saveMessage(Long messageId, MessageSendParam messageSendParam) throws BusinessException {
+    public void saveMessage(MessageBO messageBO, Object obj) throws BusinessException {
         throw new UnsupportedOperationException();
     }
 

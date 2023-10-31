@@ -17,11 +17,11 @@
                 <if test="room.hotFlag != null">
                     hot_flag,
                 </if>
-                <if test="room.activeTime != null">
-                    active_time,
+                <if test="room.lastSendTime != null">
+                    last_send_time,
                 </if>
-                <if test="room.lastMsgId != null">
-                    last_msg_id,
+                <if test="room.lastMessageId != null">
+                    last_message_id,
                 </if>
                 <if test="room.extJson != null">
                     ext_json,
@@ -37,11 +37,11 @@
                 <if test="room.hotFlag != null">
                     #{room.hotFlag},
                 </if>
-                <if test="room.activeTime != null">
-                    #{room.activeTime},
+                <if test="room.lastSendTime != null">
+                    #{room.lastSendTime},
                 </if>
-                <if test="room.lastMsgId != null">
-                    #{room.lastMsgId},
+                <if test="room.lastMessageId != null">
+                    #{room.lastMessageId},
                 </if>
                 <if test="room.extJson != null">
                     #{room.extJson},

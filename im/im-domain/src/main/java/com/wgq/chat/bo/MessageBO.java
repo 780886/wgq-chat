@@ -28,7 +28,7 @@ public class MessageBO {
     /**
      * 消息状态 0正常 1删除
      *
-     * @see com.abin.mallchat.common.chat.domain.enums.MessageStatusEnum
+     * @see com.wgq.chat.protocol.enums.MessageStatusEnum
      */
     private Integer status;
 
@@ -36,7 +36,7 @@ public class MessageBO {
     /**
      * 消息类型 1正常文本 2.撤回消息
      *
-     * @see com.abin.mallchat.common.chat.domain.enums.MessageTypeEnum
+     * @see com.wgq.chat.protocol.enums.MessageTypeEnum
      */
     private Integer type;
 
@@ -45,7 +45,7 @@ public class MessageBO {
     /**
      * 消息内容不同的消息类型
      */
-    private Object body;
+    private String content;
 
     /**
      * 创建时间
@@ -55,14 +55,14 @@ public class MessageBO {
     public MessageBO() {
     }
 
-    public MessageBO(Long id,Long roomId, Long senderUserId, Long replyMessageId,Integer status, Integer type,Object body,Integer gapCount,Long sendTime) {
+    public MessageBO(Long id,Long roomId, Long senderUserId, Long replyMessageId,Integer status, Integer type,String content,Integer gapCount,Long sendTime) {
         this.id = id;
         this.roomId = roomId;
         this.senderUserId = senderUserId;
         this.replyMessageId = replyMessageId;
         this.status = status;
         this.type = type;
-        this.body = body;
+        this.content = content;
         this.gapCount = gapCount;
         this.sendTime = sendTime;
     }
@@ -123,12 +123,12 @@ public class MessageBO {
         this.status = status;
     }
 
-    public Object getBody() {
-        return body;
+    public String getContent() {
+        return content;
     }
 
-    public void setBody(Object body) {
-        this.body = body;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Long getSendTime() {
