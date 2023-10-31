@@ -57,9 +57,4 @@ public class ContactRepositoryImpl implements ContactRepository {
         return contacIdList;
     }
 
-    @Override
-    public void refreshOrCreateLastTime(Long roomId, List<Long> memberUserList, Long messageId, Long lastSendTime) {
-        this.contactDao.refreshOrCreateLastTime(roomId,memberUserList, messageId, lastSendTime);
-    }
-
 }

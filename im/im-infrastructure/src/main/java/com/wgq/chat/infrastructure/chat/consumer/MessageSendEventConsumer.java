@@ -3,7 +3,6 @@ package com.wgq.chat.infrastructure.chat.consumer;
 import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.bo.RoomBO;
 import com.wgq.chat.bo.RoomFriendBO;
-import com.wgq.chat.cpntact.ContactServiceApi;
 import com.wgq.chat.mq.ImMQPublisher;
 import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.PushBashDTO;
@@ -13,6 +12,7 @@ import com.wgq.chat.protocol.event.MessageSendEvent;
 import com.wgq.chat.repository.MessageRepository;
 import com.wgq.chat.repository.RoomFriendRepository;
 import com.wgq.chat.repository.RoomRepository;
+import com.wgq.chat.repository.RoomUserRepository;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class MessageSendEventConsumer implements RocketMQListener<MessageSendEve
     private RoomFriendRepository roomFriendRepository;
 
     @Inject
-    private ContactServiceApi contactServiceApi;
+    private RoomUserRepository roomUserRepository;
 
     @Override
     public void onMessage(MessageSendEvent messageSendEvent) {
@@ -75,8 +75,8 @@ public class MessageSendEventConsumer implements RocketMQListener<MessageSendEve
                 RoomFriendBO roomFriend = this.roomFriendRepository.getRoomFriend(roomBO.getId());
                 memberUserList = Arrays.asList(roomFriend.getSmallerUserId(),roomFriend.getLargerUserId());
             }
-            //TODO 更新所有群成员的会话时间
-            this.contactServiceApi.refreshOrCreateLastTime(roomBO.getId(), memberUserList, messageBO.getId(), messageBO.getSendTime());
+            // 更新或创建用户会话列表信息
+            this.roomUserRepository.refreshOrCreateLastTime(roomBO.getId(), memberUserList, messageBO.getId(), messageBO.getSendTime());
             //推送给用户
             this.imMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.MESSAGE.getType(),messageBO),memberUserList);
         }

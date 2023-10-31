@@ -14,6 +14,4 @@ public interface ContactRepository {
     Long removeById(Long contactId);
 
     List<Long> getContacts();
-
-    void refreshOrCreateLastTime(Long roomId, List<Long> memberUserList, Long messageId, Long lastSendTime);
 }

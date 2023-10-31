@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 引入配置文件 -->
+<mapper namespace="com.wgq.chat.dao.RoomUserDao">
+
+    <update id="refreshOrCreateLastTime">
+        insert into room_user(`room_id`,`user_id`,`last_message_id`,`last_send_time`)
+        values
+        <foreach collection="userIdList" item="userId" separator=",">
+            (#{roomId},#{userId},#{messageId},#{lastSendTime})
+        </foreach>
+        `last_message_id`=VALUES(last_message_id),
+        `last_send_time`=VALUES(last_send_time)
+    </update>
+</mapper>

@@ -58,15 +58,7 @@
             </trim>
         </if>
     </insert>
-    <update id="refreshOrCreateLastTime">
-        insert into contact(`room_id`,`user_id`,`last_message_id`,`last_send_time`)
-        values
-        <foreach collection="memberUserList" item="userId" separator=",">
-            (#{roomId},#{userId},#{messageId},#{lastSendTime})
-        </foreach>
-        `last_message_id`=VALUES(last_message_id),
-        `last_send_time`=VALUES(last_send_time)
-    </update>
+
     <delete id="removeById">
         delete from contact where id = #{id}
     </delete>
