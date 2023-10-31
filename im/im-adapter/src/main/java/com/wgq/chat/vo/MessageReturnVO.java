@@ -1,6 +1,7 @@
 package com.wgq.chat.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sheep.protocol.VO;
 
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import java.util.Date;
  * @Description:
  * @Version :1.0
  */
-public class MessageReturnVO {
+public class MessageReturnVO implements VO {
 
     /**
      * 消息发送者userId
