@@ -142,7 +142,9 @@ public class QunService {
         //只能啦一个人
         Boolean isMember = this.qunRepository.isMember(existQun.getId(), inviteFriendParam.getFriendId());
         Asserts.isTrue(isMember, ContactError.USER_IS_MEMBER);
-        return this.inviteFriendSecurity.encryptInviteFriend(inviteFriendParam);
+        String token = this.inviteFriendSecurity.encryptInviteFriend(inviteFriendParam);
+        //TODO 发送消息
+        return token;
     }
 
     public void removeMember(RemoveMemberOfQunParam removeMemberOfQunParam) throws BusinessException {

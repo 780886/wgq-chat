@@ -2,15 +2,12 @@ package com.wgq.chat.contact.controller;
 
 import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.assembler.ContactAssembler;
-import com.wgq.chat.contact.vo.FriendUnreadVO;
 import com.wgq.chat.contact.bo.AuditWrapBO;
 import com.wgq.chat.contact.bo.FriendUnreadBO;
-import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
-import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
-import com.wgq.chat.contact.protocol.audit.JoinQunParam;
-import com.wgq.chat.contact.protocol.audit.QunAuditParam;
+import com.wgq.chat.contact.protocol.audit.*;
 import com.wgq.chat.contact.service.AuditService;
 import com.wgq.chat.contact.vo.FriendAuditWrapVo;
+import com.wgq.chat.contact.vo.FriendUnreadVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -74,5 +71,11 @@ public class AuditController {
     @PostMapping("audit-qun-apply")
     public void auditQunApply(@RequestBody QunAuditParam qunAuditParam) throws BusinessException {
         this.auditService.auditQunApply(qunAuditParam);
+    }
+
+    @ApiOperation("同意加群")
+    @PostMapping("agreeJoinQun")
+    public void agreeJoinQun(@RequestBody AgreeJoinQunParam agreeJoinQunParam) throws BusinessException {
+        this.auditService.agreeJoinQun(agreeJoinQunParam);
     }
 }
