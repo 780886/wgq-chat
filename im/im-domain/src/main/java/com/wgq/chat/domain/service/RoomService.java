@@ -6,6 +6,7 @@ import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.constant.magic.Symbol;
 import com.sheep.utils.CollectionsUtils;
 import com.sheep.utils.StringUtils;
+import com.wgq.chat.bo.RoomBO;
 import com.wgq.chat.bo.RoomFriendBO;
 import com.wgq.chat.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.protocol.enums.RoomTypeEnum;
@@ -68,4 +69,13 @@ public class RoomService {
         this.roomFriendRepository.disableRoom(roomKey);
     }
 
+    public Long createQunRoom(Long userId) {
+        return this.roomRepository.createRoom(RoomTypeEnum.GROUP);
+    }
+
+    public RoomBO getRoom(Long roomId) throws BusinessException {
+        Asserts.isTrue(Objects.nonNull(roomId),BusinessCodeEnum.ROOM_ID_IS_EMPTY);
+        RoomBO room = this.roomRepository.getRoom(roomId);
+        return room;
+    }
 }

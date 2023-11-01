@@ -2,8 +2,6 @@ package com.wgq.chat.contact.protocol.qun;
 
 import com.sheep.protocol.Param;
 
-import java.util.List;
-
 public class QunCreateParam implements Param {
 
     private String name;
@@ -17,6 +15,7 @@ public class QunCreateParam implements Param {
     private String remark;
 
     private Long categoryId;
+
 
     public String getName() {
         return name;

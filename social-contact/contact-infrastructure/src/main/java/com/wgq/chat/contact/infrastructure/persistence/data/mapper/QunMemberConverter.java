@@ -19,12 +19,21 @@ public class QunMemberConverter {
     }
 
     public QunMember convert2po(AuditBO auditBo) {
-        LoginUser loginUser = ThreadContext.getLoginToken();
         QunMember qunMember = new QunMember();
         qunMember.setQunId(auditBo.getBusinessId());
-        qunMember.setMemberId(loginUser.getUserId());
+        qunMember.setMemberId(auditBo.getApplyUserId());
         qunMember.setAuditTime(System.currentTimeMillis());
         qunMember.setApplyTime(auditBo.getApplyTime());
+        return qunMember;
+    }
+
+    public QunMember convert2po(Long qunId) {
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        QunMember qunMember = new QunMember();
+        qunMember.setQunId(qunId);
+        qunMember.setMemberId(loginUser.getUserId());
+        qunMember.setApplyTime(qunMember.getApplyTime());
+        qunMember.setAuditTime(System.currentTimeMillis());
         return qunMember;
     }
 }

@@ -14,18 +14,18 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("邀请好友")
 public class InviteFriendParam implements Param {
 
-    @ApiModelProperty("群ID")
-    private Long qunId;
+    @ApiModelProperty("房间id")
+    private Long roomId;
 
     @ApiModelProperty("好友ID")
     private Long friendId;
 
-    public Long getQunId() {
-        return qunId;
+    public Long getRoomId() {
+        return roomId;
     }
 
-    public void setQunId(Long qunId) {
-        this.qunId = qunId;
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 
     public Long getFriendId() {

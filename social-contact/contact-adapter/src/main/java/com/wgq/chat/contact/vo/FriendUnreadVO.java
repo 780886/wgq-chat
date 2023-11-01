@@ -1,4 +1,4 @@
-package com.wgq.chat.contact.assembler;
+package com.wgq.chat.contact.vo;
 
 import com.sheep.protocol.VO;
 

@@ -10,7 +10,6 @@ import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
 import com.wgq.chat.contact.protocol.audit.JoinQunParam;
 import com.wgq.chat.contact.protocol.audit.QunAuditParam;
 import com.wgq.chat.contact.protocol.enums.AuditBusiness;
-import org.springframework.beans.BeanUtils;
 
 import javax.inject.Named;
 import java.util.ArrayList;
@@ -111,7 +110,6 @@ public class AuditConverter {
 
     public Audit joinQun2AuditPo(JoinQunParam joinQunParam) {
         Audit audit = new Audit();
-        BeanUtils.copyProperties(joinQunParam, audit);
         LoginUser loginUser = ThreadContext.getLoginToken();
         audit.setApplyUserId(loginUser.getUserId());
         audit.setBusinessType(AuditBusiness.GROUP.getBusiness());

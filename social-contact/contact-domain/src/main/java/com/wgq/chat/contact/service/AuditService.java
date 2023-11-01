@@ -18,6 +18,7 @@ import com.wgq.chat.contact.protocol.enums.AuditBusiness;
 import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.contact.repository.ContactRepository;
+import com.wgq.chat.contact.repository.QunMemberRepository;
 import com.wgq.chat.contact.repository.QunRepository;
 import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.MessageSendDTO;
@@ -62,6 +63,9 @@ public class AuditService {
 
     @Inject
     private QunRepository qunRepository;
+
+    @Inject
+    private QunMemberRepository qunMemberRepository;
 
     @Inject
     private ContactMQPublisher contactMQPublisher;
@@ -165,21 +169,27 @@ public class AuditService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void auditQunApply(QunAuditParam qunAuditParam) throws BusinessException {
         AuditBO auditBO = this.auditRepository.getAudit(qunAuditParam.getAuditId());
+        Asserts.isTrue(Objects.isNull(auditBO),ContactError.AUDIT_NOT_EXIST);
         Asserts.isTrue(AuditBusiness.GROUP != auditBO.getAuditBusiness(), ContactError.AUDIT_BUSINESS_TYPE_NOT_MATCH);
         LoginUser loginUser = ThreadContext.getLoginToken();
         Asserts.isTrue(!auditBO.getAuditUserId().equals(loginUser.getUserId()), ContactError.AUDIT_USER_IS_NOT_MATCH);
+        /**
+         * 不管同意或拒绝都要审核用户申请
+         */
         this.auditRepository.auditQun(auditBO, qunAuditParam);
         if (qunAuditParam.getAgree()) {
-            this.qunRepository.joinQun(auditBO);
+            this.qunMemberRepository.addQunMember(auditBO);
+            //TODO 发布一条消息
         }
     }
 
     public void joinQun(JoinQunParam joinQunParam) throws BusinessException {
         Asserts.isTrue(null == joinQunParam.getQunId(), ContactError.QUN_ID_IS_EMPTY);
         QunBO qunBO = this.qunRepository.qunDetail(joinQunParam.getQunId());
-        Asserts.isTrue(qunBO == null, ContactError.QUN_NOT_FOUND);
+        Asserts.isTrue(Objects.isNull(qunBO) || StatusRecord.DISABLE.equals(qunBO.getStatus()), ContactError.QUN_NOT_FOUND);
         this.auditRepository.joinQun(joinQunParam);
     }
 

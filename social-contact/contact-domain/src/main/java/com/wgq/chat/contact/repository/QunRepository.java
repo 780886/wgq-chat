@@ -3,7 +3,6 @@ package com.wgq.chat.contact.repository;
 import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.QunBO;
-import com.wgq.chat.contact.protocol.qun.QunCreateParam;
 import com.wgq.chat.contact.protocol.qun.QunModifyParam;
 import com.wgq.chat.contact.protocol.qun.RemoveMemberOfQunParam;
 
@@ -18,15 +17,13 @@ import java.util.List;
  **/
 public interface QunRepository {
 
-    Long createQun(QunCreateParam qunCreateParam);
+    Long createQun(QunBO qunCreateBO);
 
     void modifyQun(QunModifyParam qunModifyParam) throws BusinessException;
 
     QunBO getQunDetail(Long id);
 
     List<QunBO> getQunPlaza(Long categoryId);
-
-    Long joinQun(AuditBO auditBO);
 
     QunBO qunDetail(Long qunId);
 
@@ -42,4 +39,7 @@ public interface QunRepository {
 
     List<QunBO> getMyQunList();
 
+    QunBO getOwnerQun(Long ownerId);
+
+    QunBO qunDetailByRoomId(Long roomId);
 }

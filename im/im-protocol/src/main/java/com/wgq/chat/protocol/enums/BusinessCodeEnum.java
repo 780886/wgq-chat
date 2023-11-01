@@ -14,9 +14,12 @@ public enum BusinessCodeEnum implements ErrorSupport {
 
 
     FRIEND_NUMBER_NOT_MATCH(false, ImModule.ROOM,"01", "房间创建失败，好友数量不匹配!"),
+    FRIEND_ID_IS_EMPTY(false, ImModule.ROOM,"01", "请选择需要邀请的好友!"),
     USER_BLACK(false, ImModule.ROOM,"02", "您已经被对方拉黑!"),
     REPLY_MESSAGE_NOT_EXIST(false, ImModule.MESSAGE,"03", "回复消息不存在!"),
-    ROOM_NOT_MATCH(false, ImModule.ROOM,"02", "只能回复相同会话内的消息!");
+    ROOM_NOT_MATCH(false, ImModule.ROOM,"02", "只能回复相同会话内的消息!"),
+    ROOM_ID_IS_EMPTY(false, ImModule.ROOM,"03", "房间号不能为空!"),
+    ROOM_NOT_FOUND(false, ImModule.ROOM,"03", "房间号有误!");
 
 
     private boolean system;

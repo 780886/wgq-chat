@@ -15,6 +15,8 @@ public class Qun implements POJO {
 
     private Long id;
 
+    private Long roomId;
+
     private String name;
 
     private String announcement;
@@ -56,6 +58,16 @@ public class Qun implements POJO {
     }
 
     @MethodOrder(order = 2)
+    @Column(name = "room_id", columnDefinition = "int(11) UNSIGNED DEFAULT 0 COMMENT '房间id'", nullable = false, updatable = false)
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
+    }
+
+    @MethodOrder(order = 3)
     @Column(name = "name", columnDefinition = "varchar(64)  DEFAULT '' COMMENT '群名称'", nullable = false)
     public String getName() {
         return name;
@@ -65,7 +77,7 @@ public class Qun implements POJO {
         this.name = name;
     }
 
-    @MethodOrder(order = 3)
+    @MethodOrder(order = 4)
     @Column(name = "announcement", columnDefinition = "varchar(255)  DEFAULT '' COMMENT '群公告'", nullable = false, updatable = false)
     public String getAnnouncement() {
         return announcement;
@@ -75,7 +87,7 @@ public class Qun implements POJO {
         this.announcement = announcement;
     }
 
-    @MethodOrder(order = 4)
+    @MethodOrder(order = 5)
     @Column(name = "nationality_id", columnDefinition = "int(11) UNSIGNED DEFAULT 0 COMMENT '国籍id'", nullable = false, updatable = false)
     public Integer getNationalityId() {
         return nationalityId;
@@ -85,7 +97,7 @@ public class Qun implements POJO {
         this.nationalityId = nationalityId;
     }
 
-    @MethodOrder(order = 4)
+    @MethodOrder(order = 6)
     @Column(name = "organization_id", columnDefinition = "int(11) UNSIGNED DEFAULT 0 COMMENT '机构id'", nullable = false, updatable = false)
     public Long getOrganizationId() {
         return organizationId;
@@ -95,7 +107,7 @@ public class Qun implements POJO {
         this.organizationId = organizationId;
     }
 
-    @MethodOrder(order = 5)
+    @MethodOrder(order = 7)
     @Column(name = "owner_id", columnDefinition = "int(11) UNSIGNED DEFAULT 0 COMMENT '群主id'", nullable = false, updatable = false)
     public Long getOwnerId() {
         return ownerId;
@@ -105,7 +117,7 @@ public class Qun implements POJO {
         this.ownerId = ownerId;
     }
 
-    @MethodOrder(order = 6)
+    @MethodOrder(order = 8)
     @Column(name = "category_id", columnDefinition = "int(11) UNSIGNED DEFAULT 0 COMMENT '分类id'", nullable = false, updatable = false)
     public Long getCategoryId() {
         return categoryId;
@@ -116,7 +128,7 @@ public class Qun implements POJO {
     }
 
     @MethodOrder(
-            order = 7
+            order = 9
     )
     @Column(
             name = "remark",
@@ -133,7 +145,7 @@ public class Qun implements POJO {
     }
 
     @MethodOrder(
-            order = 8
+            order = 10
     )
     @Column(
             name = "status",
@@ -150,7 +162,7 @@ public class Qun implements POJO {
 
 
     @MethodOrder(
-        order = 9
+        order = 11
     )
     @Column(
         name = "create_user_id",
@@ -167,7 +179,7 @@ public class Qun implements POJO {
     }
 
     @MethodOrder(
-            order = 10
+            order = 12
     )
     @Column(
             name = "gmt_create",
@@ -184,7 +196,7 @@ public class Qun implements POJO {
     }
 
     @MethodOrder(
-        order = 11
+        order = 13
     )
     @Column(
         name = "modified_user_id",
@@ -200,7 +212,7 @@ public class Qun implements POJO {
     }
 
     @MethodOrder(
-        order = 12
+        order = 14
     )
     @Column(
         name = "gmt_modified",
@@ -217,7 +229,7 @@ public class Qun implements POJO {
 
 
     @MethodOrder(
-            order = 13
+            order = 15
     )
     @Column(
             name = "create_user_name",
@@ -233,7 +245,7 @@ public class Qun implements POJO {
     }
 
     @MethodOrder(
-            order = 14
+            order = 16
     )
     @Column(
             name = "modified_user_name",

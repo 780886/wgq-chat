@@ -2,7 +2,7 @@ package com.wgq.chat.contact.controller;
 
 import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.assembler.ContactAssembler;
-import com.wgq.chat.contact.assembler.FriendUnreadVO;
+import com.wgq.chat.contact.vo.FriendUnreadVO;
 import com.wgq.chat.contact.bo.AuditWrapBO;
 import com.wgq.chat.contact.bo.FriendUnreadBO;
 import com.wgq.chat.contact.protocol.audit.FriendApplyParam;

@@ -7,7 +7,6 @@ import com.sheep.utils.BeanUtils;
 import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.po.Qun;
-import com.wgq.chat.contact.protocol.qun.QunCreateParam;
 import com.wgq.chat.contact.protocol.qun.QunModifyParam;
 
 import javax.inject.Named;
@@ -25,16 +24,16 @@ import java.util.List;
 @Named
 public class QunConverter {
 
-    public Qun convert2po(QunCreateParam qunCreateParam){
+    public Qun convert2po(QunBO qunCreateBO){
         LoginUser loginUser = ThreadContext.getLoginToken();
         Qun qun = new Qun();
-        qun.setName(qunCreateParam.getName());
-        qun.setAnnouncement(qunCreateParam.getAnnouncement());
-        qun.setNationalityId(qunCreateParam.getNationalityId());
-        qun.setOrganizationId(qunCreateParam.getOrganizationId());
+        qun.setName(qunCreateBO.getName());
+        qun.setAnnouncement(qunCreateBO.getAnnouncement());
+        qun.setNationalityId(qunCreateBO.getNationalityId());
+        qun.setOrganizationId(qunCreateBO.getOrganizationId());
         qun.setOwnerId(loginUser.getUserId());
-        qun.setCategoryId(qunCreateParam.getCategoryId());
-        qun.setRemark(qunCreateParam.getRemark());
+        qun.setCategoryId(qunCreateBO.getCategoryId());
+        qun.setRemark(qunCreateBO.getRemark());
         qun.setStatus(StatusRecord.ENABLE);
         qun.setCreateUserId(loginUser.getUserId());
         qun.setGmtCreate(System.currentTimeMillis());
@@ -57,6 +56,7 @@ public class QunConverter {
     public QunBO qun2QunBO(Qun qun) {
         //TODO
         QunBO qunBO = new QunBO();
+        qunBO.setRoomId(qun.getRoomId());
         qunBO.setId(qun.getId());
         qunBO.setName(qun.getName());
         qunBO.setAnnouncement(qun.getAnnouncement());

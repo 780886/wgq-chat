@@ -19,7 +19,7 @@ public class InviteFriendSecurityImpl implements InviteFriendSecurity {
     @Override
     public String encryptInviteFriend(InviteFriendParam inviteFriendParam) throws BusinessException {
         String json = this.json.toString(inviteFriendParam);
-        return ThreeDES.getInstance().encryptHex(inviteFriendParam.getFriendId() + "", json);
+        return ThreeDES.getInstance().encryptHex(String.valueOf(inviteFriendParam.getFriendId()), json);
     }
 
     @Override

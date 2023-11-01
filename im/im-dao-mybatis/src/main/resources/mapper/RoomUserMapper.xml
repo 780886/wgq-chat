@@ -10,6 +10,7 @@
         <foreach collection="userIdList" item="userId" separator=",">
             (#{roomId},#{userId},#{messageId},#{lastSendTime})
         </foreach>
+        on DUPLICATE KEY UPDATE
         `last_message_id`=VALUES(last_message_id),
         `last_send_time`=VALUES(last_send_time)
     </update>

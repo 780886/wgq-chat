@@ -1,5 +1,7 @@
 package com.wgq.chat.contact.bo;
 
+import com.sheep.protocol.enums.StatusRecord;
+
 /**
  * @ClassName QunBO
  * @Description TODO
@@ -7,9 +9,14 @@ package com.wgq.chat.contact.bo;
  * @Date 2023/6/24 22:11
  * @Version 1.0
  **/
-public class QunBO {
+public class QunBO{
+
 
     private Long id;//群ID
+    /**
+     * 房间id
+     */
+    private Long roomId;
     private String name;//群名称
     private String announcement;//群公告
     private Integer nationalityId;
@@ -20,6 +27,7 @@ public class QunBO {
     private Long categoryId;//类型
     private String categoryName;//类型名称
     private String remark;//备注
+    private StatusRecord status;
 
     public Long getId() {
         return id;
@@ -27,6 +35,14 @@ public class QunBO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 
     public String getName() {
@@ -107,5 +123,13 @@ public class QunBO {
 
     public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
+    }
+
+    public StatusRecord getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusRecord status) {
+        this.status = status;
     }
 }

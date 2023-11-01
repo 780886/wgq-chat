@@ -26,5 +26,11 @@
     <select id="findEnabledQunList" resultType="com.wgq.chat.contact.po.Qun">
 
     </select>
+    <select id="getOwnerQun" resultType="com.wgq.chat.contact.po.Qun">
+
+    </select>
+    <select id="qunDetailByRoomId" resultType="com.wgq.chat.contact.po.Qun">
+
+    </select>
 
 </mapper>
