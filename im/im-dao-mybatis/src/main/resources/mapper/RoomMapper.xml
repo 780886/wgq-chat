@@ -49,6 +49,9 @@
             </trim>
         </if>
     </insert>
+    <delete id="delete">
+
+    </delete>
     <select id="getById" resultType="com.wgq.chat.po.Room">
         select * from room where id = #{id}
     </select>

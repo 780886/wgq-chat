@@ -38,4 +38,10 @@ public interface RoomServiceApi {
      * @return
      */
     RoomDTO getRoom(Long roomId) throws BusinessException;
+
+    /**
+     *  解散房间
+     * @param roomId
+     */
+    void dissolve(Long roomId) throws BusinessException;
 }

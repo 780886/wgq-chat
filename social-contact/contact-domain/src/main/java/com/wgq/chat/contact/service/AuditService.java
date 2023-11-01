@@ -4,17 +4,16 @@ import com.sheep.exception.Asserts;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
+import com.sheep.protocol.constant.magic.Symbol;
 import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.api.ChatServiceApi;
 import com.wgq.chat.api.RoomServiceApi;
 import com.wgq.chat.contact.assemble.AuditAssemble;
 import com.wgq.chat.contact.bo.*;
 import com.wgq.chat.contact.mq.ContactMQPublisher;
-import com.wgq.chat.contact.protocol.audit.FriendApplyParam;
-import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
-import com.wgq.chat.contact.protocol.audit.JoinQunParam;
-import com.wgq.chat.contact.protocol.audit.QunAuditParam;
+import com.wgq.chat.contact.protocol.audit.*;
 import com.wgq.chat.contact.protocol.enums.AuditBusiness;
+import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.contact.repository.ContactRepository;
@@ -72,6 +71,9 @@ public class AuditService {
 
     @Inject
     private AuditAssemble auditAssemble;
+
+    @Inject
+    private InviteFriendSecurity inviteFriendSecurity;
 
 
 
@@ -197,5 +199,15 @@ public class AuditService {
         LoginUser loginUser = ThreadContext.getLoginToken();
         Integer unReadCount = this.auditRepository.applyUnread(loginUser.getUserId());
         return new FriendUnreadBO(unReadCount);
+    }
+
+    public void agreeJoinQun(QunAgreeParam qunAgreeParam) throws BusinessException {
+        Asserts.isTrue(Objects.isNull(qunAgreeParam.getAuditId()), BusinessCodeEnum.AUDIT_ID_IS_EMPTY);
+        QunAuditParam qunAuditParam = new QunAuditParam(qunAgreeParam.getAuditId(), Symbol.EMPTY, qunAgreeParam.getAgree());
+        this.auditQunApply(qunAuditParam);
+    }
+
+    public void getApplyDetail(Long roomId) {
+
     }
 }

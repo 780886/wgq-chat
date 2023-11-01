@@ -6,22 +6,26 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("移除群成员")
 public class RemoveMemberOfQunParam {
 
-    public RemoveMemberOfQunParam(Long qunId, Long memberId) {
-        this.qunId = qunId;
-        this.memberId = memberId;
-    }
 
-    @ApiModelProperty("群ID")
-    private Long qunId;
+    @ApiModelProperty("房间id")
+    private Long roomId;
     @ApiModelProperty("成员ID")
     private Long memberId;
 
-    public Long getQunId() {
-        return qunId;
+    public RemoveMemberOfQunParam() {
     }
 
-    public void setQunId(Long qunId) {
-        this.qunId = qunId;
+    public RemoveMemberOfQunParam(Long roomId, Long memberId) {
+        this.roomId = roomId;
+        this.memberId = memberId;
+    }
+
+    public Long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 
     public Long getMemberId() {

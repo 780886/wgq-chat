@@ -16,17 +16,17 @@ public class TransferOwnerOfQunParam implements Param {
 
 
     @ApiModelProperty("群ID")
-    private Long qunId;
+    private Long roomId;
 
     @ApiModelProperty("新群主")
     private Long newOwnerId;
 
-    public Long getQunId() {
-        return qunId;
+    public Long getRoomId() {
+        return roomId;
     }
 
-    public void setQunId(Long qunId) {
-        this.qunId = qunId;
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 
     public Long getNewOwnerId() {

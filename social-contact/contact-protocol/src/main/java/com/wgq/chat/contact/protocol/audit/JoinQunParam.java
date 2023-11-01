@@ -20,6 +20,14 @@ public class JoinQunParam implements Param {
     @ApiModelProperty("加群的理由")
     private String reason;
 
+    public JoinQunParam() {
+    }
+
+    public JoinQunParam(Long qunId, String reason) {
+        this.qunId = qunId;
+        this.reason = reason;
+    }
+
     public Long getQunId() {
         return qunId;
     }

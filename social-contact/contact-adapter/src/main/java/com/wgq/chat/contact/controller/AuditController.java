@@ -8,6 +8,7 @@ import com.wgq.chat.contact.protocol.audit.*;
 import com.wgq.chat.contact.service.AuditService;
 import com.wgq.chat.contact.vo.FriendAuditWrapVo;
 import com.wgq.chat.contact.vo.FriendUnreadVO;
+import com.wgq.chat.contact.vo.QunVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,13 @@ public class AuditController {
     public FriendAuditWrapVo friendApplyList() throws BusinessException{
         AuditWrapBO auditWrapBO = this.auditService.friendApplyList();
         return this.contactAssembler.toUserFriendApplyVoList(auditWrapBO);
+    }
+
+    @ApiOperation("根据房间id获取申请详情")
+    @PostMapping("get-apply-detail")
+    public QunVO getApplyDetail(@RequestBody Long roomId){
+        this.auditService.getApplyDetail(roomId);
+        return new QunVO();
     }
 
     @ApiOperation("申请好友")
@@ -75,7 +83,7 @@ public class AuditController {
 
     @ApiOperation("同意加群")
     @PostMapping("agreeJoinQun")
-    public void agreeJoinQun(@RequestBody AgreeJoinQunParam agreeJoinQunParam) throws BusinessException {
-        this.auditService.agreeJoinQun(agreeJoinQunParam);
+    public void agreeJoinQun(@RequestBody QunAgreeParam qunAgreeParam) throws BusinessException {
+        this.auditService.agreeJoinQun(qunAgreeParam);
     }
 }

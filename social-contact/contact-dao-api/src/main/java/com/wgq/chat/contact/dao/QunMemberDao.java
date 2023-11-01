@@ -3,6 +3,7 @@ package com.wgq.chat.contact.dao;
 import com.wgq.chat.contact.po.QunMember;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,9 +21,11 @@ public interface QunMemberDao {
 
     Long isMember(Long qunId, Long memberId);
 
-    void removeMember(Long qunId, Long memberId);
+    void removeMember(Long roomId, Long memberId);
 
     void delete(Long qunId);
 
     Map<Long, Long> getQunsByMemberId(@Param("memberId") Long memberId);
+
+    List<QunMember> getQunMembers(Long memberId);
 }

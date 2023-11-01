@@ -8,4 +8,5 @@ public interface RoomDao {
 
     Room getById(@Param("id") Long id);
 
+    void delete(Long roomId);
 }

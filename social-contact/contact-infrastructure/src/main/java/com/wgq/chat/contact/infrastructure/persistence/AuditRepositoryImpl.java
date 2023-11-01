@@ -74,9 +74,11 @@ public class AuditRepositoryImpl  implements AuditRepository {
         Audit oldAudit = this.auditDao.getAudit(audit);
         if (oldAudit != null) {
             audit.setId(oldAudit.getId());
-            return this.auditDao.update(audit);
+            this.auditDao.update(audit);
+            return audit.getId();
         }
-        return this.auditDao.insert(audit);
+        this.auditDao.insert(audit);
+        return audit.getId();
     }
 
     @Override

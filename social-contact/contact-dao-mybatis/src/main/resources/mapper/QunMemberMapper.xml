@@ -34,4 +34,7 @@
     <select id="getQunsByMemberId" resultType="java.util.Map">
             select * from qun_member where member_id = #{memberId}
     </select>
+    <select id="getQunMembers" resultType="com.wgq.chat.contact.po.QunMember">
+
+    </select>
 </mapper>

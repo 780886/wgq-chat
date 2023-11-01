@@ -24,7 +24,7 @@ public interface QunDao {
     List<Qun> getQuns(Long categoryId);
 
 
-    void delete(Long qunId);
+    void delete(Long roomId);
 
     Integer updateById(Qun qun);
 

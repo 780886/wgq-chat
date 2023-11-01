@@ -74,8 +74,13 @@ public class RoomService {
     }
 
     public RoomBO getRoom(Long roomId) throws BusinessException {
-        Asserts.isTrue(Objects.nonNull(roomId),BusinessCodeEnum.ROOM_ID_IS_EMPTY);
+        Asserts.isTrue(Objects.isNull(roomId),BusinessCodeEnum.ROOM_ID_IS_EMPTY);
         RoomBO room = this.roomRepository.getRoom(roomId);
         return room;
+    }
+
+    public void dissolve(Long roomId) throws BusinessException {
+        Asserts.isTrue(Objects.isNull(roomId),BusinessCodeEnum.ROOM_ID_IS_EMPTY);
+        this.roomRepository.dissolve(roomId);
     }
 }

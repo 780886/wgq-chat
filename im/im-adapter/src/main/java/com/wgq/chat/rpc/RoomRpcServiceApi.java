@@ -47,4 +47,9 @@ public class RoomRpcServiceApi implements RoomServiceApi {
         RoomBO roomBO = this.roomService.getRoom(roomId);
         return this.roomAssemble.assembleRoomDTO(roomBO);
     }
+
+    @Override
+    public void dissolve(Long roomId) throws BusinessException {
+        this.roomService.dissolve(roomId);
+    }
 }

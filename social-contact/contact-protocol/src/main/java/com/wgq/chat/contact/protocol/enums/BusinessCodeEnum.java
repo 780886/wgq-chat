@@ -50,7 +50,10 @@ public enum BusinessCodeEnum implements ErrorSupport {
     USERNAME_PASSWORD_ERROR(false, ContactModule.CONTACT,"1504", "用户名或密码错误，请重新输入!"),
     //联系人
     EXIST_FRIEND_RELATIONSHIP(false, ContactModule.CONTACT,"1601", "你们已经是好友了!"),
-    FRIEND_NOT_EXIST(false, ContactModule.CONTACT,"1602", "你们没有好友关系!");
+    FRIEND_NOT_EXIST(false, ContactModule.CONTACT,"1602", "你们没有好友关系!"),
+
+    AUDIT_ID_IS_EMPTY(false, ContactModule.CONTACT,"1602", "请选择药同意的记录");
+
 
 
     private boolean system;

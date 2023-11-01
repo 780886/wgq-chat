@@ -24,9 +24,9 @@ public enum ContactError implements ErrorSupport {
     CATEGORY_OF_QUN_EMPTY(false, ContactModule.QUN, "07", "qun category can't be empty"),
     QUN_OWNER_IS_NOT_MATCH(false, ContactModule.QUN, "08", "qun owner can't match"),
     USER_IS_MEMBER(false, ContactModule.QUN, "09", "user is member of qun"),
-    USER_IS_NOT_MEMBER(false, ContactModule.QUN, "10", "user is not member of qun");
+    USER_IS_NOT_MEMBER(false, ContactModule.QUN, "10", "user is not member of qun"),
 
-
+    INVITE_TOKEN_IS_EMPTY(false, ContactModule.QUN, "11",  "invite token is empty");
 
     private boolean system;
     private ModuleSupport module;

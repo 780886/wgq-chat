@@ -1,10 +1,27 @@
 package com.wgq.chat.contact.bo;
 
-public class ExistQunBO {
+import com.sheep.protocol.BO;
 
+/**
+ * @ClassName: QunMemberBO
+ * @Author : wgq
+ * @Date :2023/11/1  16:26
+ * @Description:
+ * @Version :1.0
+ */
+public class QunMemberBO implements BO {
+
+    private Long id;
     private Long qunId;
-
     private Long memberId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getQunId() {
         return qunId;

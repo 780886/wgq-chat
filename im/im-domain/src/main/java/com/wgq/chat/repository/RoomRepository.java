@@ -8,4 +8,5 @@ public interface RoomRepository {
 
     RoomBO getRoom(Long roomId);
 
+    void dissolve(Long roomId);
 }

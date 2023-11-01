@@ -39,4 +39,9 @@ public class RoomRepositoryImpl implements RoomRepository {
         Room room = this.roomDao.getById(roomId);
         return this.roomConverter.convert2RoomBO(room);
     }
+
+    @Override
+    public void dissolve(Long roomId) {
+        this.roomDao.delete(roomId);
+    }
 }

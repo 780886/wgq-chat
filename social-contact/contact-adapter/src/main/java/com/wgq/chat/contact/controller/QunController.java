@@ -46,8 +46,8 @@ public class QunController {
 
     @ApiOperation("群详情")
     @GetMapping("detail/{qunId}")
-    public QunVO detail(@PathVariable("qunId")Long qunId) throws BusinessException {
-        QunDetailWrapBO qunDetail = this.qunService.detail(qunId);
+    public QunVO detail(@PathVariable("qunId")Long roomId) throws BusinessException {
+        QunDetailWrapBO qunDetail = this.qunService.detail(roomId);
         return this.qunAssembler.assemblerQun(qunDetail);
     }
 
@@ -68,21 +68,20 @@ public class QunController {
 
     /**
      * 邀请好友
-     * 生成token 对方会收到邀请链接
      * @param inviteFriendParam
      * @return
      */
     @ApiOperation("邀请好友加群")
     @PostMapping("invite-friend-join")
-    public String inviteFriend(@RequestBody InviteFriendParam inviteFriendParam) throws BusinessException {
+    public Long inviteFriend(@RequestBody InviteFriendParam inviteFriendParam) throws BusinessException {
         return this.qunService.inviteFriend(inviteFriendParam);
     }
 
 
     @ApiOperation("退出群")
     @PostMapping("exist-qun")
-    public void existQun(@RequestBody Long qunId) throws BusinessException {
-        this.qunService.existQun(qunId);
+    public void existQun(@RequestBody Long roomId) throws BusinessException {
+        this.qunService.existQun(roomId);
     }
 
     @ApiOperation("移除群成员")
@@ -93,8 +92,8 @@ public class QunController {
 
     @ApiOperation("群解散")
     @PostMapping("dissolve")
-    public void dissolve(@RequestBody Long qunId) throws BusinessException {
-        this.qunService.dissolve(qunId);
+    public void dissolve(@RequestBody Long roomId) throws BusinessException {
+        this.qunService.dissolve(roomId);
     }
 
     @ApiOperation("转移群主")
@@ -103,9 +102,4 @@ public class QunController {
         this.qunService.transfer(transferOwnerOfQun);
     }
 
-    @ApiOperation("根据群id获取申请详情")
-    @PostMapping("get-apply-detail")
-    public QunVO getApplyDetail(@RequestBody Long qunId){
-        return new QunVO();
-    }
 }

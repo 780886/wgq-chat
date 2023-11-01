@@ -78,13 +78,12 @@ public class QunRepositoryImpl implements QunRepository {
 
     @Override
     public void removeMember(RemoveMemberOfQunParam removeMemberOfQunParam) {
-        this.qunMemberDao.removeMember(removeMemberOfQunParam.getQunId(), removeMemberOfQunParam.getMemberId());
+        this.qunMemberDao.removeMember(removeMemberOfQunParam.getRoomId(), removeMemberOfQunParam.getMemberId());
     }
 
     @Override
-    public void dissolve(Long qunId) {
-        this.qunDao.delete(qunId);
-        this.qunMemberDao.delete(qunId);
+    public void dissolve(Long roomId) {
+        this.qunDao.delete(roomId);
     }
 
     @Override

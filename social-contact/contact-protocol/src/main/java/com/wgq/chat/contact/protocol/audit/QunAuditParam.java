@@ -17,6 +17,15 @@ public class QunAuditParam implements POJO {
     @ApiModelProperty("是否同意")
     private Boolean isAgree;
 
+    public QunAuditParam() {
+    }
+
+    public QunAuditParam(Long auditId, String reason, Boolean isAgree) {
+        this.auditId = auditId;
+        this.reason = reason;
+        this.isAgree = isAgree;
+    }
+
     public Long getAuditId() {
         return auditId;
     }
