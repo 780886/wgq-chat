@@ -5,32 +5,222 @@
 <mapper namespace="com.wgq.chat.contact.dao.QunDao">
 
     <insert id="insert">
-
+        <if test="qun != null">
+            insert into
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="qun.id">
+                    id,
+                </if>
+                <if test="qun.roomId">
+                   room_id,
+                </if>
+                <if test="qun.name">
+                    name,
+                </if>
+                <if test="qun.announcement">
+                    announcement,
+                </if>
+                <if test="qun.nationalityId">
+                    nationality_id,
+                </if>
+                <if test="qun.organizationId">
+                    organization_id,
+                </if>
+                <if test="qun.ownerId">
+                    owner_id,
+                </if>
+                <if test="qun.categoryId">
+                    category_id,
+                </if>
+                <if test="qun.remark">
+                    remark,
+                </if>
+                <if test="qun.status">
+                    status,
+                </if>
+                <if test="qun.createUserId">
+                    create_user_id,
+                </if>
+                <if test="qun.gmtCreate">
+                    gmt_create,
+                </if>
+                <if test="qun.gmtModified">
+                    gmt_modified,
+                </if>
+                <if test="qun.modifiedUserId">
+                    modified_user_id,
+                </if>
+                <if test="qun.createUserName">
+                    create_user_name,
+                </if>
+                <if test="qun.modifiedUserName">
+                    modified_user_name,
+                </if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="qun.id">
+                    #{qun.id}
+                </if>
+                <if test="qun.roomId">
+                    #{qun.roomId}
+                </if>
+                <if test="qun.name">
+                    #{qun.name}
+                </if>
+                <if test="qun.announcement">
+                    #{qun.announcement}
+                </if>
+                <if test="qun.nationalityId">
+                    #{qun.nationalityId}
+                </if>
+                <if test="qun.organizationId">
+                    #{qun.organizationId}
+                </if>
+                <if test="qun.ownerId">
+                    #{qun.ownerId}
+                </if>
+                <if test="qun.categoryId">
+                    #{qun.categoryId}
+                </if>
+                <if test="qun.remark">
+                    #{qun.remark}
+                </if>
+                <if test="qun.status">
+                    #{qun.status}
+                </if>
+                <if test="qun.createUserId">
+                    #{qun.createUserId}
+                </if>
+                <if test="qun.gmtCreate">
+                    #{qun.gmtCreate}
+                </if>
+                <if test="qun.gmtModified">
+                    #{qun.gmtModified}
+                </if>
+                <if test="qun.modifiedUserId">
+                    #{qun.modifiedUserId}
+                </if>
+                <if test="qun.createUserName">
+                    #{qun.createUserName}
+                </if>
+                <if test="qun.modifiedUserName">
+                    #{qun.modifiedUserName}
+                </if>
+            </trim>
+        </if>
     </insert>
 
     <update id="update">
-
+        <if test="qun != null and qun.id != null">
+            update qun set
+            <trim suffixOverrides=",">
+                <if test="qun.id">
+                    id = #{qun.id}
+                </if>
+                <if test="qun.roomId">
+                    room_id = #{qun.roomId}
+                </if>
+                <if test="qun.name">
+                    name = #{qun.name}
+                </if>
+                <if test="qun.announcement">
+                    announcement = #{qun.announcement}
+                </if>
+                <if test="qun.nationalityId">
+                    nationality_id = #{qun.nationalityId}
+                </if>
+                <if test="qun.organizationId">
+                    organization_id = #{qun.organizationId}
+                </if>
+                <if test="qun.ownerId">
+                    owner_id = #{qun.ownerId}
+                </if>
+                <if test="qun.categoryId">
+                    category_id = #{qun.categoryId}
+                </if>
+                <if test="qun.remark">
+                    remark = #{qun.remark}
+                </if>
+                <if test="qun.status">
+                    status = #{qun.status}
+                </if>
+                <if test="qun.gmtModified">
+                    gmt_modified = #{qun.gmtModified}
+                </if>
+                <if test="qun.modifiedUserId">
+                    modified_user_id = #{qun.modifiedUserId}
+                </if>
+                <if test="qun.modifiedUserName">
+                    modified_user_name = #{qun.modifiedUserName}
+                </if>
+            </trim>
+            where id = #{qun.id}
+        </if>
     </update>
     <update id="updateById">
-
+        <if test="qun != null and qun.id != null">
+            update qun set
+            <trim suffixOverrides=",">
+                <if test="qun.id">
+                    id = #{qun.id}
+                </if>
+                <if test="qun.roomId">
+                    room_id = #{qun.roomId}
+                </if>
+                <if test="qun.name">
+                    name = #{qun.name}
+                </if>
+                <if test="qun.announcement">
+                    announcement = #{qun.announcement}
+                </if>
+                <if test="qun.nationalityId">
+                    nationality_id = #{qun.nationalityId}
+                </if>
+                <if test="qun.organizationId">
+                    organization_id = #{qun.organizationId}
+                </if>
+                <if test="qun.ownerId">
+                    owner_id = #{qun.ownerId}
+                </if>
+                <if test="qun.categoryId">
+                    category_id = #{qun.categoryId}
+                </if>
+                <if test="qun.remark">
+                    remark = #{qun.remark}
+                </if>
+                <if test="qun.status">
+                    status = #{qun.status}
+                </if>
+                <if test="qun.gmtModified">
+                    gmt_modified = #{qun.gmtModified}
+                </if>
+                <if test="qun.modifiedUserId">
+                    modified_user_id = #{qun.modifiedUserId}
+                </if>
+                <if test="qun.modifiedUserName">
+                    modified_user_name = #{qun.modifiedUserName}
+                </if>
+            </trim>
+            where id = #{qun.id}
+        </if>
     </update>
     <delete id="delete">
-
+        delete from qun where room_id = #{roomId}
     </delete>
     <select id="getEntity" resultType="com.wgq.chat.contact.po.Qun">
-
+        select * from qun where id = #{id}
     </select>
     <select id="getQuns" resultType="com.wgq.chat.contact.po.Qun">
 
     </select>
     <select id="findEnabledQunList" resultType="com.wgq.chat.contact.po.Qun">
-
+        select * from qun where status = 'Enable'
     </select>
     <select id="getOwnerQun" resultType="com.wgq.chat.contact.po.Qun">
-
+        select * from qun where owner_id = #{ownerId}
     </select>
     <select id="qunDetailByRoomId" resultType="com.wgq.chat.contact.po.Qun">
-
+        select * from qun where room_id = #{id}
     </select>
 
 </mapper>

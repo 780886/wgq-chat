@@ -15,14 +15,13 @@ import java.util.List;
  **/
 public interface QunDao {
 
-    Long insert(Qun qun);
+    Long insert(@Param("qun") Qun qun);
 
-    void update(Qun qun);
+    void update(@Param("qun") Qun qun);
 
     Qun getEntity(Long id);
 
     List<Qun> getQuns(Long categoryId);
-
 
     void delete(Long roomId);
 
