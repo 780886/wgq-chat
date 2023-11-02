@@ -52,4 +52,10 @@ public class RoomRpcServiceApi implements RoomServiceApi {
     public void dissolve(Long roomId) throws BusinessException {
         this.roomService.dissolve(roomId);
     }
+
+    @Override
+    public RoomDTO getRoomByOwnerId(Long ownerId) throws BusinessException {
+        RoomBO roomBO = this.roomService.getRoomByOwnerId(ownerId);
+        return this.roomAssemble.assembleRoomDTO(roomBO);
+    }
 }

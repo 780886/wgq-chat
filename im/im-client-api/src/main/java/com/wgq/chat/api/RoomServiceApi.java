@@ -44,4 +44,6 @@ public interface RoomServiceApi {
      * @param roomId
      */
     void dissolve(Long roomId) throws BusinessException;
+
+
 }

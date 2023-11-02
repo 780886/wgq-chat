@@ -12,8 +12,8 @@ public class JoinQunParam implements Param {
     /**
      * 用户的密秘标识
      */
-    @ApiModelProperty("群id")
-    private Long qunId;
+    @ApiModelProperty("房间id")
+    private Long roomId;
     /**
      * 申请的理由
      */
@@ -23,17 +23,17 @@ public class JoinQunParam implements Param {
     public JoinQunParam() {
     }
 
-    public JoinQunParam(Long qunId, String reason) {
-        this.qunId = qunId;
+    public JoinQunParam(Long roomId, String reason) {
+        this.roomId = roomId;
         this.reason = reason;
     }
 
-    public Long getQunId() {
-        return qunId;
+    public Long getRoomId() {
+        return roomId;
     }
 
-    public void setQunId(Long qunId) {
-        this.qunId = qunId;
+    public void setRoomId(Long roomId) {
+        this.roomId = roomId;
     }
 
     public String getReason() {

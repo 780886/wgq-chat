@@ -35,7 +35,7 @@ public class AuditConverter {
     }
 
     public List<AuditBO> auditList2AuditBOList(List<Audit> audits) {
-        ArrayList<AuditBO> auditBOS = new ArrayList<>();
+        List<AuditBO> auditBOS = new ArrayList<>();
         for (Audit audit : audits) {
             AuditBO bo = new AuditBO();
             bo.setApplyUserId(audit.getApplyUserId());
@@ -113,7 +113,7 @@ public class AuditConverter {
         LoginUser loginUser = ThreadContext.getLoginToken();
         audit.setApplyUserId(loginUser.getUserId());
         audit.setBusinessType(AuditBusiness.GROUP.getBusiness());
-        audit.setBusinessId(joinQunParam.getQunId());
+        audit.setBusinessId(joinQunParam.getRoomId());
         audit.setApplyReason(joinQunParam.getReason());
         audit.setAuditReason(Symbol.EMPTY);
         audit.setStatus(StatusRecord.DISABLE);

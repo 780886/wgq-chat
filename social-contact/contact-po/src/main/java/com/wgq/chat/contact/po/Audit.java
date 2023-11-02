@@ -25,7 +25,7 @@ public class Audit implements POJO {
     private Integer businessType;
     /**
      * 业务ID  与业务类型对应
-     * 如果是群，则为群ID
+     * 如果是群，则为房间ID
      * 如果是好友，则为好友ID
      */
     private Long businessId;

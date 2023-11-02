@@ -2,13 +2,14 @@ package com.wgq.chat.contact.controller;
 
 import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.assembler.ContactAssembler;
+import com.wgq.chat.contact.assembler.QunAssembler;
 import com.wgq.chat.contact.bo.AuditWrapBO;
 import com.wgq.chat.contact.bo.FriendUnreadBO;
 import com.wgq.chat.contact.protocol.audit.*;
 import com.wgq.chat.contact.service.AuditService;
 import com.wgq.chat.contact.vo.FriendAuditWrapVo;
 import com.wgq.chat.contact.vo.FriendUnreadVO;
-import com.wgq.chat.contact.vo.QunVO;
+import com.wgq.chat.contact.vo.QunAuditWrapVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,9 @@ public class AuditController {
     @Inject
     private ContactAssembler contactAssembler;
 
+    @Inject
+    private QunAssembler qunAssembler;
+
 
     @ApiOperation("获取好友申请列表")
     @GetMapping("friend-apply-list")
@@ -35,11 +39,11 @@ public class AuditController {
         return this.contactAssembler.toUserFriendApplyVoList(auditWrapBO);
     }
 
-    @ApiOperation("根据房间id获取申请详情")
-    @PostMapping("get-apply-detail")
-    public QunVO getApplyDetail(@RequestBody Long roomId){
-        this.auditService.getApplyDetail(roomId);
-        return new QunVO();
+    @ApiOperation("获取群申请列表")
+    @PostMapping("get-qun-apply-List")
+    public QunAuditWrapVO getApplyDetail() throws BusinessException {
+        AuditWrapBO auditWrapBO = this.auditService.getMyQunApplyList();
+        return this.qunAssembler.toQunApplyVoList(auditWrapBO);
     }
 
     @ApiOperation("申请好友")

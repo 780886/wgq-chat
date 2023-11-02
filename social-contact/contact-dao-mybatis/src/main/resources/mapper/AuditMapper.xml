@@ -181,4 +181,7 @@
         </if>
 
     </select>
+    <select id="getAuditByBusinessId" resultType="com.wgq.chat.contact.po.Audit">
+
+    </select>
 </mapper>

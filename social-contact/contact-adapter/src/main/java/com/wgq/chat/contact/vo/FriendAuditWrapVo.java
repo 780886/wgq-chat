@@ -14,14 +14,6 @@ import java.util.Map;
 public class FriendAuditWrapVo {
 
 
-
-
-    public FriendAuditWrapVo(Map<String, String> auditStatusDict, List<FriendAuditVO> friendAudits) {
-        this.auditStatusDict = auditStatusDict;
-        this.friendAudits = friendAudits;
-    }
-
-
     /**
      * 审核状态字典
      */
@@ -29,6 +21,10 @@ public class FriendAuditWrapVo {
 
     private List<FriendAuditVO> friendAudits;
 
+    public FriendAuditWrapVo(Map<String, String> auditStatusDict, List<FriendAuditVO> friendAudits) {
+        this.auditStatusDict = auditStatusDict;
+        this.friendAudits = friendAudits;
+    }
     public Map<String, String> getAuditStatusDict() {
         return auditStatusDict;
     }

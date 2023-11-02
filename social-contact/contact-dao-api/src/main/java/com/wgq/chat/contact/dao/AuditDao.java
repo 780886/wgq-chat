@@ -29,4 +29,5 @@ public interface AuditDao {
 
     Integer applyUnread(@Param("auditUserId") Long auditUserId, @Param("readStatus") Integer readStatus);
 
+    List<Audit> getAuditByBusinessId(Long roomId);
 }
