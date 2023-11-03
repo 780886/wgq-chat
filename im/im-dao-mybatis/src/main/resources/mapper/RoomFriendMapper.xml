@@ -11,8 +11,8 @@
         <result column="larger_user_id" property="largerUserId"/>
         <result column="room_key" property="roomKey"/>
         <result column="status" property="status"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="gmt_modified" property="gmtModified"/>
     </resultMap>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">

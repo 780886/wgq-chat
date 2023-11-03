@@ -211,16 +211,23 @@
         select * from qun where id = #{id}
     </select>
     <select id="getQuns" resultType="com.wgq.chat.contact.po.Qun">
+        select * from qun where category_id = #{categoryId}
+    </select>
 
-    </select>
-    <select id="findEnabledQunList" resultType="com.wgq.chat.contact.po.Qun">
-        select * from qun where status = 'Enable'
-    </select>
     <select id="getOwnerQun" resultType="com.wgq.chat.contact.po.Qun">
         select * from qun where owner_id = #{ownerId}
     </select>
     <select id="qunDetailByRoomId" resultType="com.wgq.chat.contact.po.Qun">
-        select * from qun where room_id = #{id}
+        select * from qun where room_id = #{roomId}
+    </select>
+    <select id="getQunsByIds" resultType="com.wgq.chat.contact.po.Qun">
+        select * from qun where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="getQunsByStatus" resultType="com.wgq.chat.contact.po.Qun">
+        select * from qun where status = #{status}
     </select>
 
 </mapper>

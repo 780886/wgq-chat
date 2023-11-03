@@ -1,5 +1,6 @@
 package com.wgq.chat.contact.dao;
 
+import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.contact.po.Qun;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,12 +28,11 @@ public interface QunDao {
 
     Integer updateById(Qun qun);
 
-    List<Qun> findEnabledQunList();
-
-    List<Qun> getQuns(Collection<Long> qunIds);
+    List<Qun> getQunsByIds(Collection<Long> qunIds);
 
     Qun getOwnerQun(@Param("ownerId") Long ownerId);
 
     Qun qunDetailByRoomId(@Param("roomId") Long roomId);
 
+    List<Qun> getQunsByStatus(StatusRecord enable);
 }
