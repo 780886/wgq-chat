@@ -90,4 +90,6 @@ public class QunMember implements POJO {
     public void setAuditTime(Long auditTime) {
         this.auditTime = auditTime;
     }
+
+
 }

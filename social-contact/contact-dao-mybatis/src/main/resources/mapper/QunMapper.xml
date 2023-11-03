@@ -4,107 +4,107 @@
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.contact.dao.QunDao">
 
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         <if test="qun != null">
-            insert into
+            insert into qun
             <trim prefix="(" suffix=")" suffixOverrides=",">
-                <if test="qun.id">
+                <if test="qun.id != null">
                     id,
                 </if>
-                <if test="qun.roomId">
+                <if test="qun.roomId != null">
                    room_id,
                 </if>
-                <if test="qun.name">
+                <if test="qun.name != null">
                     name,
                 </if>
-                <if test="qun.announcement">
+                <if test="qun.announcement != null">
                     announcement,
                 </if>
-                <if test="qun.nationalityId">
+                <if test="qun.nationalityId != null">
                     nationality_id,
                 </if>
-                <if test="qun.organizationId">
+                <if test="qun.organizationId != null">
                     organization_id,
                 </if>
-                <if test="qun.ownerId">
+                <if test="qun.ownerId != null">
                     owner_id,
                 </if>
-                <if test="qun.categoryId">
+                <if test="qun.categoryId != null">
                     category_id,
                 </if>
-                <if test="qun.remark">
+                <if test="qun.remark != null">
                     remark,
                 </if>
-                <if test="qun.status">
+                <if test="qun.status != null">
                     status,
                 </if>
-                <if test="qun.createUserId">
+                <if test="qun.createUserId != null">
                     create_user_id,
                 </if>
-                <if test="qun.gmtCreate">
+                <if test="qun.gmtCreate != null">
                     gmt_create,
                 </if>
-                <if test="qun.gmtModified">
+                <if test="qun.gmtModified != null">
                     gmt_modified,
                 </if>
-                <if test="qun.modifiedUserId">
+                <if test="qun.modifiedUserId != null">
                     modified_user_id,
                 </if>
-                <if test="qun.createUserName">
+                <if test="qun.createUserName != null">
                     create_user_name,
                 </if>
-                <if test="qun.modifiedUserName">
+                <if test="qun.modifiedUserName != null">
                     modified_user_name,
                 </if>
             </trim>
             <trim prefix="values (" suffix=")" suffixOverrides=",">
-                <if test="qun.id">
-                    #{qun.id}
+                <if test="qun.id != null">
+                    #{qun.id},
                 </if>
-                <if test="qun.roomId">
-                    #{qun.roomId}
+                <if test="qun.roomId != null">
+                    #{qun.roomId},
                 </if>
-                <if test="qun.name">
-                    #{qun.name}
+                <if test="qun.name != null">
+                    #{qun.name},
                 </if>
-                <if test="qun.announcement">
-                    #{qun.announcement}
+                <if test="qun.announcement != null">
+                    #{qun.announcement},
                 </if>
-                <if test="qun.nationalityId">
-                    #{qun.nationalityId}
+                <if test="qun.nationalityId != null">
+                    #{qun.nationalityId},
                 </if>
-                <if test="qun.organizationId">
-                    #{qun.organizationId}
+                <if test="qun.organizationId != null">
+                    #{qun.organizationId},
                 </if>
-                <if test="qun.ownerId">
-                    #{qun.ownerId}
+                <if test="qun.ownerId != null">
+                    #{qun.ownerId},
                 </if>
-                <if test="qun.categoryId">
-                    #{qun.categoryId}
+                <if test="qun.categoryId != null">
+                    #{qun.categoryId},
                 </if>
-                <if test="qun.remark">
-                    #{qun.remark}
+                <if test="qun.remark != null">
+                    #{qun.remark},
                 </if>
-                <if test="qun.status">
-                    #{qun.status}
+                <if test="qun.status != null">
+                    #{qun.status},
                 </if>
-                <if test="qun.createUserId">
-                    #{qun.createUserId}
+                <if test="qun.createUserId != null">
+                    #{qun.createUserId},
                 </if>
-                <if test="qun.gmtCreate">
-                    #{qun.gmtCreate}
+                <if test="qun.gmtCreate != null">
+                    #{qun.gmtCreate},
                 </if>
-                <if test="qun.gmtModified">
-                    #{qun.gmtModified}
+                <if test="qun.gmtModified != null">
+                    #{qun.gmtModified},
                 </if>
-                <if test="qun.modifiedUserId">
-                    #{qun.modifiedUserId}
+                <if test="qun.modifiedUserId != null">
+                    #{qun.modifiedUserId},
                 </if>
-                <if test="qun.createUserName">
-                    #{qun.createUserName}
+                <if test="qun.createUserName != null">
+                    #{qun.createUserName},
                 </if>
-                <if test="qun.modifiedUserName">
-                    #{qun.modifiedUserName}
+                <if test="qun.modifiedUserName != null">
+                    #{qun.modifiedUserName},
                 </if>
             </trim>
         </if>

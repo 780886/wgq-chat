@@ -1,7 +1,5 @@
 package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
 
-import com.sheep.protocol.LoginUser;
-import com.sheep.protocol.ThreadContext;
 import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.QunMemberBO;
@@ -24,13 +22,12 @@ public class QunMemberConverter {
         return qunMember;
     }
 
-    public QunMember convert2po(Long qunId) {
-        LoginUser loginUser = ThreadContext.getLoginToken();
+    public QunMember convert2po(Long qunId,Long memberId) {
         QunMember qunMember = new QunMember();
         qunMember.setQunId(qunId);
-        qunMember.setMemberId(loginUser.getUserId());
-        qunMember.setApplyTime(qunMember.getApplyTime());
-        qunMember.setAuditTime(System.currentTimeMillis());
+        qunMember.setMemberId(memberId);
+        qunMember.setApplyTime(System.currentTimeMillis());
+        qunMember.setAuditTime(qunMember.getApplyTime());
         return qunMember;
     }
 

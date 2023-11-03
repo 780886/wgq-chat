@@ -7,37 +7,37 @@
         <if test="qunMember != null">
             insert into qun_member
             <trim prefix="(" suffix=")" suffixOverrides=",">
-                <if test="qunMember.id">
+                <if test="qunMember.id != null">
                     id,
                 </if>
-                <if test="qunMember.qunId">
+                <if test="qunMember.qunId != null">
                     qun_id,
                 </if>
-                <if test="qunMember.memberId">
+                <if test="qunMember.memberId != null">
                     member_id,
                 </if>
-                <if test="qunMember.applyTime">
+                <if test="qunMember.applyTime != null">
                     apply_time,
                 </if>
-                <if test="qunMember.auditTime">
+                <if test="qunMember.auditTime != null">
                     audit_time,
                 </if>
             </trim>
             <trim prefix="values (" suffix=")" suffixOverrides=",">
-                <if test="qunMember.id">
-                    #{id},
+                <if test="qunMember.id != null">
+                    #{qunMember.id},
                 </if>
-                <if test="qunMember.qunId">
-                    #{qunId},
+                <if test="qunMember.qunId != null">
+                    #{qunMember.qunId},
                 </if>
-                <if test="qunMember.memberId">
-                    #{memberId},
+                <if test="qunMember.memberId != null">
+                    #{qunMember.memberId},
                 </if>
-                <if test="qunMember.applyTime">
-                    #{applyTime},
+                <if test="qunMember.applyTime != null">
+                    #{qunMember.applyTime},
                 </if>
-                <if test="qunMember.auditTime">
-                    #{auditTime},
+                <if test="qunMember.auditTime != null">
+                    #{qunMember.auditTime},
                 </if>
             </trim>
         </if>
@@ -70,6 +70,6 @@
         select * from qun_member where member_id = #{memberId}
     </select>
     <select id="getQunMembers" resultType="com.wgq.chat.contact.po.QunMember">
-        select * from qun_member where member_id = #{memberId}
+        select * from qun_member where qun_id = #{qunId}
     </select>
 </mapper>

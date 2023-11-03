@@ -20,15 +20,15 @@ public interface QunDao {
 
     void update(@Param("qun") Qun qun);
 
-    Qun getEntity(Long id);
+    Qun getEntity(@Param("id") Long id);
 
-    List<Qun> getQuns(Long categoryId);
+    List<Qun> getQuns(@Param("categoryId") Long categoryId);
 
-    void delete(Long roomId);
+    void delete(@Param("roomId") Long roomId);
 
-    Integer updateById(Qun qun);
+    Integer updateById(@Param("qun") Qun qun);
 
-    List<Qun> getQunsByIds(Collection<Long> qunIds);
+    List<Qun> getQunsByIds(@Param("qunIds") Collection<Long> qunIds);
 
     Qun getOwnerQun(@Param("ownerId") Long ownerId);
 

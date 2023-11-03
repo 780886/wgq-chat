@@ -5,9 +5,14 @@ import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
 import com.sheep.utils.StringUtils;
+import com.wgq.chat.api.ChatServiceApi;
 import com.wgq.chat.api.RoomServiceApi;
 import com.wgq.chat.contact.assemble.QunAssemble;
-import com.wgq.chat.contact.bo.*;
+import com.wgq.chat.contact.assemble.QunMemberAssembler;
+import com.wgq.chat.contact.bo.QunBO;
+import com.wgq.chat.contact.bo.QunDetailWrapBO;
+import com.wgq.chat.contact.bo.QunMemberBO;
+import com.wgq.chat.contact.bo.QunPlazaBO;
 import com.wgq.chat.contact.protocol.audit.JoinQunParam;
 import com.wgq.chat.contact.protocol.enums.Category;
 import com.wgq.chat.contact.protocol.enums.ContactError;
@@ -15,6 +20,7 @@ import com.wgq.chat.contact.protocol.qun.*;
 import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.contact.repository.QunMemberRepository;
 import com.wgq.chat.contact.repository.QunRepository;
+import com.wgq.chat.protocol.dto.MessageSendDTO;
 import com.wgq.chat.protocol.dto.RoomDTO;
 import com.wgq.chat.protocol.enums.BusinessCodeEnum;
 import com.wgq.passport.api.UserProfileAppService;
@@ -54,6 +60,12 @@ public class QunService {
     @Inject
     private AuditRepository auditRepository;
 
+    @Inject
+    private QunMemberAssembler qunMemberAssembler;
+
+    @Inject
+    private ChatServiceApi chatServiceApi;
+
     @Transactional(rollbackFor = Exception.class)
     public Long createQun(QunCreateParam qunCreateParam) throws BusinessException {
         Asserts.isTrue(StringUtils.isNullOrEmpty(qunCreateParam.getName()),ContactError.QUN_NAME_IS_EMPTY);
@@ -62,14 +74,16 @@ public class QunService {
 
         LoginUser loginUser = ThreadContext.getLoginToken();
         QunBO qunBO = this.qunRepository.getOwnerQun(loginUser.getUserId());
-        // TODO 每人只能创建一个群聊
-        Asserts.isTrue(Objects.nonNull(qunBO),null);
+        Asserts.isTrue(Objects.nonNull(qunBO), com.wgq.chat.contact.protocol.enums.BusinessCodeEnum.MY_QUN_IS_EXIST);
         //创建群聊房间
         Long roomId = this.roomServiceApi.createQunRoom(loginUser.getUserId());
         QunBO qunCreateBO = this.qunAssemble.assembleQunBO(roomId,qunCreateParam);
         Long qunId = this.qunRepository.createQun(qunCreateBO);
         //插入群主
-        this.qunMemberRepository.addQunMember(qunId);
+        this.qunMemberRepository.addQunMember(qunId,loginUser.getUserId());
+        //发送MQ给群主
+        MessageSendDTO messageSendDTO = this.qunMemberAssembler.assembleMessageSendDTO(roomId,qunCreateParam.getName());
+        this.chatServiceApi.sendMessage(messageSendDTO, loginUser.getUserId());
         return roomId;
     }
 

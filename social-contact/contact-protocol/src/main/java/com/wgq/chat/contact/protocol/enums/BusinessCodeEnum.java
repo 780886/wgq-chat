@@ -52,7 +52,8 @@ public enum BusinessCodeEnum implements ErrorSupport {
     EXIST_FRIEND_RELATIONSHIP(false, ContactModule.CONTACT,"1601", "你们已经是好友了!"),
     FRIEND_NOT_EXIST(false, ContactModule.CONTACT,"1602", "你们没有好友关系!"),
 
-    AUDIT_ID_IS_EMPTY(false, ContactModule.CONTACT,"1602", "请选择药同意的记录");
+    AUDIT_ID_IS_EMPTY(false, ContactModule.CONTACT,"1603", "请选择药同意的记录"),
+    MY_QUN_IS_EXIST(false, ContactModule.CONTACT,"1604", "每人只能创建一个群聊");
 
 
 

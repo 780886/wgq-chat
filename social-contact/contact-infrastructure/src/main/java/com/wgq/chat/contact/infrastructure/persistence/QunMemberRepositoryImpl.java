@@ -21,8 +21,8 @@ public class QunMemberRepositoryImpl implements QunMemberRepository {
     private QunMemberDao qunMemberDao;
 
     @Override
-    public void addQunMember(Long qunId) {
-        QunMember qunMember = this.qunMemberConverter.convert2po(qunId);
+    public void addQunMember(Long qunId,Long memberId) {
+        QunMember qunMember = this.qunMemberConverter.convert2po(qunId,memberId);
         this.qunMemberDao.insert(qunMember);
     }
 
@@ -38,8 +38,8 @@ public class QunMemberRepositoryImpl implements QunMemberRepository {
     }
 
     @Override
-    public List<QunMemberBO> getQunMembers(Long memberId) {
-        List<QunMember> qunMemberList = this.qunMemberDao.getQunMembers(memberId);
+    public List<QunMemberBO> getQunMembers(Long qunId) {
+        List<QunMember> qunMemberList = this.qunMemberDao.getQunMembers(qunId);
         return this.qunMemberConverter.convert2BOList(qunMemberList);
     }
 }

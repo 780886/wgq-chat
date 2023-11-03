@@ -13,6 +13,7 @@ import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @ClassName QunConverter
@@ -27,6 +28,7 @@ public class QunConverter {
     public Qun convert2po(QunBO qunCreateBO){
         LoginUser loginUser = ThreadContext.getLoginToken();
         Qun qun = new Qun();
+        qun.setRoomId(qunCreateBO.getRoomId());
         qun.setName(qunCreateBO.getName());
         qun.setAnnouncement(qunCreateBO.getAnnouncement());
         qun.setNationalityId(qunCreateBO.getNationalityId());
@@ -54,7 +56,9 @@ public class QunConverter {
     }
 
     public QunBO qun2QunBO(Qun qun) {
-        //TODO
+        if (Objects.isNull(qun)){
+            return null;
+        }
         QunBO qunBO = new QunBO();
         qunBO.setRoomId(qun.getRoomId());
         qunBO.setId(qun.getId());

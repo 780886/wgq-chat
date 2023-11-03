@@ -15,17 +15,17 @@ import java.util.Map;
  **/
 public interface QunMemberDao {
 
-    void remove(QunMember qunMember);
+    void remove(@Param("qunMember") QunMember qunMember);
 
-    Long insert(QunMember qunMember);
+    Long insert(@Param("qunMember") QunMember qunMember);
 
-    Long isMember(Long qunId, Long memberId);
+    Long isMember(@Param("qunId") Long qunId, @Param("memberId") Long memberId);
 
-    void removeMember(Long roomId, Long memberId);
+    void removeMember(@Param("roomId") Long roomId, @Param("memberId") Long memberId);
 
-    void delete(Long qunId);
+    void delete(@Param("qunId") Long qunId);
 
     Map<Long, Long> getQunsByMemberId(@Param("memberId") Long memberId);
 
-    List<QunMember> getQunMembers(Long memberId);
+    List<QunMember> getQunMembers(@Param("qunId") Long qunId);
 }

@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface QunMemberRepository {
 
-    void addQunMember(Long qunId);
+    void addQunMember(Long qunId,Long memberId);
 
     void addQunMember(AuditBO auditBO);
 
     void dissolve(Long qunId);
 
-    List<QunMemberBO> getQunMembers(Long memberId);
+    List<QunMemberBO> getQunMembers(Long qunId);
 }
