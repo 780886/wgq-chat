@@ -19,7 +19,8 @@ public enum BusinessCodeEnum implements ErrorSupport {
     REPLY_MESSAGE_NOT_EXIST(false, ImModule.MESSAGE,"03", "回复消息不存在!"),
     ROOM_NOT_MATCH(false, ImModule.ROOM,"02", "只能回复相同会话内的消息!"),
     ROOM_ID_IS_EMPTY(false, ImModule.ROOM,"03", "房间号不能为空!"),
-    ROOM_NOT_FOUND(false, ImModule.ROOM,"03", "房间号有误!");
+    ROOM_NOT_FOUND(false, ImModule.ROOM,"03", "房间号有误!"),
+    ROOM_OWNER_ID_IS_EMPTY(false, ImModule.ROOM,"03", "群主号有误");
 
 
     private boolean system;

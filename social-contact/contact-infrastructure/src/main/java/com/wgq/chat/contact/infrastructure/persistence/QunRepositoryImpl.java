@@ -94,7 +94,7 @@ public class QunRepositoryImpl implements QunRepository {
 
     @Override
     public List<QunBO> queryQunPlaza() {
-        List<Qun> quns = this.qunDao.findEnabledQunList();
+        List<Qun> quns = this.qunDao.getQunsByStatus(StatusRecord.ENABLE);
         return this.qunConverter.poList2BoList(quns);
     }
 
@@ -105,7 +105,7 @@ public class QunRepositoryImpl implements QunRepository {
         if (myQunIds == null || myQunIds.isEmpty()) {
             return null;
         }
-        List<Qun> myQuns = this.qunDao.getQuns(myQunIds.values());
+        List<Qun> myQuns = this.qunDao.getQunsByIds(myQunIds.values());
         return this.qunConverter.poList2BoList(myQuns);
     }
 

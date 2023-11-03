@@ -52,4 +52,5 @@ public class RoomRpcServiceApi implements RoomServiceApi {
     public void dissolve(Long roomId) throws BusinessException {
         this.roomService.dissolve(roomId);
     }
+
 }

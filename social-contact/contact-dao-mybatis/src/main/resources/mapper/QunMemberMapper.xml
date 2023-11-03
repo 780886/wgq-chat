@@ -4,7 +4,43 @@
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.contact.dao.QunMemberDao">
     <insert id="insert">
-
+        <if test="qunMember != null">
+            insert into qun_member
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="qunMember.id">
+                    id,
+                </if>
+                <if test="qunMember.qunId">
+                    qun_id,
+                </if>
+                <if test="qunMember.memberId">
+                    member_id,
+                </if>
+                <if test="qunMember.applyTime">
+                    apply_time,
+                </if>
+                <if test="qunMember.auditTime">
+                    audit_time,
+                </if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="qunMember.id">
+                    #{id},
+                </if>
+                <if test="qunMember.qunId">
+                    #{qunId},
+                </if>
+                <if test="qunMember.memberId">
+                    #{memberId},
+                </if>
+                <if test="qunMember.applyTime">
+                    #{applyTime},
+                </if>
+                <if test="qunMember.auditTime">
+                    #{auditTime},
+                </if>
+            </trim>
+        </if>
     </insert>
 
 
@@ -20,21 +56,20 @@
         </trim>
     </delete>
     <delete id="removeMember">
-
+        delete from qun_member where room_id = #{roomId} and member_id = #{memberId}
     </delete>
 
-
     <delete id="delete">
-
+        delete from qun_member where qun_id = #{qunId}
     </delete>
 
     <select id="isMember" resultType="java.lang.Long">
-
+        select * from qun_member where qun_id = #{qunId} and member_id = #{memberId}
     </select>
     <select id="getQunsByMemberId" resultType="java.util.Map">
-            select * from qun_member where member_id = #{memberId}
+        select * from qun_member where member_id = #{memberId}
     </select>
     <select id="getQunMembers" resultType="com.wgq.chat.contact.po.QunMember">
-
+        select * from qun_member where member_id = #{memberId}
     </select>
 </mapper>

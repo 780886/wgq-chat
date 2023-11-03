@@ -83,4 +83,6 @@ public class RoomService {
         Asserts.isTrue(Objects.isNull(roomId),BusinessCodeEnum.ROOM_ID_IS_EMPTY);
         this.roomRepository.dissolve(roomId);
     }
+
+
 }

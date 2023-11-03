@@ -189,8 +189,8 @@ public class AuditService {
     }
 
     public void joinQun(JoinQunParam joinQunParam) throws BusinessException {
-        Asserts.isTrue(null == joinQunParam.getQunId(), ContactError.QUN_ID_IS_EMPTY);
-        QunBO qunBO = this.qunRepository.qunDetail(joinQunParam.getQunId());
+        Asserts.isTrue(null == joinQunParam.getRoomId(), com.wgq.chat.protocol.enums.BusinessCodeEnum.ROOM_ID_IS_EMPTY);
+        QunBO qunBO = this.qunRepository.qunDetailByRoomId(joinQunParam.getRoomId());
         Asserts.isTrue(Objects.isNull(qunBO) || StatusRecord.DISABLE.equals(qunBO.getStatus()), ContactError.QUN_NOT_FOUND);
         this.auditRepository.joinQun(joinQunParam);
     }
@@ -207,7 +207,19 @@ public class AuditService {
         this.auditQunApply(qunAuditParam);
     }
 
-    public void getApplyDetail(Long roomId) {
-
+    public AuditWrapBO getMyQunApplyList() throws BusinessException {
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        Long currentUserId = loginUser.getUserId();
+        //获取房间
+        QunBO ownerQun = this.qunRepository.getOwnerQun(currentUserId);
+        //获取审核记录
+        List<AuditBO> qunAuditBOList = this.auditRepository.getMyQunApplyList(ownerQun.getRoomId());
+        Set<Long> fetchUserIds = this.fetchUserId(qunAuditBOList);
+        Map<Long, UserProfileDTO> userProfiles = this.userProfileAppService.getUserMap(fetchUserIds);
+        //将这些审核记录设为已读
+        Set<Long> fetchAuditIds = this.fetchAuditIds(qunAuditBOList);
+        //TODO 后期根据权限看谁可以审核
+        this.auditRepository.readAudits(fetchAuditIds);
+        return new AuditWrapBO(qunAuditBOList,userProfiles);
     }
 }

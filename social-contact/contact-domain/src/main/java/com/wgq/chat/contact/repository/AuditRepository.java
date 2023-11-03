@@ -31,4 +31,8 @@ public interface AuditRepository {
     Integer applyUnread(Long userId);
 
     Integer getUnReadCount(Long friendId);
+
+    List<AuditBO> getMyQunApplyList(Long roomId);
+
+    void readAudits(Set<Long> fetchAuditIds);
 }

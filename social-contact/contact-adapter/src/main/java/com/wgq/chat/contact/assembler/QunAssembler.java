@@ -2,25 +2,20 @@ package com.wgq.chat.contact.assembler;
 
 import com.sheep.exception.Asserts;
 import com.sheep.protocol.BusinessException;
+import com.sheep.protocol.enums.StatusRecord;
 import com.sheep.utils.BeanUtils;
-import com.wgq.chat.contact.bo.QunBO;
-import com.wgq.chat.contact.bo.QunDetailWrapBO;
-import com.wgq.chat.contact.bo.QunPlazaBO;
+import com.sheep.utils.EnumUtils;
+import com.wgq.chat.contact.bo.*;
 import com.wgq.chat.contact.protocol.enums.Category;
 import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.protocol.enums.Nationality;
-import com.wgq.chat.contact.vo.CategoryVO;
-import com.wgq.chat.contact.vo.QunPlazaVO;
-import com.wgq.chat.contact.vo.QunVO;
+import com.wgq.chat.contact.vo.*;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName QunAssermbler
@@ -91,4 +86,29 @@ public class QunAssembler {
         return categoryVO;
     }
 
+    public QunAuditWrapVO toQunApplyVoList(AuditWrapBO qunAuditWrapBO) {
+        List<AuditBO> auditBOS = qunAuditWrapBO.getAuditList();
+        Map<Long, UserProfileDTO> userDictionaries = qunAuditWrapBO.getUserMap();
+        List<QunAuditVO> qunApplyList = new ArrayList<>();
+        for (AuditBO audit : auditBOS) {
+            QunAuditVO qunAuditVO = new QunAuditVO();
+            qunAuditVO.setId(audit.getId());
+            qunAuditVO.setAuditStatus(audit.getAuditStatus());
+            UserProfileDTO applyUser = userDictionaries.get(audit.getApplyUserId());
+            if (Objects.nonNull(applyUser)){
+                qunAuditVO.setAvatar(applyUser.getAvatar());
+                qunAuditVO.setNickName(applyUser.getNickName());
+            }
+            qunApplyList.add(qunAuditVO);
+        }
+
+        /**
+         * 1.枚举变的时候，这部分的逻辑不需要改
+         * 2.枚举国际化自动支持
+         * 3.支持任务枚举的map字典
+         * TODO StatusRecord可能需要拆分
+         */
+        Map<String, String> auditStatusDict = EnumUtils.getOrdinalValueMap(StatusRecord.class);
+        return new QunAuditWrapVO(auditStatusDict, qunApplyList);
+    }
 }

@@ -108,5 +108,17 @@ public class AuditRepositoryImpl  implements AuditRepository {
         return this.applyUnread(friendId);
     }
 
+    @Override
+    public List<AuditBO> getMyQunApplyList(Long roomId) {
+        List<Audit> audits = this.auditDao.getAuditByBusinessId(roomId);
+        return this.auditConverter.auditList2AuditBOList(audits);
+    }
+
+    @Override
+    public void readAudits(Set<Long> fetchAuditIds) {
+        //目前群的审核用户id为0L
+        this.readAudits(0L,fetchAuditIds);
+    }
+
 
 }

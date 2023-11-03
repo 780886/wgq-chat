@@ -12,7 +12,6 @@ import com.wgq.chat.contact.protocol.enums.AuditBusiness;
  **/
 public class AuditBO {
 
-    private AuditBusiness auditBusiness;
 
     /**
      * 申请用户id
@@ -32,6 +31,8 @@ public class AuditBO {
      * 审核人ID
      */
     private Long auditUserId;
+
+    private AuditBusiness auditBusiness;
 
     /**
      * 审核时间

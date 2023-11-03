@@ -28,7 +28,7 @@ public class ContactAssembler {
     public FriendAuditWrapVo toUserFriendApplyVoList(AuditWrapBO friendAuditWrap) {
         List<AuditBO> auditBOS = friendAuditWrap.getAuditList();
         List<FriendAuditVO> userFriendApplyList = new ArrayList<>();
-        Map<Long, UserProfileDTO> userDictionaries = friendAuditWrap.getFriendMap();
+        Map<Long, UserProfileDTO> userDictionaries = friendAuditWrap.getUserMap();
         for (AuditBO audit : auditBOS) {
             FriendAuditVO friendAuditVO = new FriendAuditVO();
             friendAuditVO.setId(audit.getId());
