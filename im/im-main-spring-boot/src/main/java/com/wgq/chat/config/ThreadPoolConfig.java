@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Description: 线程池配置
- * Author: <a href="https://github.com/zongzibinbin">abin</a>
+ * Author: wgq
  * Date: 2023-04-09
  */
 @Configuration
