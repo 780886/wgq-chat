@@ -1,8 +1,8 @@
 package com.wgq.chat.contact.assemble;
 
 import com.wgq.chat.protocol.dto.MessageSendDTO;
-import com.wgq.chat.protocol.dto.TextMessageDTO;
 import com.wgq.chat.protocol.enums.MessageTypeEnum;
+import com.wgq.chat.protocol.param.MessageSendParam;
 
 import javax.inject.Named;
 
@@ -16,13 +16,11 @@ import javax.inject.Named;
 @Named
 public class QunMemberAssembler {
 
-    public MessageSendDTO assembleMessageSendDTO(Long roomId, String qunName) {
-        MessageSendDTO messageSendDTO = new MessageSendDTO();
-        messageSendDTO.setRoomId(roomId);
-        messageSendDTO.setMessageType(MessageTypeEnum.TEXT.getType());
-        TextMessageDTO textMessageDTO = new TextMessageDTO();
-        textMessageDTO.setContent("您以进去"+qunName+"群");
-        messageSendDTO.setBody(textMessageDTO);
-        return messageSendDTO;
+    public MessageSendParam assembleMessageSendParam(Long roomId, String qunName) {
+        MessageSendParam messageSendParam = new MessageSendParam();
+        messageSendParam.setRoomId(roomId);
+        messageSendParam.setMessageType(MessageTypeEnum.SYSTEM.getType());
+        messageSendParam.setBody("创建" + qunName + "成功");
+        return messageSendParam;
     }
 }

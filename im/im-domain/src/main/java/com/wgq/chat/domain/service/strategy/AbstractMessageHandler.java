@@ -8,6 +8,7 @@ import com.wgq.chat.bo.MessageBO;
 import com.wgq.chat.protocol.enums.MessageTypeEnum;
 import com.wgq.chat.protocol.param.MessageSendParam;
 import com.wgq.chat.repository.MessageRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -45,8 +46,11 @@ public abstract class AbstractMessageHandler<T> {
     /**
      * 校验消息——保存前校验
      */
-    public abstract void checkMessage(T body,Long roomId, Long uid) throws BusinessException;
+    protected void checkMessage(T body,Long roomId, Long uid) throws BusinessException{
 
+    }
+
+    @Transactional
     public Long checkAndSaveMessage(MessageSendParam messageSendParam, Long userId) throws BusinessException {
         T body =  this.toBean(messageSendParam.getBody());
         //统一校验
@@ -74,7 +78,7 @@ public abstract class AbstractMessageHandler<T> {
     /**
      * 保存消息
      */
-    public abstract void saveMessage(MessageBO messageBO, T body) throws BusinessException;
+    protected abstract void saveMessage(MessageBO messageBO, T body) throws BusinessException;
 
     /**
      * 展示消息

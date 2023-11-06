@@ -36,11 +36,6 @@ public class RecallMessageHandler extends AbstractMessageHandler<Object>{
     }
 
     @Override
-    public void checkMessage(Object body, Long roomId, Long uid) throws BusinessException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void saveMessage(MessageBO messageBO, Object obj) throws BusinessException {
         throw new UnsupportedOperationException();
     }

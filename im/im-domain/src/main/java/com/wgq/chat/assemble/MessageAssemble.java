@@ -33,4 +33,11 @@ public class MessageAssemble {
         updateMessageBO.setContent(textMessageDTO.getContent());
         return updateMessageBO;
     }
+
+    public MessageBO assembleMessageBO(MessageBO messageBO, String body) {
+        MessageBO updateMessageBO = new MessageBO();
+        updateMessageBO.setId(messageBO.getId());
+        messageBO.setContent(body);
+        return updateMessageBO;
+    }
 }

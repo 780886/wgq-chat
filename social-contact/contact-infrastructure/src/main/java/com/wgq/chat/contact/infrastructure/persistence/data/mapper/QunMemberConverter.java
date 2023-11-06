@@ -17,7 +17,7 @@ public class QunMemberConverter {
         QunMember qunMember = new QunMember();
         qunMember.setQunId(auditBo.getBusinessId());
         qunMember.setMemberId(auditBo.getApplyUserId());
-        qunMember.setAuditTime(System.currentTimeMillis());
+        qunMember.setAuditTime(auditBo.getAuditTime());
         qunMember.setApplyTime(auditBo.getApplyTime());
         return qunMember;
     }

@@ -182,6 +182,6 @@
 
     </select>
     <select id="getAuditByBusinessId" resultType="com.wgq.chat.contact.po.Audit">
-
+        select * from audit where business_id = #{businessId}
     </select>
 </mapper>

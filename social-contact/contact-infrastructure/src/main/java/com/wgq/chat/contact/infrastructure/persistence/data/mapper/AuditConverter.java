@@ -102,7 +102,8 @@ public class AuditConverter {
         audit.setApplyReason(auditBO.getApplyReason());
         audit.setAuditReason(qunAuditParam.getReason());
         audit.setStatus(qunAuditParam.getAgree() ? StatusRecord.ENABLE : StatusRecord.DISABLE);
-        audit.setAuditTime(System.currentTimeMillis());
+        auditBO.setAuditTime(System.currentTimeMillis());
+        audit.setAuditTime(auditBO.getAuditTime());
         audit.setBusinessType(AuditBusiness.GROUP.getBusiness());
         audit.setApplyTime(auditBO.getApplyTime());
         return audit;

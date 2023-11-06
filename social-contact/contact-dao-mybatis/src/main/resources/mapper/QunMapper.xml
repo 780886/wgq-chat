@@ -4,6 +4,25 @@
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.contact.dao.QunDao">
 
+    <resultMap id="qunMap" type="com.wgq.chat.contact.po.Qun">
+        <result column="id" property="id"/>
+        <result column="room_id" property="roomId"/>
+        <result column="name" property="name"/>
+        <result column="announcement" property="announcement"/>
+        <result column="nationality_id" property="nationalityId"/>
+        <result column="organization_id" property="organizationId"/>
+        <result column="owner_id" property="ownerId"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="remark" property="remark"/>
+        <result column="status" property="status"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="gmt_create" property="gmtCreate"/>
+        <result column="modified_user_id" property="modifiedUserId"/>
+        <result column="gmt_modified" property="gmtModified"/>
+        <result column="create_user_name" property="createUserName"/>
+        <result column="modified_user_name" property="modifiedUserName"/>
+    </resultMap>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         <if test="qun != null">
             insert into qun
@@ -207,26 +226,26 @@
     <delete id="delete">
         delete from qun where room_id = #{roomId}
     </delete>
-    <select id="getEntity" resultType="com.wgq.chat.contact.po.Qun">
+    <select id="getEntity" resultMap="qunMap">
         select * from qun where id = #{id}
     </select>
-    <select id="getQuns" resultType="com.wgq.chat.contact.po.Qun">
+    <select id="getQuns" resultMap="qunMap">
         select * from qun where category_id = #{categoryId}
     </select>
 
-    <select id="getOwnerQun" resultType="com.wgq.chat.contact.po.Qun">
+    <select id="getOwnerQun" resultMap="qunMap">
         select * from qun where owner_id = #{ownerId}
     </select>
-    <select id="qunDetailByRoomId" resultType="com.wgq.chat.contact.po.Qun">
+    <select id="qunDetailByRoomId" resultMap="qunMap">
         select * from qun where room_id = #{roomId}
     </select>
-    <select id="getQunsByIds" resultType="com.wgq.chat.contact.po.Qun">
+    <select id="getQunsByIds" resultMap="qunMap">
         select * from qun where id in
         <foreach collection="ids" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
     </select>
-    <select id="getQunsByStatus" resultType="com.wgq.chat.contact.po.Qun">
+    <select id="getQunsByStatus" resultMap="qunMap">
         select * from qun where status = #{status}
     </select>
 

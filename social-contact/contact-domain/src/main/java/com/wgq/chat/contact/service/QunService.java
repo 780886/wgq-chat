@@ -20,9 +20,9 @@ import com.wgq.chat.contact.protocol.qun.*;
 import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.contact.repository.QunMemberRepository;
 import com.wgq.chat.contact.repository.QunRepository;
-import com.wgq.chat.protocol.dto.MessageSendDTO;
 import com.wgq.chat.protocol.dto.RoomDTO;
 import com.wgq.chat.protocol.enums.BusinessCodeEnum;
+import com.wgq.chat.protocol.param.MessageSendParam;
 import com.wgq.passport.api.UserProfileAppService;
 import com.wgq.passport.protocol.dto.UserProfileDTO;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,8 +82,8 @@ public class QunService {
         //插入群主
         this.qunMemberRepository.addQunMember(qunId,loginUser.getUserId());
         //发送MQ给群主
-        MessageSendDTO messageSendDTO = this.qunMemberAssembler.assembleMessageSendDTO(roomId,qunCreateParam.getName());
-        this.chatServiceApi.sendMessage(messageSendDTO, loginUser.getUserId());
+        MessageSendParam messageSendParam = this.qunMemberAssembler.assembleMessageSendParam(roomId,qunCreateParam.getName());
+        this.chatServiceApi.sendMessage(messageSendParam, loginUser.getUserId());
         return roomId;
     }
 
@@ -148,7 +148,6 @@ public class QunService {
         LoginUser loginUser = ThreadContext.getLoginToken();
         //TODO 目前只有群主才可以邀请好友
         Asserts.isTrue(!Objects.equals(existQun.getOwnerId(),loginUser.getUserId()), ContactError.QUN_OWNER_IS_NOT_MATCH);
-        //获取好友的用户信息
         UserProfileDTO newMember = this.userProfileAppService.getUser(inviteFriendParam.getFriendId());
         Asserts.isTrue(Objects.isNull(newMember), ContactError.USER_IDENTIFY_INFO_EMPTY);
         //只能拉一个人 是否已经是群成员
@@ -165,7 +164,6 @@ public class QunService {
         QunBO existQun = this.qunRepository.qunDetailByRoomId(removeMemberOfQunParam.getRoomId());
         Asserts.isTrue(Objects.isNull(existQun), ContactError.QUN_NOT_FOUND);
         LoginUser loginUser = ThreadContext.getLoginToken();
-        //只有群主才有权限
         Asserts.isTrue(!Objects.equals(existQun.getOwnerId(),loginUser.getUserId()), ContactError.QUN_OWNER_IS_NOT_MATCH);
         this.qunRepository.removeMember(removeMemberOfQunParam);
         //todo 发消息给群主
@@ -178,7 +176,6 @@ public class QunService {
         LoginUser loginUser = ThreadContext.getLoginToken();
         Asserts.isTrue(!Objects.equals(existQun.getOwnerId(),loginUser.getUserId()), ContactError.QUN_OWNER_IS_NOT_MATCH);
         List<QunMemberBO> qunMemberBOList = this.qunMemberRepository.getQunMembers(existQun.getId());
-        //先删除房间
         this.roomServiceApi.dissolve(roomId);
         this.qunRepository.dissolve(roomId);
         this.qunMemberRepository.dissolve(existQun.getId());

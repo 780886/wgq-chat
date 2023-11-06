@@ -40,7 +40,7 @@ public class AuditController {
     }
 
     @ApiOperation("获取群申请列表")
-    @PostMapping("get-qun-apply-List")
+    @GetMapping("get-qun-apply-List")
     public QunAuditWrapVO getApplyDetail() throws BusinessException {
         AuditWrapBO auditWrapBO = this.auditService.getMyQunApplyList();
         return this.qunAssembler.toQunApplyVoList(auditWrapBO);

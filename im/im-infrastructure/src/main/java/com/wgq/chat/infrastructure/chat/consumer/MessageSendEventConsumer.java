@@ -72,7 +72,7 @@ public class MessageSendEventConsumer implements RocketMQListener<MessageSendEve
         }
 
         if (RoomTypeEnum.GROUP.getType().equals(roomBO.getType())){
-            //TODO 推送所有人
+            //TODO 推送所有在线的人
             List<QunMemberDTO> memberList = this.qunMemberServiceApi.getQunMembersByQunId(roomBO.getId());
             List<Long> memberIds = fetchMemberId(memberList);
             this.imMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.MESSAGE.getType(),messageBO),memberIds);
