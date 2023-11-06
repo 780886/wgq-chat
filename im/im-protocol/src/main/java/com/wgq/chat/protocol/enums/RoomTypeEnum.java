@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 /**
  * Description: 消息状态
- * Author: <a href="https://github.com/zongzibinbin">abin</a>
+ * Author: wgq
  * Date: 2023-03-19
  */
 public enum RoomTypeEnum {

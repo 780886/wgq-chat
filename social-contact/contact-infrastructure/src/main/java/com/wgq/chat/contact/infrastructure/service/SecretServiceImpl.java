@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 
 import javax.inject.Named;
+import java.util.Objects;
 
 @Named
 public class SecretServiceImpl implements SecretService {
@@ -30,8 +31,8 @@ public class SecretServiceImpl implements SecretService {
 
     @Override
     public String encryptUserIdentify(UserProfileDTO userDto) throws BusinessException {
-        Asserts.isTrue(userDto == null, ContactError.USER_IDENTIFY_INFO_EMPTY);
-        Asserts.isTrue(StringUtils.isNullOrEmpty(userDto.getUserId()),ContactError.USER_IDENTIFY_INFO_ID_IS_EMPTY);
+        Asserts.isTrue(Objects.isNull(userDto), ContactError.USER_IDENTIFY_INFO_EMPTY);
+        Asserts.isTrue(Objects.isNull(userDto.getUserId()),ContactError.USER_IDENTIFY_INFO_ID_IS_EMPTY);
         return ThreeDES.getInstance().encryptHex(this.getSecretKey(),userDto.getUserId().toString());
     }
 

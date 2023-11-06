@@ -2,7 +2,7 @@ package com.wgq.chat.protocol.dto;
 
 /**
  * Description: 记录和前端连接的一些映射信息
- * Author: <a href="https://github.com/zongzibinbin">abin</a>
+ * Author: wgq
  * Date: 2023-03-21
  */
 

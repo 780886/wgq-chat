@@ -4,7 +4,7 @@ import com.sheep.protocol.DTO;
 
 /**
  * Description:
- * Author: <a href="https://github.com/zongzibinbin">abin</a>
+ * Author: wgq
  * Date: 2023-03-19
  */
 
