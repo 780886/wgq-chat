@@ -1,6 +1,7 @@
 package com.wgq.chat.contact.assemble;
 
 import com.sheep.protocol.LoginUser;
+import com.sheep.protocol.ThreadContext;
 import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
 import com.wgq.chat.protocol.enums.MessageTypeEnum;
@@ -34,6 +35,23 @@ public class QunAssemble {
         messageSendParam.setRoomId(roomId);
         messageSendParam.setMessageType(MessageTypeEnum.SYSTEM.getType());
         messageSendParam.setBody(loginUser.getUserName()+"退出群聊!");
+        return messageSendParam;
+    }
+
+    public MessageSendParam assembleInviteFriendMessageSendParam(Long roomId, QunBO existQun) {
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        MessageSendParam messageSendParam = new MessageSendParam();
+        messageSendParam.setRoomId(roomId);
+        messageSendParam.setMessageType(MessageTypeEnum.SYSTEM.getType());
+        messageSendParam.setBody(loginUser.getUserName()+"邀请您加入群聊:"+existQun.getName()+"!");
+        return messageSendParam;
+    }
+
+    public MessageSendParam assembleDissolveMessageSendParam(Long roomId,QunBO existQun) {
+        MessageSendParam messageSendParam = new MessageSendParam();
+        messageSendParam.setRoomId(roomId);
+        messageSendParam.setMessageType(MessageTypeEnum.SYSTEM.getType());
+        messageSendParam.setBody(existQun.getName()+"群聊已解散!");
         return messageSendParam;
     }
 }

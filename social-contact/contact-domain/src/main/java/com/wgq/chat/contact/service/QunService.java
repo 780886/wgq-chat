@@ -22,9 +22,7 @@ import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.contact.repository.QunMemberRepository;
 import com.wgq.chat.contact.repository.QunRepository;
 import com.wgq.chat.protocol.constant.MQConstant;
-import com.wgq.chat.protocol.dto.PushBashDTO;
-import com.wgq.chat.protocol.dto.RoomDTO;
-import com.wgq.chat.protocol.dto.WebsocketExistQunDTO;
+import com.wgq.chat.protocol.dto.*;
 import com.wgq.chat.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.protocol.enums.WebsocketResponseTypeEnum;
 import com.wgq.chat.protocol.param.MessageSendParam;
@@ -144,13 +142,15 @@ public class QunService {
         RemoveMemberOfQunParam removeMemberOfQunParam = new RemoveMemberOfQunParam(existQun.getRoomId(), loginUser.getUserId());
         this.qunRepository.removeMember(removeMemberOfQunParam);
         //todo 通知群主和当前用户
-        MessageSendParam messageSendParam = this.qunAssemble.assembleMessageSendParam(roomId,loginUser);
-        Set<Long> ids = this.fetchIds(existQun,loginUser);
-        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.EXIST_QUN.getType(),new WebsocketExistQunDTO(ids)),ids);
+        Set<Long> userIds = this.fetchIds(existQun,loginUser);
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.EXIST_QUN.getType(),new WebsocketExistQunDTO(userIds)),userIds);
     }
 
     private Set<Long> fetchIds(QunBO existQun, LoginUser loginUser) {
-        HashSet<Long> set = new HashSet<>();
+        HashSet<Long> userIds = new HashSet<>();
+        userIds.add(existQun.getOwnerId());
+        userIds.add(loginUser.getUserId());
+        return userIds;
     }
 
     public Long inviteFriend(InviteFriendParam inviteFriendParam) throws BusinessException {
@@ -170,6 +170,9 @@ public class QunService {
         JoinQunParam joinQunParam = new JoinQunParam(existQun.getId(), loginUser.getUserName() + "邀请");
         Long auditId = this.auditRepository.joinQun(joinQunParam);
         //TODO 发送消息给好友
+        MessageSendParam messageSendParam = this.qunAssemble.assembleInviteFriendMessageSendParam(inviteFriendParam.getRoomId(),existQun);
+        // TODO 应该是系统消息
+        this.chatServiceApi.sendMessage(messageSendParam,loginUser.getUserId());
         return auditId;
 
     }
@@ -181,6 +184,8 @@ public class QunService {
         Asserts.isTrue(!Objects.equals(existQun.getOwnerId(),loginUser.getUserId()), ContactError.QUN_OWNER_IS_NOT_MATCH);
         this.qunRepository.removeMember(removeMemberOfQunParam);
         //todo 发消息给群主和群成员
+        Set<Long> userIds = this.fetchIds(existQun,loginUser);
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.EXIST_QUN.getType(),new WebsocketExistQunDTO(userIds)),userIds);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -193,10 +198,11 @@ public class QunService {
         this.roomServiceApi.dissolve(roomId);
         this.qunRepository.dissolve(roomId);
         this.qunMemberRepository.dissolve(existQun.getId());
-        //todo 推消息给群所有成员
         Set<Long> memberIds = this.fetchMemberIds(qunMemberBOList);
+        //todo 推消息给群所有成员
+        MessageSendParam messageSendParam = this.qunAssemble.assembleDissolveMessageSendParam(roomId,existQun);
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.DISSOLVE.getType(),new WebsocketDissolveQunDTO(messageSendParam)),memberIds);
     }
-
 
     private Set<Long> fetchMemberIds(List<QunMemberBO> memberBOList) {
         return memberBOList.stream().map(QunMemberBO::getMemberId).collect(Collectors.toSet());
@@ -214,6 +220,7 @@ public class QunService {
         Asserts.isTrue(!isMember, ContactError.USER_IS_NOT_MEMBER);
         this.qunRepository.transfer(existQun, transferOwnerOfQun.getNewOwnerId());
         //todo 推消息 给新群主
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.TRANSFER.getType(),new WebsocketTransferQunDTO(transferOwnerOfQun.getNewOwnerId())),transferOwnerOfQun.getNewOwnerId());
 
     }
 
