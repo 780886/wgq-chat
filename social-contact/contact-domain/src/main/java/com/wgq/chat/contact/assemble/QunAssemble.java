@@ -1,7 +1,10 @@
 package com.wgq.chat.contact.assemble;
 
+import com.sheep.protocol.LoginUser;
 import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
+import com.wgq.chat.protocol.enums.MessageTypeEnum;
+import com.wgq.chat.protocol.param.MessageSendParam;
 
 import javax.inject.Named;
 
@@ -24,5 +27,13 @@ public class QunAssemble {
         qunBO.setNationalityId(qunCreateParam.getNationalityId());
         qunBO.setOrganizationId(qunCreateParam.getOrganizationId());
         return qunBO;
+    }
+
+    public MessageSendParam assembleMessageSendParam(Long roomId, LoginUser loginUser) {
+        MessageSendParam messageSendParam = new MessageSendParam();
+        messageSendParam.setRoomId(roomId);
+        messageSendParam.setMessageType(MessageTypeEnum.SYSTEM.getType());
+        messageSendParam.setBody(loginUser.getUserName()+"退出群聊!");
+        return messageSendParam;
     }
 }

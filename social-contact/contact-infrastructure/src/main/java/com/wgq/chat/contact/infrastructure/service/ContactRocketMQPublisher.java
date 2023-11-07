@@ -8,7 +8,7 @@ import com.wgq.chat.protocol.event.PushMessageEvent;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.List;
+import java.util.Set;
 
 /**
  * @ClassName ContactRocketMQPublisher
@@ -23,7 +23,7 @@ public class ContactRocketMQPublisher implements ContactMQPublisher {
     @Inject
     private MQPublisher mqPublisher;
 
-    public void publish(String topic, PushBashDTO<?> message, List<Long> userList) {
+    public void publish(String topic, PushBashDTO<?> message, Set<Long> userList) {
         userList.parallelStream().forEach(userId -> {
             this.mqPublisher.publish(topic, new PushMessageEvent(userId, message));
         });

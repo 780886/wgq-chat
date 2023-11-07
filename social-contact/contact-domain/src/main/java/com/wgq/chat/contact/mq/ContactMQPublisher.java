@@ -3,7 +3,7 @@ package com.wgq.chat.contact.mq;
 import com.sheep.mq.MQEvent;
 import com.wgq.chat.protocol.dto.PushBashDTO;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * @ClassName ContactMQPublisher
@@ -14,7 +14,7 @@ import java.util.List;
  **/
 public interface ContactMQPublisher {
 
-    void publish(String topic, PushBashDTO<?> message, List<Long> userList);
+    void publish(String topic, PushBashDTO<?> message, Set<Long> userList);
 
     void publish(String topic, PushBashDTO<?> message, Long userId);
 

@@ -23,6 +23,7 @@ public enum WebsocketResponseTypeEnum {
     APPLY(10, "好友申请", null),
 //    MEMBER_CHANGE(11, "成员变动", WSMemberChange.class),
     JOIN_QUN(12, "加群", null),
+    EXIST_QUN(13,"退群",null)
     ;
     private final Integer type;
     private final String desc;
