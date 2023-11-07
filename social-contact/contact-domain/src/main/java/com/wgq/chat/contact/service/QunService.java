@@ -84,11 +84,10 @@ public class QunService {
         Long roomId = this.roomServiceApi.createQunRoom(loginUser.getUserId());
         QunBO qunCreateBO = this.qunAssemble.assembleQunBO(roomId,qunCreateParam);
         Long qunId = this.qunRepository.createQun(qunCreateBO);
-        //插入群主
         this.qunMemberRepository.addQunMember(qunId,loginUser.getUserId());
-        //发送MQ给群主
+        //推送MQ给群主
         MessageSendParam messageSendParam = this.qunMemberAssembler.assembleMessageSendParam(roomId,qunCreateParam.getName());
-        this.chatServiceApi.sendMessage(messageSendParam, loginUser.getUserId());
+        this.chatServiceApi.sendMessage(messageSendParam);
         return roomId;
     }
 
@@ -142,14 +141,12 @@ public class QunService {
         RemoveMemberOfQunParam removeMemberOfQunParam = new RemoveMemberOfQunParam(existQun.getRoomId(), loginUser.getUserId());
         this.qunRepository.removeMember(removeMemberOfQunParam);
         //todo 通知群主和当前用户
-        Set<Long> userIds = this.fetchIds(existQun,loginUser);
+        Set<Long> userIds = this.fetchIds(existQun.getOwnerId(),loginUser.getUserId());
         this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.EXIST_QUN.getType(),new WebsocketExistQunDTO(userIds)),userIds);
     }
 
-    private Set<Long> fetchIds(QunBO existQun, LoginUser loginUser) {
-        HashSet<Long> userIds = new HashSet<>();
-        userIds.add(existQun.getOwnerId());
-        userIds.add(loginUser.getUserId());
+    private Set<Long> fetchIds(Long...userId) {
+        Set<Long> userIds = new HashSet<>(Arrays.asList(userId));
         return userIds;
     }
 
@@ -167,11 +164,12 @@ public class QunService {
         //只能拉一个人 是否已经是群成员
         Boolean isMember = this.qunRepository.isMember(existQun.getId(), inviteFriendParam.getFriendId());
         Asserts.isTrue(isMember, ContactError.USER_IS_MEMBER);
-        JoinQunParam joinQunParam = new JoinQunParam(existQun.getId(), loginUser.getUserName() + "邀请");
+        String reason = loginUser.getUserName() + "邀请";
+        JoinQunParam joinQunParam = new JoinQunParam(existQun.getId(), reason);
         Long auditId = this.auditRepository.joinQun(joinQunParam);
         //TODO 发送消息给好友
         MessageSendParam messageSendParam = this.qunAssemble.assembleInviteFriendMessageSendParam(inviteFriendParam.getRoomId(),existQun);
-        // TODO 应该是系统消息
+        // TODO 应该是文本消息
         this.chatServiceApi.sendMessage(messageSendParam,loginUser.getUserId());
         return auditId;
 
@@ -184,7 +182,7 @@ public class QunService {
         Asserts.isTrue(!Objects.equals(existQun.getOwnerId(),loginUser.getUserId()), ContactError.QUN_OWNER_IS_NOT_MATCH);
         this.qunRepository.removeMember(removeMemberOfQunParam);
         //todo 发消息给群主和群成员
-        Set<Long> userIds = this.fetchIds(existQun,loginUser);
+        Set<Long> userIds = this.fetchIds(existQun.getOwnerId(),loginUser.getUserId());
         this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.EXIST_QUN.getType(),new WebsocketExistQunDTO(userIds)),userIds);
     }
 
@@ -201,7 +199,8 @@ public class QunService {
         Set<Long> memberIds = this.fetchMemberIds(qunMemberBOList);
         //todo 推消息给群所有成员
         MessageSendParam messageSendParam = this.qunAssemble.assembleDissolveMessageSendParam(roomId,existQun);
-        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.DISSOLVE.getType(),new WebsocketDissolveQunDTO(messageSendParam)),memberIds);
+        this.chatServiceApi.sendMessage(messageSendParam);
+//        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.DISSOLVE.getType(),new WebsocketDissolveQunDTO(messageSendParam)),memberIds);
     }
 
     private Set<Long> fetchMemberIds(List<QunMemberBO> memberBOList) {

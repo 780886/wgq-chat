@@ -4,6 +4,7 @@ import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
 import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
+import com.wgq.chat.protocol.dto.TextMessageDTO;
 import com.wgq.chat.protocol.enums.MessageTypeEnum;
 import com.wgq.chat.protocol.param.MessageSendParam;
 
@@ -42,8 +43,10 @@ public class QunAssemble {
         LoginUser loginUser = ThreadContext.getLoginToken();
         MessageSendParam messageSendParam = new MessageSendParam();
         messageSendParam.setRoomId(roomId);
-        messageSendParam.setMessageType(MessageTypeEnum.SYSTEM.getType());
-        messageSendParam.setBody(loginUser.getUserName()+"邀请您加入群聊:"+existQun.getName()+"!");
+        messageSendParam.setMessageType(MessageTypeEnum.TEXT.getType());
+        TextMessageDTO textMessageDTO = new TextMessageDTO();
+        textMessageDTO.setContent(loginUser.getUserName()+"邀请您加入群聊:"+existQun.getName()+"!");
+        messageSendParam.setBody(textMessageDTO);
         return messageSendParam;
     }
 

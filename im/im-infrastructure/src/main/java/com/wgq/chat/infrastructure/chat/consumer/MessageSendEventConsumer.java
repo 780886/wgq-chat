@@ -22,10 +22,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -77,15 +75,10 @@ public class MessageSendEventConsumer implements RocketMQListener<MessageSendEve
             List<Long> memberIds = fetchMemberId(memberList);
             this.imMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.MESSAGE.getType(),messageBO),memberIds);
 
-        }else if (RoomTypeEnum.FRIEND.getType().equals(roomBO.getType())){
-            List<Long> memberUserList = new ArrayList<>();
-            if (Objects.equals(roomBO.getType(), RoomTypeEnum.GROUP.getType())){//普通群聊推送所有群成员
-                //TODO 推送群所有成员
-            }else if (Objects.equals(roomBO.getType(),RoomTypeEnum.FRIEND.getType())){//单聊对象
-                //推送给单人
-                RoomFriendBO roomFriend = this.roomFriendRepository.getRoomFriend(roomBO.getId());
-                memberUserList = Arrays.asList(roomFriend.getSmallerUserId(),roomFriend.getLargerUserId());
-            }
+        }else if (RoomTypeEnum.FRIEND.getType().equals(roomBO.getType())){//单聊
+            //推送给单人
+            RoomFriendBO roomFriend = this.roomFriendRepository.getRoomFriend(roomBO.getId());
+            List<Long> memberUserList = Arrays.asList(roomFriend.getSmallerUserId(),roomFriend.getLargerUserId());
             // 更新或创建用户会话列表信息
             this.roomUserRepository.refreshOrCreateLastTime(roomBO.getId(), memberUserList, messageBO.getId(), messageBO.getSendTime());
             //推送给用户

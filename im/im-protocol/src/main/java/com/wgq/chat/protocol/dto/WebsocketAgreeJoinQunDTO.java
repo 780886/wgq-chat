@@ -11,22 +11,19 @@ import com.sheep.protocol.DTO;
  **/
 public class WebsocketAgreeJoinQunDTO implements DTO {
     /**
-     * 房间id
+     * 群主id
      */
-    private Long roomId;
+    private Long ownerId;
 
-    public WebsocketAgreeJoinQunDTO() {
+    public WebsocketAgreeJoinQunDTO(Long ownerId) {
+        this.ownerId = ownerId;
     }
 
-    public WebsocketAgreeJoinQunDTO(Long roomId) {
-        this.roomId = roomId;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public Long getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(Long roomId) {
-        this.roomId = roomId;
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 }

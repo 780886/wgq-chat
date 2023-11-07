@@ -1,6 +1,5 @@
 package com.wgq.chat.contact.assemble;
 
-import com.wgq.chat.protocol.dto.MessageSendDTO;
 import com.wgq.chat.protocol.enums.MessageTypeEnum;
 import com.wgq.chat.protocol.param.MessageSendParam;
 
@@ -20,7 +19,9 @@ public class QunMemberAssembler {
         MessageSendParam messageSendParam = new MessageSendParam();
         messageSendParam.setRoomId(roomId);
         messageSendParam.setMessageType(MessageTypeEnum.SYSTEM.getType());
-        messageSendParam.setBody("创建" + qunName + "成功");
+        StringBuilder builder = new StringBuilder();
+        builder.append("创建").append(qunName).append("成功");
+        messageSendParam.setBody(builder.toString());
         return messageSendParam;
     }
 }

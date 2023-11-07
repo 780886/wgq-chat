@@ -9,6 +9,7 @@ import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.api.ChatServiceApi;
 import com.wgq.chat.api.RoomServiceApi;
 import com.wgq.chat.contact.assemble.AuditAssemble;
+import com.wgq.chat.contact.assemble.MessageAssembler;
 import com.wgq.chat.contact.bo.*;
 import com.wgq.chat.contact.mq.ContactMQPublisher;
 import com.wgq.chat.contact.protocol.audit.*;
@@ -74,6 +75,9 @@ public class AuditService {
     @Inject
     private AuditAssemble auditAssemble;
 
+    @Inject
+    private MessageAssembler messageAssembler;
+
 
     public void applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
         //获取当前登录信息
@@ -108,8 +112,8 @@ public class AuditService {
         this.auditRepository.applyFriend(friendApplyBo);
         //与回复的消息间隔多少条
         Integer unReadCount = this.auditRepository.getUnReadCount(friendId);
-        // TODO 发送用户申请消息
-        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.APPLY.getType(),new WebsocketFriendApplyDTO(friendApplyBo.getFriendId(),unReadCount)),friendApplyBo.getFriendId());
+        //发送用户申请消息
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.APPLY.getType(),new WebsocketFriendApplyDTO(friendApplyBo.getCurrentUserId(),unReadCount)),friendApplyBo.getFriendId());
     }
 
     public AuditWrapBO friendApplyList() throws BusinessException{
@@ -162,7 +166,7 @@ public class AuditService {
             this.contactRepository.addContact(roomId,auditBO);
             //TODO 分布式事务 MQ消息事务发送一条同意消息。。我们已经是好友了，开始聊天吧 确实房间id
             MessageSendParam messageSendParam = this.auditAssemble.assembleMessageSendParam(roomId);
-            this.chatServiceApi.sendMessage(messageSendParam, loginUser.getUserId());
+            this.chatServiceApi.sendMessage(messageSendParam);
         }
     }
 
@@ -186,7 +190,7 @@ public class AuditService {
             //TODO 发布一条消息
             UserProfileDTO user = this.userProfileAppService.getUser(auditBO.getApplyUserId());
             MessageSendParam messageSendParam = this.auditAssemble.assembleQunMessageSendParam(qunBO,user);
-            this.chatServiceApi.sendMessage(messageSendParam,1L);
+            this.chatServiceApi.sendMessage(messageSendParam);
         }
     }
 
@@ -195,8 +199,8 @@ public class AuditService {
         QunBO qunBO = this.qunRepository.qunDetailByRoomId(joinQunParam.getRoomId());
         Asserts.isTrue(Objects.isNull(qunBO) || StatusRecord.DISABLE.equals(qunBO.getStatus()), ContactError.QUN_NOT_FOUND);
         this.auditRepository.joinQun(joinQunParam);
-        //发送MQ
-        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.JOIN_QUN.getType(),new WebsocketAgreeJoinQunDTO(joinQunParam.getRoomId())));
+        //推送给群主
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.JOIN_QUN.getType(),new WebsocketAgreeJoinQunDTO(qunBO.getOwnerId())));
 
     }
 

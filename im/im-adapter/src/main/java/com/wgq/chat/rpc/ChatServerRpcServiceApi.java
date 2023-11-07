@@ -25,4 +25,9 @@ public class ChatServerRpcServiceApi implements ChatServiceApi {
     public Long sendMessage(MessageSendParam messageSendParam, Long userId) throws BusinessException {
         return this.chatService.sendMessage(messageSendParam,userId);
     }
+
+    @Override
+    public Long sendMessage(MessageSendParam messageSendParam) throws BusinessException {
+        return this.chatService.sendMessage(messageSendParam);
+    }
 }

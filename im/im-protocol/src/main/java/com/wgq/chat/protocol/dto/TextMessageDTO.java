@@ -24,7 +24,7 @@ public class TextMessageDTO implements DTO {
     private Long replyMessageId;
 
     /**
-     * @的用户id集合
+     * @的用户id集合 一次别@那么多人
      */
     private List<Long> atUserIdList;
 
