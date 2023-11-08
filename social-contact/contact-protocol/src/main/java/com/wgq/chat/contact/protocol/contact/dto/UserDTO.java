@@ -1,4 +1,4 @@
-package com.wgq.chat.protocol.dto;
+package com.wgq.chat.contact.protocol.contact.dto;
 
 import com.sheep.protocol.POJO;
 

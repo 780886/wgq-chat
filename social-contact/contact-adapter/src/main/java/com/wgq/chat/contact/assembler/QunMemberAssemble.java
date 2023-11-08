@@ -26,7 +26,7 @@ public class QunMemberAssemble {
         return qunMemberBOList.stream().map(bo->{
             QunMemberDTO qunMemberDTO = new QunMemberDTO();
             qunMemberDTO.setQunId(bo.getQunId());
-            qunMemberDTO.setMemberId(qunMemberDTO.getMemberId());
+            qunMemberDTO.setMemberId(bo.getMemberId());
             return qunMemberDTO;
         }).collect(Collectors.toList());
     }

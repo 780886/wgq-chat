@@ -2,7 +2,9 @@ package com.wgq.chat.contact.assemble;
 
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
+import com.sheep.utils.BeanUtils;
 import com.wgq.chat.contact.bo.QunBO;
+import com.wgq.chat.contact.protocol.contact.dto.QunDTO;
 import com.wgq.chat.contact.protocol.qun.QunCreateParam;
 import com.wgq.chat.protocol.dto.TextMessageDTO;
 import com.wgq.chat.protocol.enums.MessageTypeEnum;
@@ -56,5 +58,11 @@ public class QunAssemble {
         messageSendParam.setMessageType(MessageTypeEnum.SYSTEM.getType());
         messageSendParam.setBody(existQun.getName()+"群聊已解散!");
         return messageSendParam;
+    }
+
+    public QunDTO assembleDTO(QunBO existQun) {
+        QunDTO qunDTO = new QunDTO();
+        BeanUtils.copyProperties(existQun,qunDTO);
+        return qunDTO;
     }
 }

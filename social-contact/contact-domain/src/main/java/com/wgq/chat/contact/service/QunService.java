@@ -15,6 +15,7 @@ import com.wgq.chat.contact.bo.QunMemberBO;
 import com.wgq.chat.contact.bo.QunPlazaBO;
 import com.wgq.chat.contact.mq.ContactMQPublisher;
 import com.wgq.chat.contact.protocol.audit.JoinQunParam;
+import com.wgq.chat.contact.protocol.contact.dto.QunDTO;
 import com.wgq.chat.contact.protocol.enums.Category;
 import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.protocol.qun.*;
@@ -22,10 +23,7 @@ import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.contact.repository.QunMemberRepository;
 import com.wgq.chat.contact.repository.QunRepository;
 import com.wgq.chat.protocol.constant.MQConstant;
-import com.wgq.chat.protocol.dto.PushBashDTO;
-import com.wgq.chat.protocol.dto.RoomDTO;
-import com.wgq.chat.protocol.dto.WebsocketExistQunDTO;
-import com.wgq.chat.protocol.dto.WebsocketTransferQunDTO;
+import com.wgq.chat.protocol.dto.*;
 import com.wgq.chat.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.protocol.enums.WebsocketResponseTypeEnum;
 import com.wgq.chat.protocol.param.MessageSendParam;
@@ -202,8 +200,8 @@ public class QunService {
         Set<Long> memberIds = this.fetchMemberIds(qunMemberBOList);
         //todo 推消息给群所有成员
         MessageSendParam messageSendParam = this.qunAssemble.assembleDissolveMessageSendParam(roomId,existQun);
-        this.chatServiceApi.sendMessage(messageSendParam);
-//        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.DISSOLVE.getType(),new WebsocketDissolveQunDTO(messageSendParam)),memberIds);
+//        this.chatServiceApi.sendMessage(messageSendParam);
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.DISSOLVE.getType(),new WebsocketDissolveQunDTO(messageSendParam)),memberIds);
     }
 
     private Set<Long> fetchMemberIds(List<QunMemberBO> memberBOList) {
@@ -226,5 +224,8 @@ public class QunService {
 
     }
 
-
+    public QunDTO getQunByRoomId(Long roomId) {
+        QunBO existQun = this.qunRepository.qunDetailByRoomId(roomId);
+        return this.qunAssemble.assembleDTO(existQun);
+    }
 }

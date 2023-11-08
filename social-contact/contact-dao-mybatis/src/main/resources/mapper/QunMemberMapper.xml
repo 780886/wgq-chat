@@ -3,6 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.contact.dao.QunMemberDao">
+    <resultMap id="qunMemberMap" type="com.wgq.chat.contact.po.QunMember">
+        <result column="id" property="id"/>
+        <result column="qun_id" property="qunId"/>
+        <result column="member_id" property="memberId"/>
+        <result column="apply_time" property="applyTime"/>
+        <result column="audit_time" property="auditTime"/>
+    </resultMap>
     <insert id="insert">
         <if test="qunMember != null">
             insert into qun_member
@@ -69,7 +76,7 @@
     <select id="getQunsByMemberId" resultType="java.util.Map">
         select * from qun_member where member_id = #{memberId}
     </select>
-    <select id="getQunMembers" resultType="com.wgq.chat.contact.po.QunMember">
+    <select id="getQunMembers" resultMap="qunMemberMap">
         select * from qun_member where qun_id = #{qunId}
     </select>
 </mapper>
