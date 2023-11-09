@@ -70,7 +70,7 @@
         delete from qun_member where qun_id = #{qunId}
     </delete>
 
-    <select id="isMember" resultType="java.lang.Long">
+    <select id="getQunMemberByMemberId" resultType="java.util.Map">
         select * from qun_member where qun_id = #{qunId} and member_id = #{memberId}
     </select>
     <select id="getQunsByMemberId" resultType="java.util.Map">

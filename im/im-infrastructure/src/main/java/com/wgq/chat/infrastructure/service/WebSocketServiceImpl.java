@@ -137,6 +137,11 @@ public class WebSocketServiceImpl implements WebSocketService {
         });
     }
 
+    @Override
+    public void sendToAllOnline(PushBashDTO<?> pushBashDTO, Long skipUserId) {
+
+    }
+
     /**
      * 给本地channel发送消息
      *

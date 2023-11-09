@@ -2,11 +2,11 @@ package com.wgq.chat.contact.infrastructure.persistence;
 
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.FriendApplyBo;
+import com.wgq.chat.contact.bo.JoinQunBO;
 import com.wgq.chat.contact.dao.AuditDao;
 import com.wgq.chat.contact.infrastructure.persistence.data.mapper.AuditConverter;
 import com.wgq.chat.contact.po.Audit;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
-import com.wgq.chat.contact.protocol.audit.JoinQunParam;
 import com.wgq.chat.contact.protocol.audit.QunAuditParam;
 import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.protocol.enums.ReadStatusEnum;
@@ -69,8 +69,8 @@ public class AuditRepositoryImpl  implements AuditRepository {
     }
 
     @Override
-    public Long joinQun(JoinQunParam joinQunParam) {
-        Audit audit = this.auditConverter.joinQun2AuditPo(joinQunParam);
+    public Long joinQun(JoinQunBO joinQunBO) {
+        Audit audit = this.auditConverter.joinQun2AuditPo(joinQunBO);
         Audit oldAudit = this.auditDao.getAudit(audit);
         if (oldAudit != null) {
             audit.setId(oldAudit.getId());

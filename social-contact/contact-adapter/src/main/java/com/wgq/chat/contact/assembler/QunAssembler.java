@@ -38,7 +38,7 @@ public class QunAssembler {
         QunVO qunVo = new QunVO();
         BeanUtils.copyProperties(qunBO, qunVo);
         qunVo.setQunId(qunBO.getId());
-        Nationality nationality = Nationality.getById(qunBO.getNationalityId());
+        Nationality nationality = Nationality.of(qunBO.getNationalityId());
         Asserts.isTrue(nationality == null, ContactError.NATIONALITY_OF_QUN_EMPTY);
         qunVo.setNationality(nationality.getName());
         qunVo.setOwnerName(userProfile.getUserName());

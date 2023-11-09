@@ -14,6 +14,25 @@ public class QunMemberBO implements BO {
     private Long id;
     private Long qunId;
     private Long memberId;
+    /**
+     * 审核时间
+     */
+    private Long auditTime;
+    /**
+     * 申请时间
+     */
+    private Long applyTime;
+
+    public QunMemberBO() {
+    }
+
+    public QunMemberBO(Long id, Long qunId, Long memberId, Long auditTime, Long applyTime) {
+        this.id = id;
+        this.qunId = qunId;
+        this.memberId = memberId;
+        this.auditTime = auditTime;
+        this.applyTime = applyTime;
+    }
 
     public Long getId() {
         return id;
@@ -37,5 +56,21 @@ public class QunMemberBO implements BO {
 
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
+    }
+
+    public Long getAuditTime() {
+        return auditTime;
+    }
+
+    public void setAuditTime(Long auditTime) {
+        this.auditTime = auditTime;
+    }
+
+    public Long getApplyTime() {
+        return applyTime;
+    }
+
+    public void setApplyTime(Long applyTime) {
+        this.applyTime = applyTime;
     }
 }

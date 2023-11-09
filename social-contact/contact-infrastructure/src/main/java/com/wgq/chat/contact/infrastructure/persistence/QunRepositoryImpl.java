@@ -11,6 +11,7 @@ import com.wgq.chat.contact.dao.QunMemberDao;
 import com.wgq.chat.contact.infrastructure.persistence.data.mapper.QunConverter;
 import com.wgq.chat.contact.infrastructure.persistence.data.mapper.QunMemberConverter;
 import com.wgq.chat.contact.po.Qun;
+import com.wgq.chat.contact.po.QunMember;
 import com.wgq.chat.contact.protocol.enums.ContactError;
 import com.wgq.chat.contact.protocol.qun.QunModifyParam;
 import com.wgq.chat.contact.protocol.qun.RemoveMemberOfQunParam;
@@ -73,7 +74,8 @@ public class QunRepositoryImpl implements QunRepository {
 
     @Override
     public Boolean isMember(Long qunId, Long memberId) {
-        return this.qunMemberDao.isMember(qunId, memberId) > 0;
+        QunMember qunMember = this.qunMemberDao.getQunMemberByMemberId(qunId, memberId);
+        return Objects.nonNull(qunMember);
     }
 
     @Override

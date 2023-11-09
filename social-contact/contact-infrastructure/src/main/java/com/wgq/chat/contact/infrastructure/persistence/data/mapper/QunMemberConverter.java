@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 @Named
 public class QunMemberConverter {
 
-    public QunMember convert2po(AuditBO auditBo) {
+    public QunMember convert2po(QunMemberBO qunMemberBO) {
         QunMember qunMember = new QunMember();
-        qunMember.setQunId(auditBo.getBusinessId());
-        qunMember.setMemberId(auditBo.getApplyUserId());
-        qunMember.setAuditTime(auditBo.getAuditTime());
-        qunMember.setApplyTime(auditBo.getApplyTime());
+        qunMember.setQunId(qunMemberBO.getQunId());
+        qunMember.setMemberId(qunMemberBO.getMemberId());
+        qunMember.setAuditTime(qunMemberBO.getAuditTime());
+        qunMember.setApplyTime(qunMemberBO.getApplyTime());
         return qunMember;
     }
 

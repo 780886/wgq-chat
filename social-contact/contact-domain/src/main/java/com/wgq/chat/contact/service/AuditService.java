@@ -180,13 +180,14 @@ public class AuditService {
          */
         QunBO qunBO = this.qunRepository.qunDetailByRoomId(auditBO.getBusinessId());
         LoginUser loginUser = ThreadContext.getLoginToken();
-        Asserts.isTrue(!Objects.equals(qunBO.getOwnerId(),loginUser.getUserId()),ContactError.NOT_GROUP_LEADER);
+//        Asserts.isTrue(!Objects.equals(qunBO.getOwnerId(),loginUser.getUserId()),ContactError.NOT_GROUP_LEADER);
         /**
          * 不管同意或拒绝都要审核用户申请
          */
         this.auditRepository.auditQun(auditBO, qunAuditParam);
         if (qunAuditParam.getAgree()) {
-            this.qunMemberRepository.addQunMember(auditBO);
+            QunMemberBO qunMemberBO = new QunMemberBO(null, qunBO.getId(), auditBO.getApplyUserId(), auditBO.getAuditTime(), auditBO.getApplyTime());
+            this.qunMemberRepository.addQunMember(qunMemberBO);
             //TODO 发布一条消息
             UserProfileDTO user = this.userProfileAppService.getUser(auditBO.getApplyUserId());
             MessageSendParam messageSendParam = this.auditAssemble.assembleQunMessageSendParam(qunBO,user);
@@ -198,9 +199,11 @@ public class AuditService {
         Asserts.isTrue(null == joinQunParam.getRoomId(), com.wgq.chat.protocol.enums.BusinessCodeEnum.ROOM_ID_IS_EMPTY);
         QunBO qunBO = this.qunRepository.qunDetailByRoomId(joinQunParam.getRoomId());
         Asserts.isTrue(Objects.isNull(qunBO) || StatusRecord.DISABLE.equals(qunBO.getStatus()), ContactError.QUN_NOT_FOUND);
-        this.auditRepository.joinQun(joinQunParam);
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        JoinQunBO joinQunBO = new JoinQunBO(joinQunParam.getRoomId(), loginUser.getUserId(), joinQunParam.getReason());
+        this.auditRepository.joinQun(joinQunBO);
         //推送给群主
-        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.JOIN_QUN.getType(),new WebsocketAgreeJoinQunDTO(qunBO.getOwnerId())));
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.JOIN_QUN.getType(),new WebsocketAgreeJoinQunDTO(qunBO.getOwnerId())),qunBO.getOwnerId());
 
     }
 

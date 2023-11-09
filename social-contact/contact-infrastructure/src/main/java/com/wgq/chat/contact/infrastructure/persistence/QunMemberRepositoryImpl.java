@@ -27,8 +27,8 @@ public class QunMemberRepositoryImpl implements QunMemberRepository {
     }
 
     @Override
-    public void addQunMember(AuditBO auditBO) {
-        QunMember qunMember = this.qunMemberConverter.convert2po(auditBO);
+    public void addQunMember(QunMemberBO qunMemberBO) {
+        QunMember qunMember = this.qunMemberConverter.convert2po(qunMemberBO);
         this.qunMemberDao.insert(qunMember);
     }
 

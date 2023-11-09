@@ -45,8 +45,8 @@ public class QunController {
     }
 
     @ApiOperation("群详情")
-    @GetMapping("detail/{qunId}")
-    public QunVO detail(@PathVariable("qunId")Long roomId) throws BusinessException {
+    @GetMapping("detail/{roomId}")
+    public QunVO detail(@PathVariable("roomId")Long roomId) throws BusinessException {
         QunDetailWrapBO qunDetail = this.qunService.detail(roomId);
         return this.qunAssembler.assemblerQun(qunDetail);
     }

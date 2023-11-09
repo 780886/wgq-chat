@@ -9,12 +9,8 @@ import com.wgq.chat.api.ChatServiceApi;
 import com.wgq.chat.api.RoomServiceApi;
 import com.wgq.chat.contact.assemble.QunAssemble;
 import com.wgq.chat.contact.assemble.QunMemberAssembler;
-import com.wgq.chat.contact.bo.QunBO;
-import com.wgq.chat.contact.bo.QunDetailWrapBO;
-import com.wgq.chat.contact.bo.QunMemberBO;
-import com.wgq.chat.contact.bo.QunPlazaBO;
+import com.wgq.chat.contact.bo.*;
 import com.wgq.chat.contact.mq.ContactMQPublisher;
-import com.wgq.chat.contact.protocol.audit.JoinQunParam;
 import com.wgq.chat.contact.protocol.contact.dto.QunDTO;
 import com.wgq.chat.contact.protocol.enums.Category;
 import com.wgq.chat.contact.protocol.enums.ContactError;
@@ -166,12 +162,14 @@ public class QunService {
         Boolean isMember = this.qunRepository.isMember(existQun.getId(), inviteFriendParam.getFriendId());
         Asserts.isTrue(isMember, ContactError.USER_IS_MEMBER);
         String reason = loginUser.getUserName() + "邀请";
-        JoinQunParam joinQunParam = new JoinQunParam(existQun.getId(), reason);
-        Long auditId = this.auditRepository.joinQun(joinQunParam);
-        //TODO 发送消息给好友
-        MessageSendParam messageSendParam = this.qunAssemble.assembleInviteFriendMessageSendParam(inviteFriendParam.getRoomId(),existQun);
-        // TODO 应该是文本消息
-        this.chatServiceApi.sendMessage(messageSendParam,loginUser.getUserId());
+        JoinQunBO joinQunBO = new JoinQunBO(existQun.getId(), inviteFriendParam.getFriendId(), reason);
+        Long auditId = this.auditRepository.joinQun(joinQunBO);
+//        //TODO 发送消息给好友
+//        MessageSendParam messageSendParam = this.qunAssemble.assembleInviteFriendMessageSendParam(inviteFriendParam.getRoomId(),existQun);
+//        // TODO 应该是文本消息
+//        this.chatServiceApi.sendMessage(messageSendParam,loginUser.getUserId());
+        WebsocketInviteJoinQunDTO inviteJoinQunDTO = new WebsocketInviteJoinQunDTO(auditId, loginUser.getUserName() + "邀请您加入群聊:" + existQun.getName() + "!");
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.JOIN_QUN.getType(),inviteJoinQunDTO),inviteFriendParam.getFriendId());
         return auditId;
 
     }

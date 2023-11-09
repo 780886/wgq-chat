@@ -37,7 +37,7 @@ public class MessageAssemble {
     public MessageBO assembleMessageBO(MessageBO messageBO, String body) {
         MessageBO updateMessageBO = new MessageBO();
         updateMessageBO.setId(messageBO.getId());
-        messageBO.setContent(body);
+        updateMessageBO.setContent(body);
         return updateMessageBO;
     }
 }
