@@ -21,7 +21,7 @@ import javax.inject.Inject;
  * @Date 2023/6/23 21:26
  * @Version 1.0
  **/
-@Api(value = "群", tags = "IM 群管理")
+@Api(value = "群", tags = "IM 群")
 @RequestMapping("qun")
 @RestController
 public class QunController {

@@ -119,7 +119,7 @@ public class AuditConverter {
         audit.setApplyReason(joinQunBO.getReason());
         audit.setAuditReason(Symbol.EMPTY);
         audit.setStatus(StatusRecord.DISABLE);
-        audit.setAuditUserId(0L);
+        audit.setAuditUserId(joinQunBO.getAuditUserId());
         audit.setAuditTime(0L);
         audit.setApplyTime(System.currentTimeMillis());
         return audit;
@@ -132,6 +132,17 @@ public class AuditConverter {
         audit.setStatus(StatusRecord.DISABLE);
         //朋友关系
         audit.setBusinessType(AuditBusiness.FRIEND.getBusiness());
+        return audit;
+    }
+
+    public Audit convert2po(Long roomId, Long applyUserId, Long auditUserId) {
+        Audit audit = new Audit();
+        audit.setBusinessId(roomId);
+        audit.setApplyUserId(applyUserId);
+        audit.setAuditUserId(auditUserId);
+        audit.setStatus(StatusRecord.DISABLE);
+        //朋友关系
+        audit.setBusinessType(AuditBusiness.GROUP.getBusiness());
         return audit;
     }
 }

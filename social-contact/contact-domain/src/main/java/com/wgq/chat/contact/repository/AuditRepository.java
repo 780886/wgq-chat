@@ -35,4 +35,6 @@ public interface AuditRepository {
     List<AuditBO> getMyQunApplyList(Long roomId);
 
     void readAudits(Set<Long> fetchAuditIds);
+
+    AuditBO getAudit(Long roomId, Long applyUserId, Long auditUserId);
 }

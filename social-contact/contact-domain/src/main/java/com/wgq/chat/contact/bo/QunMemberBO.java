@@ -15,6 +15,11 @@ public class QunMemberBO implements BO {
     private Long qunId;
     private Long memberId;
     /**
+     * 角色类型 1管理员 2管理 3普通成员
+     * @See com.wgq.chat.contact.protocol.enums.QunRoleEnum
+     */
+    private Integer roleType;
+    /**
      * 审核时间
      */
     private Long auditTime;
@@ -26,12 +31,21 @@ public class QunMemberBO implements BO {
     public QunMemberBO() {
     }
 
-    public QunMemberBO(Long id, Long qunId, Long memberId, Long auditTime, Long applyTime) {
+    public QunMemberBO(Long id, Long qunId, Long memberId, Integer roleType, Long auditTime, Long applyTime) {
         this.id = id;
         this.qunId = qunId;
         this.memberId = memberId;
+        this.roleType = roleType;
         this.auditTime = auditTime;
         this.applyTime = applyTime;
+    }
+
+    public Integer getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(Integer roleType) {
+        this.roleType = roleType;
     }
 
     public Long getId() {
@@ -41,6 +55,8 @@ public class QunMemberBO implements BO {
     public void setId(Long id) {
         this.id = id;
     }
+
+
 
     public Long getQunId() {
         return qunId;

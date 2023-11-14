@@ -16,6 +16,7 @@ public class QunMember implements POJO {
     private Long id;
     private Long qunId;
     private Long memberId;
+    private Integer roleType;
     private Long applyTime;
     private Long auditTime;
 
@@ -59,6 +60,21 @@ public class QunMember implements POJO {
 
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
+    }
+
+    @MethodOrder(order = 3)
+    @Column(
+            name = "role_type",
+            columnDefinition = "int(11)  DEFAULT 3 COMMENT '角色类型'",
+            nullable = false,
+            updatable = false
+    )
+    public Integer getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(Integer roleType) {
+        this.roleType = roleType;
     }
 
     @MethodOrder(order = 4)

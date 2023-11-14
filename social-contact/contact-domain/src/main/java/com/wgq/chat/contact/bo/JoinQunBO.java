@@ -20,16 +20,20 @@ public class JoinQunBO implements BO {
      */
     private Long applyUserId;
     /**
+     * 审核人ID
+     */
+    private Long auditUserId;
+    /**
      * 申请的理由
      */
     private String reason;
 
-    public JoinQunBO(Long roomId, Long applyUserId, String reason) {
+    public JoinQunBO(Long roomId, Long applyUserId, Long auditUserId, String reason) {
         this.roomId = roomId;
         this.applyUserId = applyUserId;
+        this.auditUserId = auditUserId;
         this.reason = reason;
     }
-
 
     public Long getRoomId() {
         return roomId;
@@ -45,6 +49,14 @@ public class JoinQunBO implements BO {
 
     public void setApplyUserId(Long applyUserId) {
         this.applyUserId = applyUserId;
+    }
+
+    public Long getAuditUserId() {
+        return auditUserId;
+    }
+
+    public void setAuditUserId(Long auditUserId) {
+        this.auditUserId = auditUserId;
     }
 
     public String getReason() {

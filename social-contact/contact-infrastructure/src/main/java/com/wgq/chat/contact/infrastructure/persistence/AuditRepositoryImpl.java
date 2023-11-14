@@ -120,5 +120,12 @@ public class AuditRepositoryImpl  implements AuditRepository {
         this.readAudits(0L,fetchAuditIds);
     }
 
+    @Override
+    public AuditBO getAudit(Long roomId, Long applyUserId, Long auditUserId) {
+        Audit audit = this.auditConverter.convert2po(roomId,applyUserId,auditUserId);
+        Audit queryAudit = this.auditDao.getAudit(audit);
+        return this.auditConverter.audit2AuditBo(queryAudit);
+    }
+
 
 }

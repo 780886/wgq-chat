@@ -1,7 +1,6 @@
 package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
 
 import com.sheep.utils.CollectionsUtils;
-import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.QunMemberBO;
 import com.wgq.chat.contact.po.QunMember;
 
@@ -17,17 +16,9 @@ public class QunMemberConverter {
         QunMember qunMember = new QunMember();
         qunMember.setQunId(qunMemberBO.getQunId());
         qunMember.setMemberId(qunMemberBO.getMemberId());
+        qunMember.setRoleType(qunMemberBO.getRoleType());
         qunMember.setAuditTime(qunMemberBO.getAuditTime());
         qunMember.setApplyTime(qunMemberBO.getApplyTime());
-        return qunMember;
-    }
-
-    public QunMember convert2po(Long qunId,Long memberId) {
-        QunMember qunMember = new QunMember();
-        qunMember.setQunId(qunId);
-        qunMember.setMemberId(memberId);
-        qunMember.setApplyTime(System.currentTimeMillis());
-        qunMember.setAuditTime(qunMember.getApplyTime());
         return qunMember;
     }
 

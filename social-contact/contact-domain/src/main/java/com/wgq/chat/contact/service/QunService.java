@@ -11,9 +11,12 @@ import com.wgq.chat.contact.assemble.QunAssemble;
 import com.wgq.chat.contact.assemble.QunMemberAssembler;
 import com.wgq.chat.contact.bo.*;
 import com.wgq.chat.contact.mq.ContactMQPublisher;
+import com.wgq.chat.contact.protocol.audit.QunAuditParam;
+import com.wgq.chat.contact.protocol.constant.QunConstant;
 import com.wgq.chat.contact.protocol.contact.dto.QunDTO;
 import com.wgq.chat.contact.protocol.enums.Category;
 import com.wgq.chat.contact.protocol.enums.ContactError;
+import com.wgq.chat.contact.protocol.enums.QunRoleEnum;
 import com.wgq.chat.contact.protocol.qun.*;
 import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.contact.repository.QunMemberRepository;
@@ -42,6 +45,8 @@ import java.util.stream.Collectors;
 @Named
 public class QunService {
 
+    public static final String INVITE = "邀请";
+
     @Inject
     private QunRepository qunRepository;
 
@@ -69,6 +74,9 @@ public class QunService {
     @Inject
     private ContactMQPublisher contactMQPublisher;
 
+    @Inject
+    private AuditService auditService;
+
     @Transactional(rollbackFor = Exception.class)
     public Long createQun(QunCreateParam qunCreateParam) throws BusinessException {
         Asserts.isTrue(StringUtils.isNullOrEmpty(qunCreateParam.getName()),ContactError.QUN_NAME_IS_EMPTY);
@@ -81,7 +89,9 @@ public class QunService {
         Long roomId = this.roomServiceApi.createQunRoom(loginUser.getUserId());
         QunBO qunCreateBO = this.qunAssemble.assembleQunBO(roomId,qunCreateParam);
         Long qunId = this.qunRepository.createQun(qunCreateBO);
-        this.qunMemberRepository.addQunMember(qunId,loginUser.getUserId());
+        //构建业务对象
+        QunMemberBO qunMemberBO = new QunMemberBO(null,qunId,loginUser.getUserId(), QunRoleEnum.LEADER.getType(),System.currentTimeMillis(),System.currentTimeMillis());
+        this.qunMemberRepository.addQunMember(qunMemberBO);
         //推送MQ给群主
         MessageSendParam messageSendParam = this.qunMemberAssembler.assembleMessageSendParam(roomId,qunCreateParam.getName());
         this.chatServiceApi.sendMessage(messageSendParam);
@@ -161,8 +171,17 @@ public class QunService {
         //只能拉一个人 是否已经是群成员
         Boolean isMember = this.qunRepository.isMember(existQun.getId(), inviteFriendParam.getFriendId());
         Asserts.isTrue(isMember, ContactError.USER_IS_MEMBER);
-        String reason = loginUser.getUserName() + "邀请";
-        JoinQunBO joinQunBO = new JoinQunBO(existQun.getId(), inviteFriendParam.getFriendId(), reason);
+        /**
+         * 判断好友是否已经申请过，如果有则直接同意
+         */
+        AuditBO auditBO = this.auditRepository.getAudit(inviteFriendParam.getRoomId(),inviteFriendParam.getFriendId(),inviteFriendParam.getFriendId());
+        if (auditBO != null){
+            QunAuditParam qunAuditParam = new QunAuditParam(auditBO.getId(), QunConstant.APPLY_JOIN_QUN_REASON, Boolean.TRUE);
+            this.auditService.auditQunApply(qunAuditParam);
+            return auditBO.getId();
+        }
+        String reason = loginUser.getUserName() + INVITE;
+        JoinQunBO joinQunBO = new JoinQunBO(existQun.getId(), inviteFriendParam.getFriendId(), inviteFriendParam.getFriendId(),reason);
         Long auditId = this.auditRepository.joinQun(joinQunBO);
 //        //TODO 发送消息给好友
 //        MessageSendParam messageSendParam = this.qunAssemble.assembleInviteFriendMessageSendParam(inviteFriendParam.getRoomId(),existQun);

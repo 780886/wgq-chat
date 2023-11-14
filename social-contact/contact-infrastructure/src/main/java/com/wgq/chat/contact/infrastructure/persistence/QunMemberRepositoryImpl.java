@@ -1,6 +1,5 @@
 package com.wgq.chat.contact.infrastructure.persistence;
 
-import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.QunMemberBO;
 import com.wgq.chat.contact.dao.QunMemberDao;
 import com.wgq.chat.contact.infrastructure.persistence.data.mapper.QunMemberConverter;
@@ -19,12 +18,6 @@ public class QunMemberRepositoryImpl implements QunMemberRepository {
 
     @Inject
     private QunMemberDao qunMemberDao;
-
-    @Override
-    public void addQunMember(Long qunId,Long memberId) {
-        QunMember qunMember = this.qunMemberConverter.convert2po(qunId,memberId);
-        this.qunMemberDao.insert(qunMember);
-    }
 
     @Override
     public void addQunMember(QunMemberBO qunMemberBO) {
