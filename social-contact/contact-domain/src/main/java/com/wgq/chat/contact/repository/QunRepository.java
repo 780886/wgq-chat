@@ -3,7 +3,6 @@ package com.wgq.chat.contact.repository;
 import com.sheep.protocol.BusinessException;
 import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.protocol.qun.QunModifyParam;
-import com.wgq.chat.contact.protocol.qun.RemoveMemberOfQunParam;
 
 import java.util.List;
 
@@ -27,8 +26,6 @@ public interface QunRepository {
     QunBO qunDetail(Long qunId);
 
     Boolean isMember(Long qunId, Long newOwnerId);
-
-    void removeMember(RemoveMemberOfQunParam removeMemberOfQunParam);
 
     void dissolve(Long roomId);
 

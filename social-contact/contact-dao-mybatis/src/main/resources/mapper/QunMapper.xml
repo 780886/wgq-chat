@@ -133,43 +133,43 @@
         <if test="qun != null and qun.id != null">
             update qun set
             <trim suffixOverrides=",">
-                <if test="qun.id">
+                <if test="qun.id != null">
                     id = #{qun.id}
                 </if>
-                <if test="qun.roomId">
+                <if test="qun.roomId != null">
                     room_id = #{qun.roomId}
                 </if>
-                <if test="qun.name">
+                <if test="qun.name != null">
                     name = #{qun.name}
                 </if>
-                <if test="qun.announcement">
+                <if test="qun.announcement != null">
                     announcement = #{qun.announcement}
                 </if>
-                <if test="qun.nationalityId">
+                <if test="qun.nationalityId != null">
                     nationality_id = #{qun.nationalityId}
                 </if>
-                <if test="qun.organizationId">
+                <if test="qun.organizationId != null">
                     organization_id = #{qun.organizationId}
                 </if>
-                <if test="qun.ownerId">
+                <if test="qun.ownerId != null">
                     owner_id = #{qun.ownerId}
                 </if>
-                <if test="qun.categoryId">
+                <if test="qun.categoryId != null">
                     category_id = #{qun.categoryId}
                 </if>
-                <if test="qun.remark">
+                <if test="qun.remark != null">
                     remark = #{qun.remark}
                 </if>
-                <if test="qun.status">
+                <if test="qun.status != null">
                     status = #{qun.status}
                 </if>
-                <if test="qun.gmtModified">
+                <if test="qun.gmtModified != null">
                     gmt_modified = #{qun.gmtModified}
                 </if>
-                <if test="qun.modifiedUserId">
+                <if test="qun.modifiedUserId != null">
                     modified_user_id = #{qun.modifiedUserId}
                 </if>
-                <if test="qun.modifiedUserName">
+                <if test="qun.modifiedUserName != null">
                     modified_user_name = #{qun.modifiedUserName}
                 </if>
             </trim>
@@ -180,43 +180,40 @@
         <if test="qun != null and qun.id != null">
             update qun set
             <trim suffixOverrides=",">
-                <if test="qun.id">
-                    id = #{qun.id}
-                </if>
-                <if test="qun.roomId">
+                <if test="qun.roomId != null">
                     room_id = #{qun.roomId}
                 </if>
-                <if test="qun.name">
+                <if test="qun.name != null">
                     name = #{qun.name}
                 </if>
-                <if test="qun.announcement">
+                <if test="qun.announcement != null">
                     announcement = #{qun.announcement}
                 </if>
-                <if test="qun.nationalityId">
+                <if test="qun.nationalityId != null">
                     nationality_id = #{qun.nationalityId}
                 </if>
-                <if test="qun.organizationId">
+                <if test="qun.organizationId != null">
                     organization_id = #{qun.organizationId}
                 </if>
-                <if test="qun.ownerId">
+                <if test="qun.ownerId != null">
                     owner_id = #{qun.ownerId}
                 </if>
-                <if test="qun.categoryId">
+                <if test="qun.categoryId != null">
                     category_id = #{qun.categoryId}
                 </if>
-                <if test="qun.remark">
+                <if test="qun.remark != null">
                     remark = #{qun.remark}
                 </if>
-                <if test="qun.status">
+                <if test="qun.status != null">
                     status = #{qun.status}
                 </if>
-                <if test="qun.gmtModified">
+                <if test="qun.gmtModified != null">
                     gmt_modified = #{qun.gmtModified}
                 </if>
-                <if test="qun.modifiedUserId">
+                <if test="qun.modifiedUserId != null">
                     modified_user_id = #{qun.modifiedUserId}
                 </if>
-                <if test="qun.modifiedUserName">
+                <if test="qun.modifiedUserName != null">
                     modified_user_name = #{qun.modifiedUserName}
                 </if>
             </trim>

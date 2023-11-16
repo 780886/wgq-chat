@@ -139,14 +139,15 @@ public class QunService {
 
 
 
-    public void existQun(Long roomId) throws BusinessException {
-        QunBO existQun = this.qunRepository.qunDetailByRoomId(roomId);
+    public void existQun(ExistQunParam existQunParam) throws BusinessException {
+        Asserts.isTrue(existQunParam.getRoomId() == null,BusinessCodeEnum.ROOM_ID_IS_EMPTY);
+        QunBO existQun = this.qunRepository.qunDetailByRoomId(existQunParam.getRoomId());
         Asserts.isTrue( Objects.isNull(existQun), ContactError.QUN_NOT_FOUND);
         LoginUser loginUser = ThreadContext.getLoginToken();
         Boolean isMember = this.qunRepository.isMember(existQun.getId(), loginUser.getUserId());
         Asserts.isTrue(!isMember, ContactError.QUN_ID_IS_EMPTY);
-        RemoveMemberOfQunParam removeMemberOfQunParam = new RemoveMemberOfQunParam(existQun.getRoomId(), loginUser.getUserId());
-        this.qunRepository.removeMember(removeMemberOfQunParam);
+        RemoveMemberParam removeMemberParam = new RemoveMemberParam(existQun.getId(), loginUser.getUserId());
+        this.qunMemberRepository.removeMember(removeMemberParam);
         //todo 通知群主和当前用户
         Set<Long> userIds = this.fetchIds(existQun.getOwnerId(),loginUser.getUserId());
         this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.EXIST_QUN.getType(),new WebsocketExistQunDTO(userIds)),userIds);
@@ -181,7 +182,7 @@ public class QunService {
             return auditBO.getId();
         }
         String reason = loginUser.getUserName() + INVITE;
-        JoinQunBO joinQunBO = new JoinQunBO(existQun.getId(), inviteFriendParam.getFriendId(), inviteFriendParam.getFriendId(),reason);
+        JoinQunBO joinQunBO = new JoinQunBO(existQun.getRoomId(), inviteFriendParam.getFriendId(), inviteFriendParam.getFriendId(),reason);
         Long auditId = this.auditRepository.joinQun(joinQunBO);
 //        //TODO 发送消息给好友
 //        MessageSendParam messageSendParam = this.qunAssemble.assembleInviteFriendMessageSendParam(inviteFriendParam.getRoomId(),existQun);
@@ -198,25 +199,27 @@ public class QunService {
         Asserts.isTrue(Objects.isNull(existQun), ContactError.QUN_NOT_FOUND);
         LoginUser loginUser = ThreadContext.getLoginToken();
         Asserts.isTrue(!Objects.equals(existQun.getOwnerId(),loginUser.getUserId()), ContactError.QUN_OWNER_IS_NOT_MATCH);
-        this.qunRepository.removeMember(removeMemberOfQunParam);
+        RemoveMemberParam removeMemberParam = new RemoveMemberParam(existQun.getId(), removeMemberOfQunParam.getMemberId());
+        this.qunMemberRepository.removeMember(removeMemberParam);
         //todo 发消息给群主和群成员
         Set<Long> userIds = this.fetchIds(existQun.getOwnerId(),loginUser.getUserId());
         this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.EXIST_QUN.getType(),new WebsocketExistQunDTO(userIds)),userIds);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void dissolve(Long roomId) throws BusinessException {
-        QunBO existQun = this.qunRepository.qunDetailByRoomId(roomId);
+    public void dissolve(DissolveParam dissolveParam) throws BusinessException {
+        Asserts.isTrue(dissolveParam.getRoomId() == null,BusinessCodeEnum.ROOM_ID_IS_EMPTY);
+        QunBO existQun = this.qunRepository.qunDetailByRoomId(dissolveParam.getRoomId());
         Asserts.isTrue(Objects.isNull(existQun), ContactError.QUN_NOT_FOUND);
         LoginUser loginUser = ThreadContext.getLoginToken();
         Asserts.isTrue(!Objects.equals(existQun.getOwnerId(),loginUser.getUserId()), ContactError.QUN_OWNER_IS_NOT_MATCH);
         List<QunMemberBO> qunMemberBOList = this.qunMemberRepository.getQunMembers(existQun.getId());
-        this.roomServiceApi.dissolve(roomId);
-        this.qunRepository.dissolve(roomId);
+        this.roomServiceApi.dissolve(dissolveParam.getRoomId());
+        this.qunRepository.dissolve(dissolveParam.getRoomId());
         this.qunMemberRepository.dissolve(existQun.getId());
         Set<Long> memberIds = this.fetchMemberIds(qunMemberBOList);
         //todo 推消息给群所有成员
-        MessageSendParam messageSendParam = this.qunAssemble.assembleDissolveMessageSendParam(roomId,existQun);
+        MessageSendParam messageSendParam = this.qunAssemble.assembleDissolveMessageSendParam(dissolveParam.getRoomId(),existQun);
 //        this.chatServiceApi.sendMessage(messageSendParam);
         this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.DISSOLVE.getType(),new WebsocketDissolveQunDTO(messageSendParam)),memberIds);
     }
@@ -225,6 +228,7 @@ public class QunService {
         return memberBOList.stream().map(QunMemberBO::getMemberId).collect(Collectors.toSet());
     }
 
+    @Transactional
     public void transfer(TransferOwnerOfQunParam transferOwnerOfQun) throws BusinessException {
         Asserts.isTrue(Objects.isNull(transferOwnerOfQun.getRoomId()), BusinessCodeEnum.ROOM_NOT_FOUND);
         QunBO existQun = this.qunRepository.qunDetailByRoomId(transferOwnerOfQun.getRoomId());
@@ -236,6 +240,8 @@ public class QunService {
         Boolean isMember = this.qunRepository.isMember(existQun.getId(), transferOwnerOfQun.getNewOwnerId());
         Asserts.isTrue(!isMember, ContactError.USER_IS_NOT_MEMBER);
         this.qunRepository.transfer(existQun, transferOwnerOfQun.getNewOwnerId());
+        // TODO 修改群成员类型
+//        this.qunMemberRepository.updateQunMemberRoleType();
         //todo 推消息 给新群主
         this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.TRANSFER.getType(),new WebsocketTransferQunDTO(transferOwnerOfQun.getNewOwnerId())),transferOwnerOfQun.getNewOwnerId());
 

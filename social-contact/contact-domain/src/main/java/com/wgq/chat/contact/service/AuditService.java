@@ -10,7 +10,6 @@ import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.api.ChatServiceApi;
 import com.wgq.chat.api.RoomServiceApi;
 import com.wgq.chat.contact.assemble.AuditAssemble;
-import com.wgq.chat.contact.assemble.MessageAssembler;
 import com.wgq.chat.contact.bo.*;
 import com.wgq.chat.contact.mq.ContactMQPublisher;
 import com.wgq.chat.contact.protocol.audit.*;
@@ -46,8 +45,6 @@ public class AuditService {
 
     private static Logger logger = LoggerFactory.getLogger(AuditService.class);
 
-    private static final boolean AGREE = true;
-
     @Inject
     private SecretService secretService;
 
@@ -78,10 +75,6 @@ public class AuditService {
     @Inject
     private AuditAssemble auditAssemble;
 
-    @Inject
-    private MessageAssembler messageAssembler;
-
-
     public void applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
         //获取当前登录信息
         LoginUser loginUser = ThreadContext.getLoginToken();
@@ -106,7 +99,7 @@ public class AuditService {
              * 直接同意
              * 在同一个类中，非事务方法A调用事务方法B，事务失效，可以采用AopContext.currentProxy().xx()来进行调用，事务才能生效。
              */
-            ((AuditService)AopContext.currentProxy()).auditFriendApply(new FriendAuditParam(friendAuditBO.getId(),friendApplyParam.getReason(), AGREE));
+            ((AuditService)AopContext.currentProxy()).auditFriendApply(new FriendAuditParam(friendAuditBO.getId(),friendApplyParam.getReason(), Boolean.TRUE));
             return;
         }
         //构建好友申请的内部逻辑对象
@@ -187,7 +180,7 @@ public class AuditService {
          * 被群主邀请的只能本人同意，其余只有群主才能审核
          */
         Asserts.isTrue(!Objects.equals(auditBO.getAuditUserId(),loginUser.getUserId()) ||
-                        (Digit.ZERO != auditBO.getAuditUserId() && !Objects.equals(qunBO.getOwnerId(),loginUser.getUserId())),
+                        (Digit.ZERO == auditBO.getAuditUserId() && Objects.equals(qunBO.getOwnerId(),loginUser.getUserId())),
                 ContactError.NOT_AUTHORITY_AUDIT);
         /**
          * 不管同意或拒绝都要审核用户申请

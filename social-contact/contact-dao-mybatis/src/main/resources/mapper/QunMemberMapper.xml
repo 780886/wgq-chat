@@ -63,14 +63,14 @@
         </trim>
     </delete>
     <delete id="removeMember">
-        delete from qun_member where room_id = #{roomId} and member_id = #{memberId}
+        delete from qun_member where qun_id = #{qunId} and member_id = #{memberId}
     </delete>
 
     <delete id="delete">
         delete from qun_member where qun_id = #{qunId}
     </delete>
 
-    <select id="getQunMemberByMemberId" resultType="java.util.Map">
+    <select id="getQunMemberByMemberId" resultMap="qunMemberMap">
         select * from qun_member where qun_id = #{qunId} and member_id = #{memberId}
     </select>
     <select id="getQunsByMemberId" resultType="java.util.Map">

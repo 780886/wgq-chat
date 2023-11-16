@@ -11,22 +11,30 @@ import com.sheep.protocol.Param;
  **/
 public class RemoveMemberParam implements Param {
 
-    private long qunId;
-    private long memberId;
+    private Long qunId;
+    private Long memberId;
 
-    public long getQunId() {
+    public RemoveMemberParam() {
+    }
+
+    public RemoveMemberParam(Long qunId, Long memberId) {
+        this.qunId = qunId;
+        this.memberId = memberId;
+    }
+
+    public Long getQunId() {
         return qunId;
     }
 
-    public void setQunId(long qunId) {
+    public void setQunId(Long qunId) {
         this.qunId = qunId;
     }
 
-    public long getMemberId() {
+    public Long getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(long memberId) {
+    public void setMemberId(Long memberId) {
         this.memberId = memberId;
     }
 }

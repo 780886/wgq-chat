@@ -108,11 +108,12 @@ public class WebSocketServiceImpl implements WebSocketService {
         //更新上线列表
         container.online(channel, userProfileDTO.getUserId());
         //发送给对应的用户
-        LoginUser loginUser = new LoginUser.LoginUserBuild()
-                .avatar(userProfileDTO.getAvatar())
-                .nickName(userProfileDTO.getNickName())
-                .userId(userProfileDTO.getUserId())
-                .build();
+        LoginUser loginUser = LoginUser.create(userProfileDTO.getUserId(),
+                userProfileDTO.getNickName(),
+                userProfileDTO.getNickName(),
+                userProfileDTO.getAvatar(),
+                "127.0.0.1",
+                1);
         LoginDTO loginDTO = new LoginDTO(loginUser, token);
         sendMsg(channel, new PushBashDTO<LoginDTO>(WebsocketResponseTypeEnum.LOGIN_AUTHORIZE_SUCCESS.getType(),loginDTO));
         //发送用户上线事件

@@ -80,8 +80,8 @@ public class QunController {
 
     @ApiOperation("退出群")
     @PostMapping("exist-qun")
-    public void existQun(@RequestBody Long roomId) throws BusinessException {
-        this.qunService.existQun(roomId);
+    public void existQun(@RequestBody ExistQunParam existQunParam) throws BusinessException {
+        this.qunService.existQun(existQunParam);
     }
 
     @ApiOperation("移除群成员")
@@ -92,8 +92,8 @@ public class QunController {
 
     @ApiOperation("群解散")
     @PostMapping("dissolve")
-    public void dissolve(@RequestBody Long roomId) throws BusinessException {
-        this.qunService.dissolve(roomId);
+    public void dissolve(@RequestBody DissolveParam dissolveParam) throws BusinessException {
+        this.qunService.dissolve(dissolveParam);
     }
 
     @ApiOperation("转移群主")

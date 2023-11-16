@@ -4,6 +4,7 @@ import com.wgq.chat.contact.bo.QunMemberBO;
 import com.wgq.chat.contact.dao.QunMemberDao;
 import com.wgq.chat.contact.infrastructure.persistence.data.mapper.QunMemberConverter;
 import com.wgq.chat.contact.po.QunMember;
+import com.wgq.chat.contact.protocol.qun.RemoveMemberParam;
 import com.wgq.chat.contact.repository.QunMemberRepository;
 
 import javax.inject.Inject;
@@ -34,5 +35,10 @@ public class QunMemberRepositoryImpl implements QunMemberRepository {
     public List<QunMemberBO> getQunMembers(Long qunId) {
         List<QunMember> qunMemberList = this.qunMemberDao.getQunMembers(qunId);
         return this.qunMemberConverter.convert2BOList(qunMemberList);
+    }
+
+    @Override
+    public void removeMember(RemoveMemberParam removeMemberParam) {
+        this.qunMemberDao.removeMember(removeMemberParam.getQunId(),removeMemberParam.getMemberId());
     }
 }

@@ -21,7 +21,7 @@ public interface QunMemberDao {
 
     QunMember getQunMemberByMemberId(@Param("qunId") Long qunId, @Param("memberId") Long memberId);
 
-    void removeMember(@Param("roomId") Long roomId, @Param("memberId") Long memberId);
+    void removeMember(@Param("qunId") Long qunId, @Param("memberId") Long memberId);
 
     void delete(@Param("qunId") Long qunId);
 
