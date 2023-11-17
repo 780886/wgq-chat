@@ -228,7 +228,7 @@ public class QunService {
         return memberBOList.stream().map(QunMemberBO::getMemberId).collect(Collectors.toSet());
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void transfer(TransferOwnerOfQunParam transferOwnerOfQun) throws BusinessException {
         Asserts.isTrue(Objects.isNull(transferOwnerOfQun.getRoomId()), BusinessCodeEnum.ROOM_NOT_FOUND);
         QunBO existQun = this.qunRepository.qunDetailByRoomId(transferOwnerOfQun.getRoomId());
@@ -241,7 +241,8 @@ public class QunService {
         Asserts.isTrue(!isMember, ContactError.USER_IS_NOT_MEMBER);
         this.qunRepository.transfer(existQun, transferOwnerOfQun.getNewOwnerId());
         // TODO 修改群成员类型
-//        this.qunMemberRepository.updateQunMemberRoleType();
+        List<QunMemberBO> memberBOList = this.qunMemberAssembler.assembleQunMemberList(existQun.getOwnerId(),transferOwnerOfQun.getNewOwnerId());
+        this.qunMemberRepository.updateBatchQunMemberRoleTypeByQunIdAndMemberId(memberBOList);
         //todo 推消息 给新群主
         this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.TRANSFER.getType(),new WebsocketTransferQunDTO(transferOwnerOfQun.getNewOwnerId())),transferOwnerOfQun.getNewOwnerId());
 

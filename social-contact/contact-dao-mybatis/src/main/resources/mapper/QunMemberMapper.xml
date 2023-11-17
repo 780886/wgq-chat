@@ -49,8 +49,11 @@
             </trim>
         </if>
     </insert>
-
-
+    <update id="updateBatchByQunIdAndMemberId">
+        <foreach collection="qunMembers" item="qunMember" separator=";">
+            update set role_type = #{qunMember.roleType} where qun_id = #{qunMember.qunId} and member_id = #{qunMember.memberId}
+        </foreach>
+    </update>
     <delete id="remove">
         delete from qun_member
         <trim prefix="where" prefixOverrides="and | or ">

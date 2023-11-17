@@ -28,4 +28,6 @@ public interface QunMemberDao {
     Map<Long, Long> getQunsByMemberId(@Param("memberId") Long memberId);
 
     List<QunMember> getQunMembers(@Param("qunId") Long qunId);
+
+    void updateBatchByQunIdAndMemberId(@Param("qunMembers") List<QunMember> qunMembers);
 }

@@ -15,4 +15,5 @@ public interface QunMemberRepository {
 
     void removeMember(RemoveMemberParam removeMemberParam);
 
+    void updateBatchQunMemberRoleTypeByQunIdAndMemberId(List<QunMemberBO> memberBOList);
 }

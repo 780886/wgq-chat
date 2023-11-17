@@ -36,4 +36,14 @@ public class QunMemberConverter {
         qunMemberBO.setMemberId(qunMember.getMemberId());
         return qunMemberBO;
     }
+
+    public List<QunMember> convert2POList(List<QunMemberBO> memberBOList) {
+       return memberBOList.stream().map(qunMemberBO->{
+            QunMember qunMember = new QunMember();
+            qunMember.setQunId(qunMemberBO.getQunId());
+            qunMember.setMemberId(qunMemberBO.getMemberId());
+            qunMember.setRoleType(qunMemberBO.getRoleType());
+            return qunMember;
+        }).collect(Collectors.toList());
+    }
 }

@@ -41,4 +41,10 @@ public class QunMemberRepositoryImpl implements QunMemberRepository {
     public void removeMember(RemoveMemberParam removeMemberParam) {
         this.qunMemberDao.removeMember(removeMemberParam.getQunId(),removeMemberParam.getMemberId());
     }
+
+    @Override
+    public void updateBatchQunMemberRoleTypeByQunIdAndMemberId(List<QunMemberBO> memberBOList) {
+        List<QunMember> qunMembers = this.qunMemberConverter.convert2POList(memberBOList);
+        this.qunMemberDao.updateBatchByQunIdAndMemberId(qunMembers);
+    }
 }
