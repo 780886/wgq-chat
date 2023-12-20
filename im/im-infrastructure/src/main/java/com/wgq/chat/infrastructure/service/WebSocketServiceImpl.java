@@ -5,6 +5,7 @@ import com.sheep.json.Json;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.utils.CollectionsUtils;
+import com.sheep.utils.IpUtils;
 import com.wgq.chat.domain.netty.NettyUtil;
 import com.wgq.chat.domain.netty.UserContainer;
 import com.wgq.chat.domain.service.WebSocketService;
@@ -107,12 +108,15 @@ public class WebSocketServiceImpl implements WebSocketService {
     private void loginSuccess(Channel channel, UserProfileDTO userProfileDTO, String token) {
         //更新上线列表
         container.online(channel, userProfileDTO.getUserId());
+        Long ip = NettyUtil.getAttr(channel, NettyUtil.IP);
         //发送给对应的用户
-        LoginUser loginUser = new LoginUser.LoginUserBuild()
-                .avatar(userProfileDTO.getAvatar())
-                .nickName(userProfileDTO.getNickName())
-                .userId(userProfileDTO.getUserId())
-                .build();
+        LoginUser loginUser = LoginUser.create(userProfileDTO.getUserId(),
+                userProfileDTO.getUserName(),
+                userProfileDTO.getNickName(),
+                userProfileDTO.getAvatar(),
+                IpUtils.longToIP(ip),
+                7);
+
         LoginDTO loginDTO = new LoginDTO(loginUser, token);
         sendMsg(channel, new PushBashDTO<LoginDTO>(WebsocketResponseTypeEnum.LOGIN_AUTHORIZE_SUCCESS.getType(),loginDTO));
         //发送用户上线事件

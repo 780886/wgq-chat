@@ -2,7 +2,7 @@ package com.wgq.chat.domain.netty;
 
 import com.sheep.core.spi.JsonFactory;
 import com.sheep.json.Json;
-import com.sheep.utils.SpringUtils;
+import com.sheep.starter.SpringContext;
 import com.sheep.utils.StringUtils;
 import com.wgq.chat.domain.service.WebSocketService;
 import com.wgq.chat.protocol.dto.AuthorizeDTO;
@@ -128,7 +128,7 @@ public class NettyWebSocketServerHandler extends SimpleChannelInboundHandler<Tex
     }
 
     private WebSocketService getService() {
-        return SpringUtils.getBean(WebSocketService.class);
+        return SpringContext.getBean(WebSocketService.class);
     }
 
     /**

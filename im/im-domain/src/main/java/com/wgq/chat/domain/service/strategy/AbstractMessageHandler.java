@@ -1,7 +1,6 @@
 package com.wgq.chat.domain.service.strategy;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.sheep.exception.Asserts;
 import com.sheep.protocol.BusinessException;
 import com.wgq.chat.assemble.MessageAssemble;
 import com.wgq.chat.bo.MessageBO;
@@ -54,7 +53,7 @@ public abstract class AbstractMessageHandler<T> {
     public Long checkAndSaveMessage(MessageSendParam messageSendParam, Long userId) throws BusinessException {
         T body =  this.toBean(messageSendParam.getBody());
         //统一校验
-        Asserts.allCheckValidateThrow(body);
+//        Asserts.allCheckValidateThrow(body);
         // 子类扩展校验
         checkMessage(body,messageSendParam.getRoomId(),userId);
         MessageBO messageBO = this.messageAssemble.assembleMessageBO(messageSendParam,userId);

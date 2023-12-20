@@ -199,8 +199,8 @@ public class QunService {
         Set<Long> memberIds = this.fetchMemberIds(qunMemberBOList);
         //todo 推消息给群所有成员
         MessageSendParam messageSendParam = this.qunAssemble.assembleDissolveMessageSendParam(roomId,existQun);
-        this.chatServiceApi.sendMessage(messageSendParam);
-//        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.DISSOLVE.getType(),new WebsocketDissolveQunDTO(messageSendParam)),memberIds);
+//        this.chatServiceApi.sendMessage(messageSendParam);
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.DISSOLVE.getType(),new WebsocketDissolveQunDTO(messageSendParam)),memberIds);
     }
 
     private Set<Long> fetchMemberIds(List<QunMemberBO> memberBOList) {
