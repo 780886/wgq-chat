@@ -37,9 +37,9 @@ public class MessagePushEventConsumer implements RocketMQListener<PushMessageEve
                 webSocketService.sendToUser(pushMessageEvent.getPushBashDTO(), pushMessageEvent.getUserId());
                 break;
             case ALL:
-//                webSocketService.sendToAllOnline(message.getWsBaseMsg(), null);
-//                break;
-                logger.info("push all...");
+                webSocketService.sendToAllOnline(pushMessageEvent.getPushBashDTO(), null);
+                break;
+//                logger.info("push all...");
             default:
                 logger.warn("push type is not match...");
         }

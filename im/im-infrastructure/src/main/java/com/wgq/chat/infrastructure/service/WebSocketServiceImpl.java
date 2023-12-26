@@ -108,15 +108,13 @@ public class WebSocketServiceImpl implements WebSocketService {
     private void loginSuccess(Channel channel, UserProfileDTO userProfileDTO, String token) {
         //更新上线列表
         container.online(channel, userProfileDTO.getUserId());
-        Long ip = NettyUtil.getAttr(channel, NettyUtil.IP);
         //发送给对应的用户
         LoginUser loginUser = LoginUser.create(userProfileDTO.getUserId(),
-                userProfileDTO.getUserName(),
+                userProfileDTO.getNickName(),
                 userProfileDTO.getNickName(),
                 userProfileDTO.getAvatar(),
-                IpUtils.longToIP(ip),
-                7);
-
+                "127.0.0.1",
+                1);
         LoginDTO loginDTO = new LoginDTO(loginUser, token);
         sendMsg(channel, new PushBashDTO<LoginDTO>(WebsocketResponseTypeEnum.LOGIN_AUTHORIZE_SUCCESS.getType(),loginDTO));
         //发送用户上线事件
@@ -139,6 +137,11 @@ public class WebSocketServiceImpl implements WebSocketService {
         channels.forEach(channel -> {
             threadPoolTaskExecutor.execute(() -> sendMsg(channel, pushBashDTO));
         });
+    }
+
+    @Override
+    public void sendToAllOnline(PushBashDTO<?> pushBashDTO, Long skipUserId) {
+
     }
 
     /**

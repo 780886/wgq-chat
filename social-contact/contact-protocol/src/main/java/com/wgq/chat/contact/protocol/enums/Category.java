@@ -1,7 +1,10 @@
 package com.wgq.chat.contact.protocol.enums;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public enum Category {
 
@@ -15,6 +18,12 @@ public enum Category {
     private String name;
 
     private String description;
+
+    private static Map<Integer,Category> cache;
+
+    static {
+        cache = Arrays.asList(Category.values()).stream().collect(Collectors.toMap(Category::getId, Function.identity()));
+    }
 
     Category(Integer id, String name, String description) {
         this.id = id;
@@ -34,14 +43,18 @@ public enum Category {
         return description;
     }
 
-    public static Category getById(Integer id) {
-        for (Category category : Category.values()) {
-            if (category.getId().equals(id)) {
-                return category;
-            }
-        }
-        return null;
+    public static Category getById(Integer id){
+        return cache.get(id);
     }
+
+//    public static Category getById(Integer id) {
+//        for (Category category : Category.values()) {
+//            if (category.getId().equals(id)) {
+//                return category;
+//            }
+//        }
+//        return null;
+//    }
 
     public static Map<Integer, Category> getMap() {
         Map<Integer, Category> categories = new HashMap<>();

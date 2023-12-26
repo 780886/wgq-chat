@@ -1,13 +1,14 @@
 package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
+
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
 import com.sheep.protocol.constant.magic.Symbol;
 import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.FriendApplyBo;
+import com.wgq.chat.contact.bo.JoinQunBO;
 import com.wgq.chat.contact.po.Audit;
 import com.wgq.chat.contact.protocol.audit.FriendAuditParam;
-import com.wgq.chat.contact.protocol.audit.JoinQunParam;
 import com.wgq.chat.contact.protocol.audit.QunAuditParam;
 import com.wgq.chat.contact.protocol.enums.AuditBusiness;
 
@@ -109,16 +110,16 @@ public class AuditConverter {
         return audit;
     }
 
-    public Audit joinQun2AuditPo(JoinQunParam joinQunParam) {
+    public Audit joinQun2AuditPo(JoinQunBO joinQunBO) {
         Audit audit = new Audit();
-        LoginUser loginUser = ThreadContext.getLoginToken();
-        audit.setApplyUserId(loginUser.getUserId());
+        //可能是邀请id
+        audit.setApplyUserId(joinQunBO.getApplyUserId());
         audit.setBusinessType(AuditBusiness.GROUP.getBusiness());
-        audit.setBusinessId(joinQunParam.getRoomId());
-        audit.setApplyReason(joinQunParam.getReason());
+        audit.setBusinessId(joinQunBO.getRoomId());
+        audit.setApplyReason(joinQunBO.getReason());
         audit.setAuditReason(Symbol.EMPTY);
         audit.setStatus(StatusRecord.DISABLE);
-        audit.setAuditUserId(0L);
+        audit.setAuditUserId(joinQunBO.getAuditUserId());
         audit.setAuditTime(0L);
         audit.setApplyTime(System.currentTimeMillis());
         return audit;
@@ -131,6 +132,17 @@ public class AuditConverter {
         audit.setStatus(StatusRecord.DISABLE);
         //朋友关系
         audit.setBusinessType(AuditBusiness.FRIEND.getBusiness());
+        return audit;
+    }
+
+    public Audit convert2po(Long roomId, Long applyUserId, Long auditUserId) {
+        Audit audit = new Audit();
+        audit.setBusinessId(roomId);
+        audit.setApplyUserId(applyUserId);
+        audit.setAuditUserId(auditUserId);
+        audit.setStatus(StatusRecord.DISABLE);
+        //朋友关系
+        audit.setBusinessType(AuditBusiness.GROUP.getBusiness());
         return audit;
     }
 }

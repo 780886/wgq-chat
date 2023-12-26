@@ -1,6 +1,8 @@
 package com.wgq.chat.protocol.dto;
 
 import com.sheep.protocol.VO;
+import com.wgq.chat.contact.protocol.contact.dto.QunDTO;
+import com.wgq.chat.contact.protocol.contact.dto.UserDTO;
 
 import java.util.List;
 

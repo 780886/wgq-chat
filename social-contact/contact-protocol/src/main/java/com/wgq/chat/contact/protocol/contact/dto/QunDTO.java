@@ -1,4 +1,4 @@
-package com.wgq.chat.protocol.dto;
+package com.wgq.chat.contact.protocol.contact.dto;
 
 import com.sheep.protocol.DTO;
 
@@ -9,11 +9,11 @@ public class QunDTO implements DTO {
     /**
      * 群id
      */
-    private String qunId;
+    private Long id;
     /**
      * 群名称
      */
-    private String qunName;
+    private String name;
     /**
      * 国籍
      */
@@ -47,20 +47,20 @@ public class QunDTO implements DTO {
      */
     private List<UserDTO> members;
 
-    public String getQunId() {
-        return qunId;
+    public Long getId() {
+        return id;
     }
 
-    public void setQunId(String qunId) {
-        this.qunId = qunId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getQunName() {
-        return qunName;
+    public String getName() {
+        return name;
     }
 
-    public void setQunName(String qunName) {
-        this.qunName = qunName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getNationality() {

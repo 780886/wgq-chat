@@ -19,13 +19,15 @@ public interface QunMemberDao {
 
     Long insert(@Param("qunMember") QunMember qunMember);
 
-    Long isMember(@Param("qunId") Long qunId, @Param("memberId") Long memberId);
+    QunMember getQunMemberByMemberId(@Param("qunId") Long qunId, @Param("memberId") Long memberId);
 
-    void removeMember(@Param("roomId") Long roomId, @Param("memberId") Long memberId);
+    void removeMember(@Param("qunId") Long qunId, @Param("memberId") Long memberId);
 
     void delete(@Param("qunId") Long qunId);
 
     Map<Long, Long> getQunsByMemberId(@Param("memberId") Long memberId);
 
     List<QunMember> getQunMembers(@Param("qunId") Long qunId);
+
+    void updateBatchByQunIdAndMemberId(@Param("qunMembers") List<QunMember> qunMembers);
 }

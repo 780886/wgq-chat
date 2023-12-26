@@ -1,7 +1,6 @@
 package com.wgq.chat.contact.infrastructure.persistence.data.mapper;
 
 import com.sheep.utils.CollectionsUtils;
-import com.wgq.chat.contact.bo.AuditBO;
 import com.wgq.chat.contact.bo.QunMemberBO;
 import com.wgq.chat.contact.po.QunMember;
 
@@ -13,21 +12,13 @@ import java.util.stream.Collectors;
 @Named
 public class QunMemberConverter {
 
-    public QunMember convert2po(AuditBO auditBo) {
+    public QunMember convert2po(QunMemberBO qunMemberBO) {
         QunMember qunMember = new QunMember();
-        qunMember.setQunId(auditBo.getBusinessId());
-        qunMember.setMemberId(auditBo.getApplyUserId());
-        qunMember.setAuditTime(auditBo.getAuditTime());
-        qunMember.setApplyTime(auditBo.getApplyTime());
-        return qunMember;
-    }
-
-    public QunMember convert2po(Long qunId,Long memberId) {
-        QunMember qunMember = new QunMember();
-        qunMember.setQunId(qunId);
-        qunMember.setMemberId(memberId);
-        qunMember.setApplyTime(System.currentTimeMillis());
-        qunMember.setAuditTime(qunMember.getApplyTime());
+        qunMember.setQunId(qunMemberBO.getQunId());
+        qunMember.setMemberId(qunMemberBO.getMemberId());
+        qunMember.setRoleType(qunMemberBO.getRoleType());
+        qunMember.setAuditTime(qunMemberBO.getAuditTime());
+        qunMember.setApplyTime(qunMemberBO.getApplyTime());
         return qunMember;
     }
 
@@ -44,5 +35,15 @@ public class QunMemberConverter {
         qunMemberBO.setQunId(qunMember.getQunId());
         qunMemberBO.setMemberId(qunMember.getMemberId());
         return qunMemberBO;
+    }
+
+    public List<QunMember> convert2POList(List<QunMemberBO> memberBOList) {
+       return memberBOList.stream().map(qunMemberBO->{
+            QunMember qunMember = new QunMember();
+            qunMember.setQunId(qunMemberBO.getQunId());
+            qunMember.setMemberId(qunMemberBO.getMemberId());
+            qunMember.setRoleType(qunMemberBO.getRoleType());
+            return qunMember;
+        }).collect(Collectors.toList());
     }
 }

@@ -4,18 +4,20 @@ import com.sheep.exception.Asserts;
 import com.sheep.protocol.BusinessException;
 import com.sheep.protocol.LoginUser;
 import com.sheep.protocol.ThreadContext;
+import com.sheep.protocol.constant.magic.Digit;
 import com.sheep.protocol.constant.magic.Symbol;
 import com.sheep.protocol.enums.StatusRecord;
 import com.wgq.chat.api.ChatServiceApi;
 import com.wgq.chat.api.RoomServiceApi;
 import com.wgq.chat.contact.assemble.AuditAssemble;
-import com.wgq.chat.contact.assemble.MessageAssembler;
 import com.wgq.chat.contact.bo.*;
 import com.wgq.chat.contact.mq.ContactMQPublisher;
 import com.wgq.chat.contact.protocol.audit.*;
+import com.wgq.chat.contact.protocol.constant.QunConstant;
 import com.wgq.chat.contact.protocol.enums.AuditBusiness;
 import com.wgq.chat.contact.protocol.enums.BusinessCodeEnum;
 import com.wgq.chat.contact.protocol.enums.ContactError;
+import com.wgq.chat.contact.protocol.enums.QunRoleEnum;
 import com.wgq.chat.contact.repository.AuditRepository;
 import com.wgq.chat.contact.repository.ContactRepository;
 import com.wgq.chat.contact.repository.QunMemberRepository;
@@ -42,8 +44,6 @@ public class AuditService {
 
 
     private static Logger logger = LoggerFactory.getLogger(AuditService.class);
-
-    private static final boolean AGREE = true;
 
     @Inject
     private SecretService secretService;
@@ -75,10 +75,6 @@ public class AuditService {
     @Inject
     private AuditAssemble auditAssemble;
 
-    @Inject
-    private MessageAssembler messageAssembler;
-
-
     public void applyFriend(FriendApplyParam friendApplyParam) throws BusinessException {
         //获取当前登录信息
         LoginUser loginUser = ThreadContext.getLoginToken();
@@ -103,7 +99,7 @@ public class AuditService {
              * 直接同意
              * 在同一个类中，非事务方法A调用事务方法B，事务失效，可以采用AopContext.currentProxy().xx()来进行调用，事务才能生效。
              */
-            ((AuditService)AopContext.currentProxy()).auditFriendApply(new FriendAuditParam(friendAuditBO.getId(),friendApplyParam.getReason(), AGREE));
+            ((AuditService)AopContext.currentProxy()).auditFriendApply(new FriendAuditParam(friendAuditBO.getId(),friendApplyParam.getReason(), Boolean.TRUE));
             return;
         }
         //构建好友申请的内部逻辑对象
@@ -180,13 +176,19 @@ public class AuditService {
          */
         QunBO qunBO = this.qunRepository.qunDetailByRoomId(auditBO.getBusinessId());
         LoginUser loginUser = ThreadContext.getLoginToken();
-        Asserts.isTrue(!Objects.equals(qunBO.getOwnerId(),loginUser.getUserId()),ContactError.NOT_GROUP_LEADER);
+        /**
+         * 被群主邀请的只能本人同意，其余只有群主才能审核
+         */
+        Asserts.isTrue(!Objects.equals(auditBO.getAuditUserId(),loginUser.getUserId()) ||
+                        (Digit.ZERO == auditBO.getAuditUserId() && Objects.equals(qunBO.getOwnerId(),loginUser.getUserId())),
+                ContactError.NOT_AUTHORITY_AUDIT);
         /**
          * 不管同意或拒绝都要审核用户申请
          */
         this.auditRepository.auditQun(auditBO, qunAuditParam);
         if (qunAuditParam.getAgree()) {
-            this.qunMemberRepository.addQunMember(auditBO);
+            QunMemberBO qunMemberBO = new QunMemberBO(null, qunBO.getId(), auditBO.getApplyUserId(), QunRoleEnum.MEMBER.getType(),auditBO.getAuditTime(), auditBO.getApplyTime());
+            this.qunMemberRepository.addQunMember(qunMemberBO);
             //TODO 发布一条消息
             UserProfileDTO user = this.userProfileAppService.getUser(auditBO.getApplyUserId());
             MessageSendParam messageSendParam = this.auditAssemble.assembleQunMessageSendParam(qunBO,user);
@@ -194,13 +196,23 @@ public class AuditService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void joinQun(JoinQunParam joinQunParam) throws BusinessException {
         Asserts.isTrue(null == joinQunParam.getRoomId(), com.wgq.chat.protocol.enums.BusinessCodeEnum.ROOM_ID_IS_EMPTY);
         QunBO qunBO = this.qunRepository.qunDetailByRoomId(joinQunParam.getRoomId());
         Asserts.isTrue(Objects.isNull(qunBO) || StatusRecord.DISABLE.equals(qunBO.getStatus()), ContactError.QUN_NOT_FOUND);
-        this.auditRepository.joinQun(joinQunParam);
+        LoginUser loginUser = ThreadContext.getLoginToken();
+        AuditBO audit = this.auditRepository.getAudit(joinQunParam.getRoomId(), loginUser.getUserId(), (long) Digit.ZERO);
+        if (audit != null){
+            //已经被邀请过
+            QunAuditParam qunAuditParam = new QunAuditParam(audit.getId(), QunConstant.APPLY_JOIN_QUN_REASON, Boolean.TRUE);
+            this.auditQunApply(qunAuditParam);
+            return;
+        }
+        JoinQunBO joinQunBO = new JoinQunBO(joinQunParam.getRoomId(), loginUser.getUserId(),0L, joinQunParam.getReason());
+        this.auditRepository.joinQun(joinQunBO);
         //推送给群主
-        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.JOIN_QUN.getType(),new WebsocketAgreeJoinQunDTO(qunBO.getOwnerId())));
+        this.contactMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.JOIN_QUN.getType(),new WebsocketAgreeJoinQunDTO(qunBO.getOwnerId())),qunBO.getOwnerId());
 
     }
 

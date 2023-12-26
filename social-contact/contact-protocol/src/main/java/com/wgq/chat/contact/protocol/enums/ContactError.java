@@ -27,7 +27,7 @@ public enum ContactError implements ErrorSupport {
     USER_IS_NOT_MEMBER(false, ContactModule.QUN, "10", "user is not member of qun"),
 
     INVITE_TOKEN_IS_EMPTY(false, ContactModule.QUN, "11",  "invite token is empty"),
-    NOT_GROUP_LEADER(false, ContactModule.QUN, "12",  "您无权审核!");
+    NOT_AUTHORITY_AUDIT(false, ContactModule.QUN, "12",  "您无权审核!");
 
     private boolean system;
     private ModuleSupport module;

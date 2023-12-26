@@ -31,7 +31,6 @@ public class AuditController {
     @Inject
     private QunAssembler qunAssembler;
 
-
     @ApiOperation("获取好友申请列表")
     @GetMapping("friend-apply-list")
     public FriendAuditWrapVo friendApplyList() throws BusinessException{

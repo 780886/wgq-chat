@@ -1,9 +1,13 @@
 package com.wgq.chat.contact.assemble;
 
+import com.wgq.chat.contact.bo.QunMemberBO;
+import com.wgq.chat.contact.protocol.enums.QunRoleEnum;
 import com.wgq.chat.protocol.enums.MessageTypeEnum;
 import com.wgq.chat.protocol.param.MessageSendParam;
 
 import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName QunMemberAssemble
@@ -23,5 +27,18 @@ public class QunMemberAssembler {
         builder.append("创建").append(qunName).append("成功");
         messageSendParam.setBody(builder.toString());
         return messageSendParam;
+    }
+
+    public List<QunMemberBO> assembleQunMemberList(Long oldOwnerId, Long newOwnerId) {
+        List<QunMemberBO> qunMemberBOList = new ArrayList<>();
+        QunMemberBO oldQunMemberBO = new QunMemberBO();
+        oldQunMemberBO.setMemberId(oldOwnerId);
+        oldQunMemberBO.setRoleType(QunRoleEnum.MEMBER.getType());
+        QunMemberBO newQunMemberBO = new QunMemberBO();
+        oldQunMemberBO.setMemberId(newOwnerId);
+        oldQunMemberBO.setRoleType(QunRoleEnum.LEADER.getType());
+        qunMemberBOList.add(oldQunMemberBO);
+        qunMemberBOList.add(newQunMemberBO);
+        return qunMemberBOList;
     }
 }

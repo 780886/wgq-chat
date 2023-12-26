@@ -40,6 +40,7 @@ public class AuditAssemble {
                 .append(loginUser.getNickName())
                 .append("\"")
                 .append("邀请")
+                .append("\"")
                 .append(user.getNickName())
                 .append("\"")
                 .append("加入群聊");

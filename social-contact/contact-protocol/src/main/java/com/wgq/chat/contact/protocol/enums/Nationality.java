@@ -1,5 +1,10 @@
 package com.wgq.chat.contact.protocol.enums;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 /**
  * @ClassName Nationality
  * @Description TODO
@@ -14,6 +19,18 @@ public enum Nationality {
     private Integer id;
     private String name;
     private String flag;
+
+    private static Map<Integer,Nationality> cache;
+
+    static {
+        cache = Arrays.asList(Nationality.values()).stream().collect(Collectors.toMap(Nationality::getId, Function.identity()));
+    }
+
+
+    public static Nationality of(Integer id){
+        return cache.get(id);
+    }
+
 
     Nationality(Integer id, String name, String flag) {
         this.id = id;
@@ -33,12 +50,12 @@ public enum Nationality {
         return flag;
     }
 
-    public static Nationality getById(Integer id) {
-        for (Nationality nationality : Nationality.values()) {
-            if (nationality.getId().equals(id)) {
-                return nationality;
-            }
-        }
-        return null;
-    }
+//    public static Nationality getById(Integer id) {
+//        for (Nationality nationality : Nationality.values()) {
+//            if (nationality.getId().equals(id)) {
+//                return nationality;
+//            }
+//        }
+//        return null;
+//    }
 }

@@ -21,7 +21,7 @@ import javax.inject.Inject;
  * @Date 2023/6/23 21:26
  * @Version 1.0
  **/
-@Api(value = "群", tags = "IM 群管理")
+@Api(value = "群", tags = "IM 群")
 @RequestMapping("qun")
 @RestController
 public class QunController {
@@ -45,8 +45,8 @@ public class QunController {
     }
 
     @ApiOperation("群详情")
-    @GetMapping("detail/{qunId}")
-    public QunVO detail(@PathVariable("qunId")Long roomId) throws BusinessException {
+    @GetMapping("detail/{roomId}")
+    public QunVO detail(@PathVariable("roomId")Long roomId) throws BusinessException {
         QunDetailWrapBO qunDetail = this.qunService.detail(roomId);
         return this.qunAssembler.assemblerQun(qunDetail);
     }
@@ -80,8 +80,8 @@ public class QunController {
 
     @ApiOperation("退出群")
     @PostMapping("exist-qun")
-    public void existQun(@RequestBody Long roomId) throws BusinessException {
-        this.qunService.existQun(roomId);
+    public void existQun(@RequestBody ExistQunParam existQunParam) throws BusinessException {
+        this.qunService.existQun(existQunParam);
     }
 
     @ApiOperation("移除群成员")
@@ -92,8 +92,8 @@ public class QunController {
 
     @ApiOperation("群解散")
     @PostMapping("dissolve")
-    public void dissolve(@RequestBody Long roomId) throws BusinessException {
-        this.qunService.dissolve(roomId);
+    public void dissolve(@RequestBody DissolveParam dissolveParam) throws BusinessException {
+        this.qunService.dissolve(dissolveParam);
     }
 
     @ApiOperation("转移群主")

@@ -3,6 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 引入配置文件 -->
 <mapper namespace="com.wgq.chat.contact.dao.QunMemberDao">
+    <resultMap id="qunMemberMap" type="com.wgq.chat.contact.po.QunMember">
+        <result column="id" property="id"/>
+        <result column="qun_id" property="qunId"/>
+        <result column="member_id" property="memberId"/>
+        <result column="apply_time" property="applyTime"/>
+        <result column="audit_time" property="auditTime"/>
+    </resultMap>
     <insert id="insert">
         <if test="qunMember != null">
             insert into qun_member
@@ -42,8 +49,11 @@
             </trim>
         </if>
     </insert>
-
-
+    <update id="updateBatchByQunIdAndMemberId">
+        <foreach collection="qunMembers" item="qunMember" separator=";">
+            update set role_type = #{qunMember.roleType} where qun_id = #{qunMember.qunId} and member_id = #{qunMember.memberId}
+        </foreach>
+    </update>
     <delete id="remove">
         delete from qun_member
         <trim prefix="where" prefixOverrides="and | or ">
@@ -56,20 +66,20 @@
         </trim>
     </delete>
     <delete id="removeMember">
-        delete from qun_member where room_id = #{roomId} and member_id = #{memberId}
+        delete from qun_member where qun_id = #{qunId} and member_id = #{memberId}
     </delete>
 
     <delete id="delete">
         delete from qun_member where qun_id = #{qunId}
     </delete>
 
-    <select id="isMember" resultType="java.lang.Long">
+    <select id="getQunMemberByMemberId" resultMap="qunMemberMap">
         select * from qun_member where qun_id = #{qunId} and member_id = #{memberId}
     </select>
     <select id="getQunsByMemberId" resultType="java.util.Map">
         select * from qun_member where member_id = #{memberId}
     </select>
-    <select id="getQunMembers" resultType="com.wgq.chat.contact.po.QunMember">
+    <select id="getQunMembers" resultMap="qunMemberMap">
         select * from qun_member where qun_id = #{qunId}
     </select>
 </mapper>

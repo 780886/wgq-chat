@@ -5,9 +5,11 @@ import com.wgq.chat.bo.RoomBO;
 import com.wgq.chat.bo.RoomFriendBO;
 import com.wgq.chat.contact.protocol.contact.dto.QunMemberDTO;
 import com.wgq.chat.cpntact.QunMemberServiceApi;
+import com.wgq.chat.cpntact.QunServiceApi;
 import com.wgq.chat.mq.ImMQPublisher;
 import com.wgq.chat.protocol.constant.MQConstant;
 import com.wgq.chat.protocol.dto.PushBashDTO;
+import com.wgq.chat.contact.protocol.contact.dto.QunDTO;
 import com.wgq.chat.protocol.enums.RoomTypeEnum;
 import com.wgq.chat.protocol.enums.WebsocketResponseTypeEnum;
 import com.wgq.chat.protocol.event.MessageSendEvent;
@@ -57,6 +59,9 @@ public class MessageSendEventConsumer implements RocketMQListener<MessageSendEve
     @Inject
     private QunMemberServiceApi qunMemberServiceApi;
 
+    @Inject
+    private QunServiceApi qunServiceApi;
+
     @Override
     public void onMessage(MessageSendEvent messageSendEvent) {
         MessageBO messageBO = null;
@@ -71,7 +76,8 @@ public class MessageSendEventConsumer implements RocketMQListener<MessageSendEve
 
         if (RoomTypeEnum.GROUP.getType().equals(roomBO.getType())){
             //TODO 推送所有在线的人
-            List<QunMemberDTO> memberList = this.qunMemberServiceApi.getQunMembersByQunId(roomBO.getId());
+            QunDTO qunDTO = this.qunServiceApi.getQunByRoomId(roomBO.getId());
+            List<QunMemberDTO> memberList = this.qunMemberServiceApi.getQunMembersByQunId(qunDTO.getId());
             List<Long> memberIds = fetchMemberId(memberList);
             this.imMQPublisher.publish(MQConstant.PUSH_TOPIC,new PushBashDTO<>(WebsocketResponseTypeEnum.MESSAGE.getType(),messageBO),memberIds);
 

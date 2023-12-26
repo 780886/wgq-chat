@@ -7,6 +7,7 @@ import com.sheep.utils.BeanUtils;
 import com.sheep.utils.CollectionsUtils;
 import com.wgq.chat.contact.bo.QunBO;
 import com.wgq.chat.contact.po.Qun;
+import com.wgq.chat.contact.protocol.enums.Nationality;
 import com.wgq.chat.contact.protocol.qun.QunModifyParam;
 
 import javax.inject.Named;
@@ -64,7 +65,8 @@ public class QunConverter {
         qunBO.setId(qun.getId());
         qunBO.setName(qun.getName());
         qunBO.setAnnouncement(qun.getAnnouncement());
-        qunBO.setNationality("");
+        qunBO.setNationalityId(qun.getNationalityId());
+        qunBO.setNationality(Nationality.of(qun.getNationalityId()).getName());
         qunBO.setRemark(qun.getRemark());
         qunBO.setOwnerId(qun.getOwnerId());
         qunBO.setOwnerName(1L);
