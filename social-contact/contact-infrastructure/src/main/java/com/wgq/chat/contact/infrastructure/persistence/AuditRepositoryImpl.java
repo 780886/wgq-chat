@@ -95,7 +95,7 @@ public class AuditRepositoryImpl  implements AuditRepository {
      */
     @Override
     public void readAudits(Long auditUserId, Set<Long> ids) {
-        this.auditDao.updateReadStatus(ids,auditUserId, ReadStatusEnum.UNREAD.getCode(),ReadStatusEnum.READ.getCode());
+        this.auditDao.updateReadStatus(ids,auditUserId, ReadStatusEnum.READ.getCode(),ReadStatusEnum.UNREAD.getCode());
     }
 
     @Override

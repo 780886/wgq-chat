@@ -35,8 +35,8 @@ public class QunMemberAssembler {
         oldQunMemberBO.setMemberId(oldOwnerId);
         oldQunMemberBO.setRoleType(QunRoleEnum.MEMBER.getType());
         QunMemberBO newQunMemberBO = new QunMemberBO();
-        oldQunMemberBO.setMemberId(newOwnerId);
-        oldQunMemberBO.setRoleType(QunRoleEnum.LEADER.getType());
+        newQunMemberBO.setMemberId(newOwnerId);
+        newQunMemberBO.setRoleType(QunRoleEnum.LEADER.getType());
         qunMemberBOList.add(oldQunMemberBO);
         qunMemberBOList.add(newQunMemberBO);
         return qunMemberBOList;

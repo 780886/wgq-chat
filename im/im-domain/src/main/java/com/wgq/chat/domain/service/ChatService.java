@@ -174,7 +174,7 @@ public class ChatService {
         Asserts.isTrue(Objects.isNull(message),null);
         //只能查看自己的消息
         Asserts.isTrue(!Objects.equals(loginUser.getUserId(),message.getSenderUserId()),null);
-//
+
 //        if (ReadStatusEnum.READ.getCode().equals(messageReadParam.getReadStatus())){
 //            this.messageRepository.getReadList(m)
 //        }

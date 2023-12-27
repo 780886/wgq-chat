@@ -7,8 +7,9 @@ package com.wgq.chat.protocol.enums;
  */
 public enum ReadStatusEnum {
 
+    UNREAD(0, "未读"),
     READ(1, "已读"),
-    UNREAD(2, "未读")
+
     ;
 
     private final Integer code;
